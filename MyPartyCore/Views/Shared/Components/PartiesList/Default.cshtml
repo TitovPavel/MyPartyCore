@@ -1,0 +1,12 @@
+﻿@using MyPartyCore.ViewModels
+@model IEnumerable<PartyViewModel>
+
+<h3>@ViewBag.NameListParties</h3>
+<ol>
+    @foreach (PartyViewModel item in Model)
+    {
+        <li>
+            <party party-view="item" controller-name="Party" action-name="index"></party>
+        </li>
+    }
+</ol>

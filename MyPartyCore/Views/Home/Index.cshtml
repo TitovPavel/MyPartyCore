@@ -1,0 +1,10 @@
+﻿@model List<MyPartyCore.ViewModels.PartyViewModel>
+
+<p>Всем привет. Приходите на наши вечеринки</p>
+@foreach (var item in Model)
+{
+<p>
+    <party party-view="item" controller-name="Party" action-name="index"></party>
+</p>
+}
+

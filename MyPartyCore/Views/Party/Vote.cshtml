@@ -1,0 +1,97 @@
+﻿@model MyPartyCore.ViewModels.ParticipantViewModel
+
+
+
+@using (Html.BeginForm("Save", "Party", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-form-label" })
+        <div class="editor-field has-error">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control input-validation-error" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger field-validation-error" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-form-label" })
+        <div class="editor-field has-error">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-validation-error" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger field-validation-error" })
+        </div>
+    </div>
+
+    <div class="custom-control custom-switch form-group row">
+        @Html.CheckBoxFor(model => model.Attend, new { @class = "custom-control-input" })
+        @Html.LabelFor(model => model.Attend, new { @class = "custom-control-label" })
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.ArrivalDate, htmlAttributes: new { @class = "control-label" })
+        <div>
+            @Html.EditorFor(model => model.ArrivalDate)
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label" })
+        <div>
+            @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="custom-file ">
+            <input type="file" name="file" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+    </div>
+
+    @Html.HiddenFor(model => model.Id)
+
+    <input type="submit" value="Save" class="btn btn-outline-primary" />
+
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('input[type="file"]').on("change", function () {
+                let filenames = [];
+                let files = document.getElementById("customFile").files;
+                if (files.length > 1) {
+                    filenames.push("Total Files (" + files.length + ")");
+                } else {
+                    for (let i in files) {
+                        if (files.hasOwnProperty(i)) {
+                            filenames.push(files[i].name);
+                        }
+                    }
+                }
+                $(this)
+                    .next(".custom-file-label")
+                    .html(filenames.join(","));
+            });
+        });
+    </script>
+
+    <environment names="Development">
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
+                asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"
+                asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive">
+        </script>
+    </environment>
+}
+
+@section ListParties {
+    @await Component.InvokeAsync("PartiesList", new { LastViewedParties = false })
+    @await Component.InvokeAsync("PartiesList", new { LastViewedParties = true })
+}
