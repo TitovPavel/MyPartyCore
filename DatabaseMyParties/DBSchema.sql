@@ -1,12 +1,4 @@
 ﻿
-DROP TABLE MyParties.[dbo].Participants;
-DROP TABLE MyParties.[dbo].SponsorsParties;
-DROP TABLE MyParties.[dbo].Parties;
-DROP TABLE MyParties.[dbo].Sponsors;
-DROP TABLE MyParties.[dbo].Contacts;
-DROP TABLE MyParties.[dbo].[Users];
-DROP TABLE MyParties.[dbo].Images;
-
 CREATE TABLE MyParties.[dbo].Images
 (id int IDENTITY NOT NULL CONSTRAINT Image_Id_PK PRIMARY KEY,
 [fileName] varchar(50) NOT NULL, 
