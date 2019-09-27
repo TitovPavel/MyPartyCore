@@ -23,7 +23,9 @@ SELECT TOP (5) [id]
 ,[date]
 ,[ownerId]
 FROM [MyParties].[dbo].[Parties]
+WHERE [date] > CURRENT_TIMESTAMP
 ORDER BY [date]
+
 
 --список всех проголосовавших об участии в вечеринке
 SELECT [id]

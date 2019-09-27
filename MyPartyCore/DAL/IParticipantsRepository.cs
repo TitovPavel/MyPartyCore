@@ -5,8 +5,10 @@ namespace MyPartyCore.DAL
 {
     interface IParticipantsRepository
     {
-        void Delete(string name);
-        List<Participant> List();
-        void Save(List<Participant> p);
+        List<Participant> GetAll();
+        Participant GetById(int participantID);
+        void Add(Participant participant);
+        void Update(Participant participant);
+        void Delete(Participant participant);
     }
 }

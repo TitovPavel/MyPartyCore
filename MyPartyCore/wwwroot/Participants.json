@@ -1,1 +1,83 @@
-[{"Name":"Vasja","Attend":true,"Reason":null,"Email":null,"ArrivalDate":"0001-01-01T00:00:00","Id":0,"PartyId":0},{"Name":"Masha","Attend":false,"Reason":null,"Email":null,"ArrivalDate":"0001-01-01T00:00:00","Id":0,"PartyId":2},{"Name":"Dima","Attend":true,"Reason":null,"Email":null,"ArrivalDate":"0001-01-01T00:00:00","Id":0,"PartyId":2},{"Name":"Маша","Attend":true,"Reason":null,"Email":null,"ArrivalDate":"0001-01-01T00:00:00","Id":0,"PartyId":2},{"Name":"1","Attend":true,"Reason":null,"Email":null,"ArrivalDate":"2019-09-19T01:00:00","Id":0,"PartyId":0},{"Name":"2","Attend":true,"Reason":null,"Email":null,"ArrivalDate":"2019-09-16T05:01:00","Id":0,"PartyId":0},{"Name":null,"Attend":false,"Reason":null,"Email":null,"ArrivalDate":"0001-01-01T00:00:00","Id":0,"PartyId":0},{"Name":"1111","Attend":false,"Reason":null,"Email":null,"ArrivalDate":"0001-01-01T00:00:00","Id":0,"PartyId":0},{"Name":"3","Attend":true,"Reason":null,"Email":"123@wq.qw","ArrivalDate":"2019-09-24T02:01:00","Id":0,"PartyId":0}]
+[
+  {
+    "Name": "Vasja",
+    "Attend": true,
+    "Reason": null,
+    "Email": null,
+    "ArrivalDate": "0001-01-01T00:00:00",
+    "Id": 0,
+    "PartyId": 1
+  },
+  {
+    "Name": "Masha",
+    "Attend": false,
+    "Reason": null,
+    "Email": null,
+    "ArrivalDate": "0001-01-01T00:00:00",
+    "Id": 0,
+    "PartyId": 2
+  },
+  {
+    "Name": "Dima",
+    "Attend": true,
+    "Reason": null,
+    "Email": null,
+    "ArrivalDate": "0001-01-01T00:00:00",
+    "Id": 0,
+    "PartyId": 2
+  },
+  {
+    "Name": "Маша",
+    "Attend": true,
+    "Reason": null,
+    "Email": null,
+    "ArrivalDate": "0001-01-01T00:00:00",
+    "Id": 0,
+    "PartyId": 2
+  },
+  {
+    "Name": "1",
+    "Attend": true,
+    "Reason": null,
+    "Email": null,
+    "ArrivalDate": "2019-09-19T01:00:00",
+    "Id": 0,
+    "PartyId": 1
+  },
+  {
+    "Name": "2",
+    "Attend": true,
+    "Reason": null,
+    "Email": null,
+    "ArrivalDate": "2019-09-16T05:01:00",
+    "Id": 0,
+    "PartyId": 1
+  },
+  {
+    "Name": null,
+    "Attend": false,
+    "Reason": null,
+    "Email": null,
+    "ArrivalDate": "0001-01-01T00:00:00",
+    "Id": 0,
+    "PartyId": 1
+  },
+  {
+    "Name": "1111",
+    "Attend": false,
+    "Reason": null,
+    "Email": null,
+    "ArrivalDate": "0001-01-01T00:00:00",
+    "Id": 0,
+    "PartyId": 1
+  },
+  {
+    "Name": "3",
+    "Attend": true,
+    "Reason": null,
+    "Email": "123@wq.qw",
+    "ArrivalDate": "2019-09-24T02:01:00",
+    "Id": 0,
+    "PartyId": 1
+  }
+]
