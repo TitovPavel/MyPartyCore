@@ -38,6 +38,7 @@ CREATE TABLE MyParties.[dbo].Participants
 (id int IDENTITY NOT NULL CONSTRAINT Participants_Id_PK PRIMARY KEY,
 [name] varchar(50) NOT NULL, 
 attend bit NOT NULL, 
+arrivalDate datetime NOT NULL,
 reason varchar(100) NOT NULL, 
 avatarId int FOREIGN KEY REFERENCES Images(id),
 partyId int NOT NULL FOREIGN KEY REFERENCES Parties(id),

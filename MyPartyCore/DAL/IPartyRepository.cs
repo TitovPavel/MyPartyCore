@@ -5,9 +5,10 @@ namespace MyPartyCore.DAL
 {
     interface IPartyRepository
     {
+        List<Party> GetAll();
+        Party GetById(int partyID);
+        void Add(Party party);
+        void Update(Party party);
         void Delete(Party party);
-        List<Party> List();
-        void Save(List<Party> p);
-        Party GetByID(int id);
     }
 }

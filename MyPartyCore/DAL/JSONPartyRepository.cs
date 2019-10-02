@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace MyPartyCore.DAL
 {
-    public class PartyRepository : IPartyRepository
+    public class JSONPartyRepository : IPartyRepository
     {
 
         string _path;
@@ -17,7 +17,7 @@ namespace MyPartyCore.DAL
 
         List<Party> parties;
 
-        public PartyRepository(IHostingEnvironment env)
+        public JSONPartyRepository(IHostingEnvironment env)
         {
             _env = env;
             _path = Path.Combine(_env.WebRootPath, "Parties.json");
@@ -25,21 +25,21 @@ namespace MyPartyCore.DAL
 
         public void Delete(Party party)
         {
-            parties.RemoveAll(x => x.Title == party.Title);
-            Save(parties);
+            parties.RemoveAll(x => x.Id == party.Id);
+            Save();
         }
 
-        public Party GetByID(int id)
+        public Party GetById(int partyID)
         {
             if (parties == null)
-                parties = List();
+                parties = GetAll();
 
-            Party party = parties.FirstOrDefault(_ => _.Id == id);
+            Party party = parties.FirstOrDefault(x => x.Id == partyID);
             return party;
 
         }
 
-        public List<Party> List()
+        public List<Party> GetAll()
         {
             if (!File.Exists(_path))
                 return new List<Party>();
@@ -55,15 +55,35 @@ namespace MyPartyCore.DAL
             return parties;
         }
 
-        public void Save(List<Party> p)
+        public void Save()
         {
             if (!File.Exists(_path))
                 return;
 
             using (StreamWriter fs = new StreamWriter(_path))
             {
-                fs.Write(JsonConvert.SerializeObject(p));
+                fs.Write(JsonConvert.SerializeObject(parties));
             }
+        }
+
+        public void Add(Party party)
+        {
+            if (parties == null)
+            {
+                parties = GetAll();
+            }
+            parties.Add(party);
+            Save();
+        }
+
+        public void Update(Party party)
+        {
+            if (parties == null)
+            {
+                parties = GetAll();
+            }
+            Delete(party);
+            Add(party);
         }
     }
 }

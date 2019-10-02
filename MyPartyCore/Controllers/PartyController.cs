@@ -41,9 +41,9 @@ namespace MyPartyCore.Controllers
             return View(partyParticipantsViewModel);
         }
 
-        public ActionResult Vote()
+        public ActionResult Vote(int id)
         {
-            return View();
+            return View(new ParticipantViewModel() { PartyId = id });
         }
 
         public ActionResult Save(ParticipantViewModel participantViewModel, IFormFile file)
@@ -57,7 +57,7 @@ namespace MyPartyCore.Controllers
                 Name = participantViewModel.Name,
                 Email = participantViewModel.Email,
                 PartyId = participantViewModel.PartyId,
-                Reason = participantViewModel.Reason,
+                Reason = participantViewModel.Reason??"",
             };
 
             if (file != null && file.Length > 0)
