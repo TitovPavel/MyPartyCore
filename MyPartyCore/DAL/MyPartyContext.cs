@@ -10,10 +10,9 @@ namespace MyPartyCore.DAL
 {
     public class MyPartyContext : DbContext
     {
-        public MyPartyContext()
+        public MyPartyContext(DbContextOptions<MyPartyContext> options)
+            : base(options)
         {
-
-
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

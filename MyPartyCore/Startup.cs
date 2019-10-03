@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyPartyCore.BL;
@@ -32,8 +33,13 @@ namespace MyPartyCore
 
             
             string connectionString = Configuration.GetConnectionString("MyPartyDatabase");
-            services.AddTransient<IPartyRepository>(x => new ADOPartyRepository(connectionString));
+            //services.AddTransient<IPartyRepository>(x => new ADOPartyRepository(connectionString));
             services.AddTransient<IParticipantsRepository>(x => new ADOParticipantsRepository(connectionString));
+
+            services.AddDbContext<MyPartyContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("MyPartyDatabaseEF")));
+            services.AddTransient<IPartyRepository, EFPartyRepository>();
+
 
             services.AddTransient<IPartyService, PartyService>();
             
