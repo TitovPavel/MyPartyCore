@@ -64,7 +64,7 @@ namespace MyPartyCore.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(255);
+                        .HasMaxLength(1024);
 
                     b.HasKey("Id");
 

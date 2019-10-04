@@ -8,51 +8,55 @@ namespace MyPartyCore.BL
 {
     class PartyService : IPartyService
     {
-        IParticipantsRepository participantsRepository;
-        IPartyRepository partyRepository;
 
-        public PartyService(IParticipantsRepository participantsRepository, IPartyRepository partyRepository)
+        MyPartyContext _context;
+
+        public PartyService(MyPartyContext context)
         {
-            this.participantsRepository = participantsRepository;
-            this.partyRepository = partyRepository;
+            _context = context;
         }
 
         public void Vote(Participant participant)
         {
-            List<Participant> participants = participantsRepository.GetAll();
+            Participant p = _context.Participants.FirstOrDefault(x => x.Name == participant.Name);
 
-            if(participants.FirstOrDefault(x=>x.Name==participant.Name)==null)
+            if(p == null)
             {
-                participantsRepository.Add(participant);
+                _context.Participants.Add(participant);
             }
             else
             {
-                participantsRepository.Update(participant);
+                p.ArrivalDate = participant.ArrivalDate;
+                p.Attend = participant.Attend;
+                p.Email = participant.Email;
+                p.Reason = participant.Reason;
+                _context.Participants.Update(p);
             }
+            _context.SaveChanges();
         }
 
         public List<Participant> ListAll()
         {
-            return participantsRepository.GetAll();
+            return _context.Participants.ToList();
         }
 
         public List<Participant> ListAttendent()
         {
-            return participantsRepository.GetAll().Where(p=>p.Attend == true).ToList();
+            return _context.Participants.Where(p=>p.Attend == true).ToList();
         }
         public List<Participant> ListMissed()
         {
-            return participantsRepository.GetAll().Where(p => p.Attend == false).ToList();
+            return _context.Participants.Where(p => p.Attend == false).ToList();
         }
 
         public List<Party> ListOfCurrentParties()
         {
-            return partyRepository.GetAll().Where(p => p.Date >= DateTime.Now).ToList();
+            return _context.Parties.Where(p => p.Date >= DateTime.Now).ToList();
         }
 
         public Party GetPartyByID(int id)
         {
-            return partyRepository.GetById(id);
+            return _context.Parties.Find(id);
         }
     }
 }

@@ -32,14 +32,13 @@ namespace MyPartyCore
             services.AddSession();
 
             
-            string connectionString = Configuration.GetConnectionString("MyPartyDatabase");
+            //string connectionString = Configuration.GetConnectionString("MyPartyDatabase");
             //services.AddTransient<IPartyRepository>(x => new ADOPartyRepository(connectionString));
-            services.AddTransient<IParticipantsRepository>(x => new ADOParticipantsRepository(connectionString));
+            //services.AddTransient<IParticipantsRepository>(x => new ADOParticipantsRepository(connectionString));
 
             services.AddDbContext<MyPartyContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyPartyDatabaseEF")));
-            services.AddTransient<IPartyRepository, EFPartyRepository>();
-
+            
 
             services.AddTransient<IPartyService, PartyService>();
             
