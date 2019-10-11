@@ -28,7 +28,7 @@
             </td>
             <td>
                 <div class="px-1">
-                    <img src='@Url.Action("GetImage", new { userName = item.Name })' class="img-thumbnail .img-fluid .max-width " />
+                        <img id="image" src='@Url.Action("GetImage", new { userName = item.Name })' class="img-thumbnail .img-fluid .max-width image" />
                 </div>
 
             </td>
@@ -36,10 +36,37 @@
     }
 </table>
 
-
 <p>
     @Html.ActionLink("Проголосовать", "vote", new { ID = @Model.PartyID })
 </p>
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
+            </div>
+            <div class="modal-body">
+                <img src="" id="preview" style="max-width:100%; height:auto">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(".image").on("click", function () {
+            var img = $(this);	// Получаем изображение, на которое кликнули
+		    var src = img.attr('src');
+            $('#preview').attr('src', src);
+            $('#modal').modal('show');
+        });
+
+    </script>
+
+}
+
 
 @section ListParties {
     @await Component.InvokeAsync("PartiesList", new { LastViewedParties = false })
