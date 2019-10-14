@@ -1,5 +1,6 @@
 ﻿using MyPartyCore.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyPartyCore.BL
 {
@@ -7,9 +8,9 @@ namespace MyPartyCore.BL
     {
         Party GetPartyByID(int id);
         List<Participant> ListAll();
-        List<Participant> ListAttendent();
-        List<Participant> ListMissed();
-        List<Party> ListOfCurrentParties();
+        IQueryable<Participant> ListAttendent();
+        IQueryable<Participant> ListMissed();
+        IQueryable<Party> ListOfCurrentParties();
         void Vote(Participant participant);
     }
 }

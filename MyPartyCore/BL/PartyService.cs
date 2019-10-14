@@ -40,18 +40,18 @@ namespace MyPartyCore.BL
             return _context.Participants.ToList();
         }
 
-        public List<Participant> ListAttendent()
+        public IQueryable<Participant> ListAttendent()
         {
-            return _context.Participants.Where(p=>p.Attend == true).ToList();
+            return _context.Participants.Where(p=>p.Attend == true);
         }
-        public List<Participant> ListMissed()
+        public IQueryable<Participant> ListMissed()
         {
-            return _context.Participants.Where(p => p.Attend == false).ToList();
+            return _context.Participants.Where(p => p.Attend == false);
         }
 
-        public List<Party> ListOfCurrentParties()
+        public IQueryable<Party> ListOfCurrentParties()
         {
-            return _context.Parties.Where(p => p.Date >= DateTime.Now).ToList();
+            return _context.Parties.Where(p => p.Date >= DateTime.Now);
         }
 
         public Party GetPartyByID(int id)

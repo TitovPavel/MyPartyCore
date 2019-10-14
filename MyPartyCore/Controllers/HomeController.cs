@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using MyPartyCore.BL;
 using MyPartyCore.Models;
@@ -12,16 +14,18 @@ namespace MyPartyCore.Controllers
 {
     public class HomeController : Controller
     {
-        IPartyService partyService;
+        private readonly IPartyService partyService;
+        private readonly IMapper _mapper;
 
-        public HomeController(IPartyService r)
+        public HomeController(IPartyService r, IMapper mapper)
         {
             partyService = r;
+            _mapper = mapper;
         }
 
         public ActionResult Index()
         {
-            List<PartyViewModel> partyViews = partyService.ListOfCurrentParties().Select(_ => new PartyViewModel { Id = _.Id, Title = _.Title, Location = _.Location, Date = _.Date }).ToList();
+            List<PartyViewModel> partyViews = partyService.ListOfCurrentParties().ProjectTo<PartyViewModel>(_mapper.ConfigurationProvider).ToList();
             return View(partyViews);
         }
     }

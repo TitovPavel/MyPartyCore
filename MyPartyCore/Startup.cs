@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyPartyCore.BL;
 using MyPartyCore.DAL;
+using AutoMapper;
 
 namespace MyPartyCore
 {
@@ -41,7 +42,9 @@ namespace MyPartyCore
             
 
             services.AddTransient<IPartyService, PartyService>();
-            
+
+            services.AddAutoMapper(typeof(Mappings.MappingProfile));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
