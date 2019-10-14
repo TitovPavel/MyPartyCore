@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +15,16 @@ namespace MyPartyCore.Controllers
 {
     public class PartyController : Controller
     {
-        private IPartyService _partyService;
-        private IHostingEnvironment _env;
+        private readonly IPartyService _partyService;
+        private readonly IHostingEnvironment _env;
+        private readonly IMapper _mapper;
 
 
-        public PartyController(IPartyService r, IHostingEnvironment env)
+        public PartyController(IPartyService r, IHostingEnvironment env, IMapper mapper)
         {
             _partyService = r;
             _env = env;
-            
+            _mapper = mapper;
         }
 
         // GET: Party
@@ -36,7 +39,7 @@ namespace MyPartyCore.Controllers
             PartyParticipantsViewModel partyParticipantsViewModel = new PartyParticipantsViewModel();
             partyParticipantsViewModel.PartyID = id;
             partyParticipantsViewModel.PartyTitle = party.Title;
-            partyParticipantsViewModel.PartyParticipants = _partyService.ListAttendent().Where(x => x.PartyId == id).Select(x => new PartyParticipants { Id = x.Id, Name = x.Name, ArrivalDate = x.ArrivalDate }).ToList();
+            partyParticipantsViewModel.PartyParticipants = _partyService.ListAttendent().Where(x => x.PartyId == id).ProjectTo<PartyParticipants>(_mapper.ConfigurationProvider).ToList();
 
             return View(partyParticipantsViewModel);
         }
@@ -49,16 +52,7 @@ namespace MyPartyCore.Controllers
         public ActionResult Save(ParticipantViewModel participantViewModel, IFormFile file)
         {
 
-            Participant participant = new Participant
-            {
-                Id = participantViewModel.Id,
-                ArrivalDate = participantViewModel.ArrivalDate,
-                Attend = participantViewModel.Attend,
-                Name = participantViewModel.Name,
-                Email = participantViewModel.Email,
-                PartyId = participantViewModel.PartyId,
-                Reason = participantViewModel.Reason??"",
-            };
+            Participant participant = _mapper.Map<Participant>(participantViewModel);
 
             if (file != null && file.Length > 0)
             {

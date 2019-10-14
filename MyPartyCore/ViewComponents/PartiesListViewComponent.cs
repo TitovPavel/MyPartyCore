@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
 using MyPartyCore.BL;
 using MyPartyCore.Infrastructure;
 using MyPartyCore.Models;
@@ -13,10 +15,12 @@ namespace MyPartyCore.ViewComponents
     public class PartiesListViewComponent : ViewComponent
     {
         private readonly IPartyService partyService;
+        private readonly IMapper _mapper;
 
-        public PartiesListViewComponent(IPartyService r)
+        public PartiesListViewComponent(IPartyService r, IMapper mapper)
         {
             partyService = r;
+            _mapper = mapper;
         }
 
         public IViewComponentResult Invoke(bool lastViewedParties)
@@ -41,13 +45,7 @@ namespace MyPartyCore.ViewComponents
 
             List<PartyViewModel> partyViews = partyService.ListOfCurrentParties()
                 .Where(x => listId.Contains(x.Id))
-                .Select(x => new PartyViewModel
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    Location = x.Location,
-                    Date = x.Date
-                })
+                .ProjectTo<PartyViewModel>(_mapper.ConfigurationProvider)
                 .OrderByDescending(x => listId.FindIndex(y => x.Id == y))
                 .ToList();
 
@@ -58,7 +56,11 @@ namespace MyPartyCore.ViewComponents
 
         public List<PartyViewModel> GetTenParties()
         {
-            List<PartyViewModel> partyViews = partyService.ListOfCurrentParties().OrderBy(x => x.Date).Take(10).Select(x => new PartyViewModel { Id = x.Id, Title = x.Title, Location = x.Location, Date = x.Date }).ToList();
+            List<PartyViewModel> partyViews = partyService.ListOfCurrentParties()
+                .OrderBy(x => x.Date)
+                .Take(10)
+                .ProjectTo<PartyViewModel>(_mapper.ConfigurationProvider)
+                .ToList();
 
             ViewBag.NameListParties = "10 ближайших вечеринок:";
             return partyViews;

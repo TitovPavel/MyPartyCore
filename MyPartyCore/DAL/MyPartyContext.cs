@@ -10,10 +10,9 @@ namespace MyPartyCore.DAL
 {
     public class MyPartyContext : DbContext
     {
-        public MyPartyContext()
+        public MyPartyContext(DbContextOptions<MyPartyContext> options)
+            : base(options)
         {
-
-
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -37,7 +36,7 @@ namespace MyPartyCore.DAL
         public void Configure(EntityTypeBuilder<Party> builder)
         {
             builder.HasKey(p => p.Id);
-            builder.Property(p => p.Title).IsRequired().HasMaxLength(255);
+            builder.Property(p => p.Title).IsRequired().HasMaxLength(1024);
             builder.Property(p => p.Date).IsRequired();
             builder.Property(p => p.Location).IsRequired().HasMaxLength(255);
             builder.Ignore(p => p.User);
