@@ -28,8 +28,17 @@ namespace MyPartyCore.Controllers
         }
 
         // GET: Party
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, int page = 1)
         {
+
+            int pageSize = 3;
+
+            IQueryable<Participant> source = _partyService.ListAttendent().Where(x => x.PartyId == id);
+            var count = source.Count();
+            var items = source.Skip((page - 1) * pageSize).Take(pageSize).ProjectTo<PartyParticipants>(_mapper.ConfigurationProvider).ToList();
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+
 
             HttpContext.Session.AddParty(id);
 
@@ -39,7 +48,8 @@ namespace MyPartyCore.Controllers
             PartyParticipantsViewModel partyParticipantsViewModel = new PartyParticipantsViewModel();
             partyParticipantsViewModel.PartyID = id;
             partyParticipantsViewModel.PartyTitle = party.Title;
-            partyParticipantsViewModel.PartyParticipants = _partyService.ListAttendent().Where(x => x.PartyId == id).ProjectTo<PartyParticipants>(_mapper.ConfigurationProvider).ToList();
+            partyParticipantsViewModel.PartyParticipants = items;
+            partyParticipantsViewModel.PageViewModel = pageViewModel;
 
             return View(partyParticipantsViewModel);
         }
