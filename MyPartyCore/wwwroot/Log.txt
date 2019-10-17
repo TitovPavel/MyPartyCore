@@ -1,0 +1,108 @@
+Time: 16.10.2019 12:55:11 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestHeaders 
+Body: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream 
+Time: 16.10.2019 12:55:31 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestHeaders 
+Body: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream 
+Time: 16.10.2019 12:55:32 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestHeaders 
+Body: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream 
+Time: 16.10.2019 12:55:32 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestHeaders 
+Body: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream 
+Time: 17.10.2019 11:23:16 
+QueryString:  
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestHeaders 
+Time: 17.10.2019 11:23:18 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders 
+Time: 17.10.2019 11:23:19 
+QueryString:  
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestHeaders 
+Time: 17.10.2019 11:23:19 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders 
+Time: 17.10.2019 11:23:19 
+QueryString:  
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestHeaders 
+Time: 17.10.2019 11:23:19 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders 
+Time: 17.10.2019 11:24:31 
+QueryString: / 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestHeaders 
+Time: 17.10.2019 11:24:31 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders 
+Time: 17.10.2019 11:24:31 
+QueryString: /favicon.ico 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestHeaders 
+Time: 17.10.2019 11:24:31 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders 
+Time: 17.10.2019 11:28:54 
+QueryString: / 
+Headers: Connection:  Keep-Alive
+Accept:  text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+Accept-Encoding:  gzip, deflate, br, peerdist
+Accept-Language:  en-BY,en;q=0.9,ru-BY;q=0.8,ru;q=0.7,en-US;q=0.6
+Cookie:  .AspNet.Consent=yes; .AspNetCore.Antiforgery.8h-toe3uhNM=CfDJ8N3rjAnxS5ZJnHc16SW5YN4Qz7TJGuX5iVW09K0wRc_ulzbnZ9OUNw-cjntD7AmdJ-f407S8-es3tBzq9HnnRXa2G-iH2TSOCICIC54g-fHXLV-4ngTd8Wkax7H0sKDja9Vtias7e-ANvjGuknKx3bE; __RequestVerificationToken=EFcw0ZWrqOSYQz4ekmPuP5nOGWmRYL729bSKLwyXgiIPyfCzBAnGdZBMDLnEloTODpMFzs_izCS8U13DyVL3wbhcamMZ3xabxv6VaaIcpJ41; ASP.NET_SessionId=d2dgi2heuveiyjl3tqngzlag; .AspNetCore.Antiforgery.WZjq5RM9N_4=CfDJ8N3rjAnxS5ZJnHc16SW5YN5XtmYnuzV-BKRxI7ygSm4XqL99geTKmzN25ZYvJfdi8ngSDG-7PI_W5FRlpyTyFWW8KkUD9puEbp7CDQS84Zy3SB3wkTmLIRA2bi_agSjHOeZJrV3j9W7FSh9N_iQWFrc; .AspNetCore.Antiforgery.DVDFdYGmzt0=CfDJ8N3rjAnxS5ZJnHc16SW5YN4JVlLvvHc-pUorVKNk6eJDaPPc_cG3AGa8DU3IxVNQ4cqlyUoz149h3I2YERRmD6s-CPLFWFnSyt1_sdkEMylzASwsbx4y6fYMnT1EQMmatmRZ2GCF3Zfh8oGv6vVjB04; .AspNetCore.Session=CfDJ8N3rjAnxS5ZJnHc16SW5YN4bC97juDqbChwJij0CsJk7BXQqQJKovckPGmAUJC955hhtgzpMihfULVJLOUAWunn%2F0tPGPKywGP6f%2BX37ar%2F0SgM35YGy8JzgBQ1d6UITosfIR%2F%2BiXn0rMc%2Bo3q8HGIjmdbsOP3xjDe6d%2BdiRzc2C
+Host:  localhost:44393
+User-Agent:  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36
+upgrade-insecure-requests:  1
+sec-fetch-mode:  navigate
+sec-fetch-user:  ?1
+sec-fetch-site:  none
+MS-ASPNETCORE-TOKEN:  2acff159-2d90-484b-9899-cad7e12a5170
+X-Original-Proto:  http
+X-P2P-PeerDist:  Version=1.1
+X-P2P-PeerDistEx:  MinContentInformation=1.0, MaxContentInformation=1.0
+X-Original-For:  127.0.0.1:58607
+ 
+Time: 17.10.2019 11:28:56 
+Headers: Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders 
+Time: 17.10.2019 11:42:45 
+QueryString: / 
+Headers: Connection:  Keep-Alive
+Accept:  text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+Accept-Encoding:  gzip, deflate, br, peerdist
+Accept-Language:  en-BY,en;q=0.9,ru-BY;q=0.8,ru;q=0.7,en-US;q=0.6
+Cookie:  .AspNet.Consent=yes; .AspNetCore.Antiforgery.8h-toe3uhNM=CfDJ8N3rjAnxS5ZJnHc16SW5YN4Qz7TJGuX5iVW09K0wRc_ulzbnZ9OUNw-cjntD7AmdJ-f407S8-es3tBzq9HnnRXa2G-iH2TSOCICIC54g-fHXLV-4ngTd8Wkax7H0sKDja9Vtias7e-ANvjGuknKx3bE; __RequestVerificationToken=EFcw0ZWrqOSYQz4ekmPuP5nOGWmRYL729bSKLwyXgiIPyfCzBAnGdZBMDLnEloTODpMFzs_izCS8U13DyVL3wbhcamMZ3xabxv6VaaIcpJ41; ASP.NET_SessionId=d2dgi2heuveiyjl3tqngzlag; .AspNetCore.Antiforgery.WZjq5RM9N_4=CfDJ8N3rjAnxS5ZJnHc16SW5YN5XtmYnuzV-BKRxI7ygSm4XqL99geTKmzN25ZYvJfdi8ngSDG-7PI_W5FRlpyTyFWW8KkUD9puEbp7CDQS84Zy3SB3wkTmLIRA2bi_agSjHOeZJrV3j9W7FSh9N_iQWFrc; .AspNetCore.Antiforgery.DVDFdYGmzt0=CfDJ8N3rjAnxS5ZJnHc16SW5YN4JVlLvvHc-pUorVKNk6eJDaPPc_cG3AGa8DU3IxVNQ4cqlyUoz149h3I2YERRmD6s-CPLFWFnSyt1_sdkEMylzASwsbx4y6fYMnT1EQMmatmRZ2GCF3Zfh8oGv6vVjB04; .AspNetCore.Session=CfDJ8N3rjAnxS5ZJnHc16SW5YN4bC97juDqbChwJij0CsJk7BXQqQJKovckPGmAUJC955hhtgzpMihfULVJLOUAWunn%2F0tPGPKywGP6f%2BX37ar%2F0SgM35YGy8JzgBQ1d6UITosfIR%2F%2BiXn0rMc%2Bo3q8HGIjmdbsOP3xjDe6d%2BdiRzc2C
+Host:  localhost:44393
+User-Agent:  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36
+upgrade-insecure-requests:  1
+sec-fetch-mode:  navigate
+sec-fetch-user:  ?1
+sec-fetch-site:  none
+MS-ASPNETCORE-TOKEN:  15db6733-3911-466a-b343-a4854ca8eb21
+X-Original-Proto:  http
+X-P2P-PeerDist:  Version=1.1
+X-P2P-PeerDistEx:  MinContentInformation=1.0, MaxContentInformation=1.0
+X-Original-For:  127.0.0.1:60287
+ 
+Time: 17.10.2019 11:42:46 
+Headers: Date:  Thu, 17 Oct 2019 08:42:45 GMT
+Transfer-Encoding:  chunked
+Content-Type:  text/html; charset=utf-8
+Server:  Kestrel
+ 
+Time: 17.10.2019 11:42:56 
+QueryString: /Participants 
+Headers: Connection:  Keep-Alive
+Accept:  text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+Accept-Encoding:  gzip, deflate, br, peerdist
+Accept-Language:  en-BY,en;q=0.9,ru-BY;q=0.8,ru;q=0.7,en-US;q=0.6
+Cookie:  .AspNet.Consent=yes; .AspNetCore.Antiforgery.8h-toe3uhNM=CfDJ8N3rjAnxS5ZJnHc16SW5YN4Qz7TJGuX5iVW09K0wRc_ulzbnZ9OUNw-cjntD7AmdJ-f407S8-es3tBzq9HnnRXa2G-iH2TSOCICIC54g-fHXLV-4ngTd8Wkax7H0sKDja9Vtias7e-ANvjGuknKx3bE; __RequestVerificationToken=EFcw0ZWrqOSYQz4ekmPuP5nOGWmRYL729bSKLwyXgiIPyfCzBAnGdZBMDLnEloTODpMFzs_izCS8U13DyVL3wbhcamMZ3xabxv6VaaIcpJ41; ASP.NET_SessionId=d2dgi2heuveiyjl3tqngzlag; .AspNetCore.Antiforgery.WZjq5RM9N_4=CfDJ8N3rjAnxS5ZJnHc16SW5YN5XtmYnuzV-BKRxI7ygSm4XqL99geTKmzN25ZYvJfdi8ngSDG-7PI_W5FRlpyTyFWW8KkUD9puEbp7CDQS84Zy3SB3wkTmLIRA2bi_agSjHOeZJrV3j9W7FSh9N_iQWFrc; .AspNetCore.Antiforgery.DVDFdYGmzt0=CfDJ8N3rjAnxS5ZJnHc16SW5YN4JVlLvvHc-pUorVKNk6eJDaPPc_cG3AGa8DU3IxVNQ4cqlyUoz149h3I2YERRmD6s-CPLFWFnSyt1_sdkEMylzASwsbx4y6fYMnT1EQMmatmRZ2GCF3Zfh8oGv6vVjB04; .AspNetCore.Session=CfDJ8N3rjAnxS5ZJnHc16SW5YN4bC97juDqbChwJij0CsJk7BXQqQJKovckPGmAUJC955hhtgzpMihfULVJLOUAWunn%2F0tPGPKywGP6f%2BX37ar%2F0SgM35YGy8JzgBQ1d6UITosfIR%2F%2BiXn0rMc%2Bo3q8HGIjmdbsOP3xjDe6d%2BdiRzc2C
+Host:  localhost:44393
+User-Agent:  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36
+upgrade-insecure-requests:  1
+sec-fetch-mode:  navigate
+sec-fetch-site:  none
+MS-ASPNETCORE-TOKEN:  15db6733-3911-466a-b343-a4854ca8eb21
+X-Original-Proto:  http
+X-P2P-PeerDist:  Version=1.1
+X-P2P-PeerDistEx:  MinContentInformation=1.0, MaxContentInformation=1.0
+X-Original-For:  127.0.0.1:60286
+ 
+Time: 17.10.2019 11:42:56 
+Headers: Date:  Thu, 17 Oct 2019 08:42:55 GMT
+Transfer-Encoding:  chunked
+Content-Type:  text/csv
+Server:  Kestrel
+Content-Disposition:  attachment;filename=Participants.csv
+ 
