@@ -13,6 +13,7 @@ namespace MyPartyCore.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly IHostingEnvironment _env;
+        static readonly object _locker = new object();
 
         public MiddlewareTrace(RequestDelegate next, IHostingEnvironment env)
         {
@@ -26,16 +27,18 @@ namespace MyPartyCore.Middleware
             string headersRequest = string.Empty;
             foreach (var header in context.Request.Headers)
             {
-                headersRequest = headersRequest + $"{header.Key}:  {header.Value}{Environment.NewLine}"; 
+                headersRequest = headersRequest + $"{header.Key}:  {header.Value}{Environment.NewLine}";
             }
 
             string path = Path.Combine(_env.WebRootPath, "Log.txt");
             string logInfoRequest = $"Time: {DateTime.Now} {Environment.NewLine}QueryString: {context.Request.Path.ToString()} {Environment.NewLine}Headers: {headersRequest} {Environment.NewLine}";
 
-            using (StreamWriter fs = new StreamWriter(path, true))
-            {
-                await fs.WriteAsync(logInfoRequest);
-            }
+            lock (_locker)
+                using (StreamWriter fs = new StreamWriter(path, true))
+                {
+
+                    fs.Write(logInfoRequest);
+                }
 
             await _next.Invoke(context);
 
@@ -46,10 +49,11 @@ namespace MyPartyCore.Middleware
             }
             string logInfoResponse = $"Time: {DateTime.Now} {Environment.NewLine}Headers: {headersResponse} {Environment.NewLine}";
 
-            using (StreamWriter fs = new StreamWriter(path, true))
-            {
-                await fs.WriteAsync(logInfoResponse);
-            }
+            lock (_locker)
+                using (StreamWriter fs = new StreamWriter(path, true))
+                {
+                    fs.Write(logInfoResponse);
+                }
 
         }
     }
