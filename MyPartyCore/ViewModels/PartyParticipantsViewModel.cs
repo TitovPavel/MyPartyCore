@@ -11,6 +11,8 @@ namespace MyPartyCore.ViewModels
         public List<PartyParticipants> PartyParticipants { get; set; }
         public string PartyTitle { get; set; }
         public int PartyID { get; set; }
+        public PageViewModel PageViewModel { get; set; }
+
     }
 
     public class PartyParticipants

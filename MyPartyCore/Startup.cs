@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MyPartyCore.BL;
 using MyPartyCore.DAL;
 using AutoMapper;
+using MyPartyCore.Middleware;
 
 namespace MyPartyCore
 {
@@ -51,6 +52,9 @@ namespace MyPartyCore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+            app.UseMiddlewareTrace();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -66,6 +70,8 @@ namespace MyPartyCore
             app.UseCookiePolicy();
 
             app.UseSession();
+
+            app.UseMiddlewareExport();
 
             app.UseMvc(routes =>
             {
