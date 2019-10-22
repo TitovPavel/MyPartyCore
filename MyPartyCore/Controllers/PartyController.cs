@@ -16,9 +16,9 @@ namespace MyPartyCore.Controllers
 {
     public class PartyController : Controller
     {
-        internal readonly IPartyService _partyService;
+        private readonly IPartyService _partyService;
         private readonly IHostingEnvironment _env;
-        internal readonly IMapper _mapper;
+        private readonly IMapper _mapper;
 
 
         public PartyController(IPartyService r, IHostingEnvironment env, IMapper mapper)
