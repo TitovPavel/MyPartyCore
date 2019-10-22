@@ -3,12 +3,10 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using MyPartyCore.BL;
 using MyPartyCore.Infrastructure;
-using MyPartyCore.Models;
 using MyPartyCore.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using MyPartyCore.Filters;
 
 namespace MyPartyCore.ViewComponents
 {
@@ -23,13 +21,14 @@ namespace MyPartyCore.ViewComponents
             _mapper = mapper;
         }
 
-        public IViewComponentResult Invoke(bool lastViewedParties)
+        public IViewComponentResult Invoke(bool lastViewedParties, List<PartyViewModel> lastPartyViews)
         {
             List<PartyViewModel> partyViews;
 
             if (lastViewedParties)
             {
-                partyViews = GetLastViewedParties();
+                ViewBag.NameListParties = "5 последних просмотренных вечеринок вечеринок:";
+                partyViews = lastPartyViews;
             }
             else
             {

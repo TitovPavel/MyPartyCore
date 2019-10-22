@@ -10,14 +10,15 @@ using MyPartyCore.BL;
 using MyPartyCore.Infrastructure;
 using MyPartyCore.Models;
 using MyPartyCore.ViewModels;
+using MyPartyCore.Filters;
 
 namespace MyPartyCore.Controllers
 {
     public class PartyController : Controller
     {
-        private readonly IPartyService _partyService;
+        internal readonly IPartyService _partyService;
         private readonly IHostingEnvironment _env;
-        private readonly IMapper _mapper;
+        internal readonly IMapper _mapper;
 
 
         public PartyController(IPartyService r, IHostingEnvironment env, IMapper mapper)
@@ -27,7 +28,7 @@ namespace MyPartyCore.Controllers
             _mapper = mapper;
         }
 
-        // GET: Party
+        [CustomCache]
         public ActionResult Index(int id, int page = 1)
         {
 
@@ -38,10 +39,7 @@ namespace MyPartyCore.Controllers
             var items = source.Skip((page - 1) * pageSize).Take(pageSize).ProjectTo<PartyParticipants>(_mapper.ConfigurationProvider).ToList();
 
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
-
-
-            HttpContext.Session.AddParty(id);
-
+        
             Party party = _partyService.GetPartyByID(id);
 
             
