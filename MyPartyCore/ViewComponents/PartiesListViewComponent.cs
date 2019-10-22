@@ -28,7 +28,7 @@ namespace MyPartyCore.ViewComponents
             if (lastViewedParties)
             {
                 ViewBag.NameListParties = "5 последних просмотренных вечеринок вечеринок:";
-                partyViews = lastPartyViews;
+                partyViews = lastPartyViews ?? GetLastViewedParties();
             }
             else
             {
