@@ -21,14 +21,13 @@ namespace MyPartyCore.ViewComponents
             _mapper = mapper;
         }
 
-        public IViewComponentResult Invoke(bool lastViewedParties, List<PartyViewModel> lastPartyViews)
+        public IViewComponentResult Invoke(bool lastViewedParties)
         {
             List<PartyViewModel> partyViews;
 
             if (lastViewedParties)
             {
-                ViewBag.NameListParties = "5 последних просмотренных вечеринок вечеринок:";
-                partyViews = lastPartyViews ?? GetLastViewedParties();
+                 partyViews = GetLastViewedParties();
             }
             else
             {

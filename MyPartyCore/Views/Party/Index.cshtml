@@ -72,5 +72,5 @@
 
 @section ListParties {
     @await Component.InvokeAsync("PartiesList", new { LastViewedParties = false })
-    @await Component.InvokeAsync("PartiesList", new { LastViewedParties = true , lastPartyViews = @ViewData["partyViews"]})
+    @await Component.InvokeAsync("PartiesList", new { LastViewedParties = true })
 }

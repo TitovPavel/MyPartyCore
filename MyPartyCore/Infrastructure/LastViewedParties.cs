@@ -23,18 +23,9 @@ namespace MyPartyCore.Infrastructure
 
         public static List<int> GetParties(this ISession session)
         {
-            string valueTime = session.GetString("LastViewedPartiesTime");
-            session.SetString("LastViewedPartiesTime", DateTime.Now.ToString());
-
-            if (DateTime.TryParse(valueTime, out DateTime dateTimeModified) && dateTimeModified.AddMinutes(2) < DateTime.Now)
-            {
-                return new List<int>();
-            }
-
-            string value = session.GetString("LastViewedParties");
-          
-            return value == null ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);
-
+           
+            string value = session.GetString("LastViewedParties");         
+            return value == null ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);  
             
         }
     }

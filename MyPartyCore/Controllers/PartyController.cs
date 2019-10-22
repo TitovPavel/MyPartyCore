@@ -28,7 +28,7 @@ namespace MyPartyCore.Controllers
             _mapper = mapper;
         }
 
-        [CustomCache]
+        [TypeFilter(typeof(CustomCacheAttribute))]
         public ActionResult Index(int id, int page = 1)
         {
 
@@ -42,7 +42,8 @@ namespace MyPartyCore.Controllers
         
             Party party = _partyService.GetPartyByID(id);
 
-            
+            HttpContext.Session.AddParty(id);
+
             PartyParticipantsViewModel partyParticipantsViewModel = new PartyParticipantsViewModel();
             partyParticipantsViewModel.PartyID = id;
             partyParticipantsViewModel.PartyTitle = party.Title;
