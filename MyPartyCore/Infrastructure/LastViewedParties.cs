@@ -23,9 +23,10 @@ namespace MyPartyCore.Infrastructure
 
         public static List<int> GetParties(this ISession session)
         {
-            string value = session.GetString("LastViewedParties");
-            return value == null ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);
-
+           
+            string value = session.GetString("LastViewedParties");         
+            return value == null ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);  
+            
         }
     }
 }

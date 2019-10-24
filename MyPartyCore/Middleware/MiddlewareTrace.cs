@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyPartyCore.Middleware
@@ -27,7 +25,7 @@ namespace MyPartyCore.Middleware
             string headersRequest = string.Empty;
             foreach (var header in context.Request.Headers)
             {
-                headersRequest = headersRequest + $"{header.Key}:  {header.Value}{Environment.NewLine}";
+                headersRequest += $"{header.Key}:  {header.Value}{Environment.NewLine}";
             }
 
             string path = Path.Combine(_env.WebRootPath, "Log.txt");
@@ -45,7 +43,7 @@ namespace MyPartyCore.Middleware
             string headersResponse = string.Empty;
             foreach (var header in context.Response.Headers)
             {
-                headersResponse = headersResponse + $"{header.Key}:  {header.Value}{Environment.NewLine}";
+                headersResponse += $"{header.Key}:  {header.Value}{Environment.NewLine}";
             }
             string logInfoResponse = $"Time: {DateTime.Now} {Environment.NewLine}Headers: {headersResponse} {Environment.NewLine}";
 

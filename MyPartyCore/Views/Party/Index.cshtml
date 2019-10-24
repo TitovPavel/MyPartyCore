@@ -36,22 +36,7 @@
     }
 </table>
 
-@if (Model.PageViewModel.HasPreviousPage)
-{
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-       class="btn btn-outline-primary">
-        Назад
-    </a>
-}
-@if (Model.PageViewModel.HasNextPage)
-{
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-       class="btn btn-outline-primary">
-        Вперед
-    </a>
-}
+<page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
 
 <p>
     @Html.ActionLink("Проголосовать", "vote", new { ID = @Model.PartyID })

@@ -3,12 +3,10 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using MyPartyCore.BL;
 using MyPartyCore.Infrastructure;
-using MyPartyCore.Models;
 using MyPartyCore.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using MyPartyCore.Filters;
 
 namespace MyPartyCore.ViewComponents
 {
@@ -29,7 +27,7 @@ namespace MyPartyCore.ViewComponents
 
             if (lastViewedParties)
             {
-                partyViews = GetLastViewedParties();
+                 partyViews = GetLastViewedParties();
             }
             else
             {
