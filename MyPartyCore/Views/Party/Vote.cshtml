@@ -4,8 +4,8 @@
 
 @using (Html.BeginForm("Save", "Party", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
-    @Html.ValidationSummary(true)
-
+      @Html.ValidationSummary(false, "", new { @class="text-danger" })
+    
     <div class="form-group row">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-form-label" })
         <div class="editor-field has-error">

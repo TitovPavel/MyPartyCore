@@ -19,7 +19,7 @@ namespace MyPartyCore.Helpers
             output.TagName = "a";
             output.Attributes.SetAttribute("href", String.Concat("/", ControllerName, "/", ActionName, "/", PartyView.Id));
             output.Attributes.SetAttribute("data-toggle", "tooltip");
-            output.Attributes.SetAttribute("title", String.Concat("Дата: ", PartyView.Date.ToShortDateString(), ", место: ", PartyView.Location));
+            output.Attributes.SetAttribute("title", String.Concat("Дата: ", PartyView.Date?.ToShortDateString(), ", место: ", PartyView.Location));
             output.Content.SetHtmlContent(PartyView.Title);
 
         }
