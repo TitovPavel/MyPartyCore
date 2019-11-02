@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyPartyCore.Models;
 using System;
@@ -8,18 +9,11 @@ using System.Threading.Tasks;
 
 namespace MyPartyCore.DAL
 {
-    public class MyPartyContext : DbContext
+    public class MyPartyContext : IdentityDbContext<User>
     {
         public MyPartyContext(DbContextOptions<MyPartyContext> options)
             : base(options)
-        {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(
-                @"Server=localhost\SQLEXPRESS;Database=MyPartiesEF;Trusted_Connection=True;");
-        }
+        {}
 
         public DbSet<Party> Parties { get; set; }
         public DbSet<Participant> Participants { get; set; }
@@ -28,6 +22,7 @@ namespace MyPartyCore.DAL
         {
             modelBuilder.ApplyConfiguration(new PhoneConfiguration());
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+            base.OnModelCreating(modelBuilder);
         }
     }
 

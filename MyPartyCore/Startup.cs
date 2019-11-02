@@ -11,6 +11,8 @@ using AutoMapper;
 using MyPartyCore.Middleware;
 using FluentValidation.AspNetCore;
 using MyPartyCore.ConfigurationProviders;
+using MyPartyCore.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyPartyCore
 {
@@ -21,7 +23,7 @@ namespace MyPartyCore
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", true, true) 
-                .AddDatabaseConfiguration("Server=localhost\\SQLEXPRESS;Database=MyParties;Trusted_Connection=True;");
+                .AddDatabaseConfiguration("Server=localhost\\SQLEXPRESS;Database=MyPartiesEF;Trusted_Connection=True;");
             Configuration = builder.Build();
         }
 
@@ -48,7 +50,11 @@ namespace MyPartyCore
 
             services.AddDbContext<MyPartyContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyPartyDatabaseEF")));
-            
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<MyPartyContext>();
+
+
 
             services.AddTransient<IPartyService, PartyService>();
 
