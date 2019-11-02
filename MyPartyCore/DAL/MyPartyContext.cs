@@ -13,8 +13,7 @@ namespace MyPartyCore.DAL
     {
         public MyPartyContext(DbContextOptions<MyPartyContext> options)
             : base(options)
-        {
-        }
+        {}
 
         public DbSet<Party> Parties { get; set; }
         public DbSet<Participant> Participants { get; set; }
