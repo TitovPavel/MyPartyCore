@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +14,7 @@ using MyPartyCore.ConfigurationProviders;
 using MyPartyCore.Models;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace MyPartyCore
 {
     public class Startup
@@ -24,6 +25,7 @@ namespace MyPartyCore
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", true, true) 
                 .AddDatabaseConfiguration("Server=localhost\\SQLEXPRESS;Database=MyPartiesEF;Trusted_Connection=True;");
+
             Configuration = builder.Build();
         }
 
