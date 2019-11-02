@@ -62,5 +62,6 @@
     <None Include="DBSchema.sql" />
     <None Include="InsertData.sql" />
     <None Include="SelectData..sql" />
+    <None Include="AddSettings.sql" />
   </ItemGroup>
 </Project>

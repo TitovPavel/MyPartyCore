@@ -60,20 +60,26 @@ namespace MyPartyCore.Controllers
 
         public ActionResult Save(ParticipantViewModel participantViewModel, IFormFile file)
         {
-
-            Participant participant = _mapper.Map<Participant>(participantViewModel);
-
-            if (file != null && file.Length > 0)
+            if (ModelState.IsValid)
             {
-                string _path = Path.Combine(_env.WebRootPath, "ParticipansPhoto", String.Concat(participant.Name, new FileInfo(file.FileName).Extension));
-                using (var stream = new FileStream(_path, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-            }
+                Participant participant = _mapper.Map<Participant>(participantViewModel);
 
-            _partyService.Vote(participant);
-            return RedirectToAction("Index", new {id = participantViewModel.PartyId});
+                if (file != null && file.Length > 0)
+                {
+                    string _path = Path.Combine(_env.WebRootPath, "ParticipansPhoto", String.Concat(participant.Name, new FileInfo(file.FileName).Extension));
+                    using (var stream = new FileStream(_path, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+
+                _partyService.Vote(participant);
+                return RedirectToAction("Index", new { id = participantViewModel.PartyId });
+            }
+            else
+            {
+                return View(participantViewModel);
+            }        
         }
 
         public ActionResult GetImage(string userName)
@@ -89,6 +95,25 @@ namespace MyPartyCore.Controllers
             else
             {
                 return null;
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Add(PartyViewModel partyViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View(partyViewModel);
             }
         }
     }
