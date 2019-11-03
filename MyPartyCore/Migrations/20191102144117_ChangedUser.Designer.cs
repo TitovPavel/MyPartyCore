@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyPartyCore.DAL;
 
 namespace MyPartyCore.Migrations
 {
     [DbContext(typeof(MyPartyContext))]
-    partial class MyPartyContextModelSnapshot : ModelSnapshot
+    [Migration("20191102144117_ChangedUser")]
+    partial class ChangedUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

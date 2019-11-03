@@ -8,6 +8,8 @@ namespace MyPartyCore.Models
 {
     public class User : IdentityUser
     {
+        public DateTime Birthday { get; set; }
+        public string Sex { get; set; }
 
     }
 }

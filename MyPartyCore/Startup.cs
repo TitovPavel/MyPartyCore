@@ -54,7 +54,7 @@ namespace MyPartyCore
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MyPartyContext>();
 
-
+            services.AddHttpContextAccessor();
 
             services.AddTransient<IPartyService, PartyService>();
 
@@ -94,6 +94,8 @@ namespace MyPartyCore
             app.UseSession();
 
             app.UseMiddlewareExport();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

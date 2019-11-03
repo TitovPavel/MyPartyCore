@@ -20,17 +20,21 @@
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="navbar" role="navigation">
-        <a class="navbar-brand" href="/">Портал вечеринок</a>
-    </div>
+    <nav class="navbar navbar-fixed-top navbar-light" style="background-color: #e3f2fd;">
+        <div class="container">
+            <a class="navbar-brand" href="/">Портал вечеринок</a>
+            <partial name="_LoginPartial" />
+        </div>
+    </nav>
+
 
     <div class="row">
         <div class="col-md-3">
         </div>
         <div class="col-md-6">
-            <div class="col-md-12 container body-content">
-                @RenderBody()
-            </div>
+
+            @RenderBody()
+
         </div>
         <div class="col-md-3">
             @RenderSection("ListParties", required: false)

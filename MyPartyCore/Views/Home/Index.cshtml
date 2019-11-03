@@ -1,10 +1,10 @@
 ﻿@model List<MyPartyCore.ViewModels.PartyViewModel>
 
-<h4>Всем привет. Приходите на наши вечеринки</h4>
+<h2>Всем привет. Приходите на наши вечеринки</h2>
 @foreach (var item in Model)
 {
 <p>
-    <party party-view="item" controller-name="Party" action-name="index"></party>
+    <h4><party party-view="item" controller-name="Party" action-name="index"></party></h4>
 </p>
 }
 
