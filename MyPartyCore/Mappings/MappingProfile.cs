@@ -18,6 +18,7 @@ namespace MyPartyCore.Mappings
             CreateMap<CreateUserViewModel, User>().ReverseMap();
             CreateMap<EditUserViewModel, User>().ReverseMap();
             CreateMap<User, UserViewModel>().ForMember(d => d.IsLocked, o => o.MapFrom(s => (s.LockoutEnabled && s.LockoutEnd > DateTime.Now)));
+            CreateMap<ProfileViewModel, User>().ReverseMap();
         }
     }
 }

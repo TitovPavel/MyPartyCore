@@ -7,7 +7,7 @@
 
 <h2>Регистрация нового пользователя</h2>
 
-<form method="post" asp-controller="Auth" asp-action="Register">
+<form method="post" asp-controller="Account" asp-action="Register">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="UserName" class="control-label"></label>
@@ -26,7 +26,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Sex"></label>
-        <select asp-for="Sex" asp-items="ViewBag.SexList"></select>
+        <select asp-for="Sex" asp-items="Html.GetEnumSelectList<GenderList>()"></select>
         <span asp-validation-for="Sex" class="text-danger"></span>
     </div>
 

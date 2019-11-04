@@ -11,9 +11,11 @@ using MyPartyCore.Infrastructure;
 using MyPartyCore.Models;
 using MyPartyCore.ViewModels;
 using MyPartyCore.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyPartyCore.Controllers
 {
+    [Authorize(Roles = "user")]
     public class PartyController : Controller
     {
         private readonly IPartyService _partyService;

@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
             <label asp-for="Sex"></label>
-            <select asp-for="Sex" asp-items="ViewBag.SexList"></select>
+            <select asp-for="Sex" asp-items="Html.GetEnumSelectList<GenderList>()"></select>
             <span asp-validation-for="Sex" class="text-danger"></span>
         </div>
         <div class="form-group">

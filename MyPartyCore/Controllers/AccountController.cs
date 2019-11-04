@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace MyPartyCore.Controllers
 {
-    public class AuthController : Controller
+    public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
 
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -27,15 +28,6 @@ namespace MyPartyCore.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-
-            List<SelectListItem> sexList = new List<SelectListItem>
-            {
-             new SelectListItem {Text = "M", Value = "M"},
-               new SelectListItem {Text = "F", Value = "F"}
-              };
-
-            ViewBag.SexList = sexList;
-
             return View();
         }
 
@@ -92,12 +84,33 @@ namespace MyPartyCore.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "user")]
+        public async Task<IActionResult> Profile(string id)
+        {
+            User user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            ProfileViewModel model = _mapper.Map<ProfileViewModel>(user);
+           
+            return View(model);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        
+        [HttpGet]
+        public IActionResult AccessDenied(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
         }
     }
 }

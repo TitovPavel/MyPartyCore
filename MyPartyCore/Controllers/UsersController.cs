@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace MyPartyCore.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class UsersController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -30,8 +32,6 @@ namespace MyPartyCore.Controllers
 
         public IActionResult Create()
         {
-            ViewBag.SexList = GetSexList();
-
             return View();
         }
 
@@ -54,7 +54,6 @@ namespace MyPartyCore.Controllers
                     }
                 }
             }
-            ViewBag.SexList = GetSexList();
 
             return View(createUserViewModel);
         }
@@ -68,8 +67,6 @@ namespace MyPartyCore.Controllers
             }
             EditUserViewModel model = _mapper.Map<EditUserViewModel>(user);
          
-            ViewBag.SexList = GetSexList();
-
             return View(model);
         }
 
@@ -100,8 +97,6 @@ namespace MyPartyCore.Controllers
                     }
                 }
             }
-
-            ViewBag.SexList = GetSexList();
 
             return View(model);
         }
@@ -137,17 +132,6 @@ namespace MyPartyCore.Controllers
                 IdentityResult result = await _userManager.SetLockoutEndDateAsync(user, null);
             }
             return RedirectToAction("Index");
-        }
-
-        private List<SelectListItem> GetSexList()
-        {
-            List<SelectListItem> sexList = new List<SelectListItem>
-            {
-                new SelectListItem {Text = "M", Value = "M"},
-                new SelectListItem {Text = "F", Value = "F"}
-             };
-
-            return sexList;
         }
     }
 }
