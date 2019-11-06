@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyPartyCore.DAL;
 
 namespace MyPartyCore.Migrations
 {
     [DbContext(typeof(MyPartyContext))]
-    partial class MyPartyContextModelSnapshot : ModelSnapshot
+    [Migration("20191106060136_AddFiles")]
+    partial class AddFiles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,15 +198,11 @@ namespace MyPartyCore.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
-                    b.Property<string>("OwnerId");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(1024);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("Parties");
                 });
@@ -322,13 +320,6 @@ namespace MyPartyCore.Migrations
                         .WithMany("Participants")
                         .HasForeignKey("PartyId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MyPartyCore.Models.Party", b =>
-                {
-                    b.HasOne("MyPartyCore.Models.User", "Owner")
-                        .WithMany("Parties")
-                        .HasForeignKey("OwnerId");
                 });
 
             modelBuilder.Entity("MyPartyCore.Models.User", b =>

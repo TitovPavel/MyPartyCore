@@ -12,6 +12,8 @@ using MyPartyCore.Models;
 using MyPartyCore.ViewModels;
 using MyPartyCore.Filters;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyPartyCore.Controllers
 {
@@ -21,13 +23,17 @@ namespace MyPartyCore.Controllers
         private readonly IPartyService _partyService;
         private readonly IHostingEnvironment _env;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<User> _userManager;
 
-
-        public PartyController(IPartyService r, IHostingEnvironment env, IMapper mapper)
+        public PartyController(IPartyService r, IHostingEnvironment env, IMapper mapper, IHttpContextAccessor httpContextAccessor, UserManager<User> userManager)
         {
             _partyService = r;
             _env = env;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+            _userManager = userManager;
+
         }
 
         [TypeFilter(typeof(CustomCacheAttribute))]
@@ -101,22 +107,38 @@ namespace MyPartyCore.Controllers
         }
 
         [HttpGet]
-        public ActionResult Add()
+        public ActionResult Add(string id)
         {
-            return View();
+            return View(new CreatePartyViewModel() { OwnerId = id });
         }
 
         [HttpPost]
-        public ActionResult Add(PartyViewModel partyViewModel)
+        public ActionResult Add(CreatePartyViewModel partyViewModel)
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
+                Party party = _mapper.Map<Party>(partyViewModel);
+                
+                _partyService.AddParty(party);
+
+                return RedirectToAction("List", "Party", new { id = partyViewModel.OwnerId });
             }
             else
             {
                 return View(partyViewModel);
             }
+        }
+
+        [HttpGet]
+        public ActionResult List(string id)
+        {
+            PartiesByOwnerViewModel partiesByOwnerViewModel = new PartiesByOwnerViewModel()
+            {
+                Id = id
+            };
+
+            partiesByOwnerViewModel.Parties = _partyService.ListOfPartiesByOwner(id).ProjectTo<PartyViewModel>(_mapper.ConfigurationProvider).ToList();
+            return View(partiesByOwnerViewModel);
         }
     }
 }

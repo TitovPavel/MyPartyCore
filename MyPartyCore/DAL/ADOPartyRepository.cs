@@ -25,7 +25,7 @@ namespace MyPartyCore.DAL
                 command.Parameters.AddWithValue("@title", party.Title);
                 command.Parameters.AddWithValue("@location", party.Location);
                 command.Parameters.AddWithValue("@date", party.Date);
-                command.Parameters.AddWithValue("@ownerId", party.User.Id);
+                command.Parameters.AddWithValue("@ownerId", party.Owner.Id);
                 int number = command.ExecuteNonQuery();
             }
         }
@@ -114,7 +114,7 @@ namespace MyPartyCore.DAL
                 command.Parameters.AddWithValue("@title", party.Title);
                 command.Parameters.AddWithValue("@location", party.Location);
                 command.Parameters.AddWithValue("@date", party.Date);
-                command.Parameters.AddWithValue("@ownerId", party.User.Id);
+                command.Parameters.AddWithValue("@ownerId", party.Owner.Id);
 
                 int number = command.ExecuteNonQuery();
             }

@@ -23,5 +23,7 @@ namespace MyPartyCore.ViewModels
         [Display(Name = "Пол")]
         public string Sex { get; set; }
 
+        public List<PartyViewModel> Parties { get; set; }
+
     }
 }

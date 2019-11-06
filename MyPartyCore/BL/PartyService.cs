@@ -35,6 +35,12 @@ namespace MyPartyCore.BL
             _context.SaveChanges();
         }
 
+        public void AddParty(Party party)
+        {
+            _context.Parties.Add(party);
+            _context.SaveChanges();
+        }
+
         public List<Participant> ListAll()
         {
             return _context.Participants.ToList();
@@ -44,6 +50,7 @@ namespace MyPartyCore.BL
         {
             return _context.Participants.Where(p=>p.Attend == true);
         }
+
         public IQueryable<Participant> ListMissed()
         {
             return _context.Participants.Where(p => p.Attend == false);
@@ -52,6 +59,11 @@ namespace MyPartyCore.BL
         public IQueryable<Party> ListOfCurrentParties()
         {
             return _context.Parties.Where(p => p.Date >= DateTime.Now);
+        }
+
+        public IQueryable<Party> ListOfPartiesByOwner(string OwnerId)
+        {
+            return _context.Parties.Where(p => p.OwnerId == OwnerId);
         }
 
         public Party GetPartyByID(int id)

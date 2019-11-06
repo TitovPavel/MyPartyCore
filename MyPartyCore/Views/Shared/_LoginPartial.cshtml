@@ -7,6 +7,12 @@
 {
     <form asp-controller="Account" asp-action="LogOff" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
+            @if (User.IsInRole("admin"))
+            {
+                <li>
+                    <a asp-controller="Users" asp-action="Index">Администрирование</a>
+                </li>
+            }
             <li>
                 <a asp-controller="Account" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)">Привет @UserManager.GetUserName(User)</a>
             </li>

@@ -10,6 +10,9 @@ namespace MyPartyCore.Models
     {
         public DateTime Birthday { get; set; }
         public string Sex { get; set; }
+        public FileModel Avatar { get; set; }
+        public int? AvatarId { get; set; }
+        public List<Party> Parties { get; set; }
 
     }
 }

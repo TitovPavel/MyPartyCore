@@ -9,8 +9,8 @@ namespace MyPartyCore.Models
         public string Title { get; set; }
         public DateTime Date { get; set; }
         public string Location { get; set; }
-        public User User { get; set; }
-        public int UserId { get; set; }
+        public User Owner { get; set; }
+        public string OwnerId { get; set; }
         public List<Participant> Participants { get; set; }
 
     }
