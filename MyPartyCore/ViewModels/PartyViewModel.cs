@@ -22,5 +22,8 @@ namespace MyPartyCore.ViewModels
         public string Location { get; set; }
         public string OwnerId { get; set; }
 
+        [Display(Name = "Вечеринка для взрослых")]
+        public bool AgeLimit { get; set; }
+
     }
 }

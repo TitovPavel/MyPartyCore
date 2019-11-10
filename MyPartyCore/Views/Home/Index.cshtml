@@ -1,10 +1,19 @@
-﻿@model List<MyPartyCore.ViewModels.PartyViewModel>
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@model List<MyPartyCore.ViewModels.PartyViewModel>
 
 <h2>Всем привет. Приходите на наши вечеринки</h2>
 @foreach (var item in Model)
 {
-<p>
-    <h4><party party-view="item" controller-name="Party" action-name="index"></party></h4>
-</p>
+    <p>
+        <h4><party party-view="item" controller-name="Party" action-name="index"></party></h4>
+    </p>
 }
+
+@if ((await AuthorizationService.AuthorizeAsync(User, "Over18")).Succeeded)
+{
+    <a asp-controller="Party" asp-action="AdultParties">Вечеринки для взрослых</a>
+}
+
 

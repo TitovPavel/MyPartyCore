@@ -12,6 +12,6 @@ namespace MyPartyCore.Models
         public User Owner { get; set; }
         public string OwnerId { get; set; }
         public List<Participant> Participants { get; set; }
-
+        public bool AgeLimit { get; set; }
     }
 }

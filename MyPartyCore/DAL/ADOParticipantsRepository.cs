@@ -67,7 +67,7 @@ namespace MyPartyCore.DAL
                             Reason = reader["reason"]?.ToString(),
                             ArrivalDate = Convert.ToDateTime(reader["arrivalDate"]),
                             PartyId = Convert.ToInt32(reader["partyId"]),
-                            UserId = Convert.ToInt32(reader["userId"])
+                            UserId = reader["userId"]?.ToString()
                         });
                     }
                 }
@@ -100,7 +100,7 @@ namespace MyPartyCore.DAL
                             Reason = reader["reason"]?.ToString(),
                             ArrivalDate = Convert.ToDateTime(reader["arrivalDate"]),
                             PartyId = Convert.ToInt32(reader["partyId"]),
-                            UserId = Convert.ToInt32(reader["userId"])
+                            UserId = reader["userId"]?.ToString()
                         };
                     }
                 }

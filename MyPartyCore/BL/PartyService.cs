@@ -1,4 +1,5 @@
-﻿using MyPartyCore.DAL;
+﻿using Microsoft.EntityFrameworkCore;
+using MyPartyCore.DAL;
 using MyPartyCore.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace MyPartyCore.BL
 
         public void Vote(Participant participant)
         {
-            Participant p = _context.Participants.FirstOrDefault(x => x.Name == participant.Name);
+            Participant p = _context.Participants.FirstOrDefault(x => x.Name == participant.Name && x.PartyId == participant.PartyId);
 
             if(p == null)
             {
@@ -35,9 +36,37 @@ namespace MyPartyCore.BL
             _context.SaveChanges();
         }
 
+        public bool ParticipantBelongUser(Participant participant)
+        {
+            Participant p = _context.Participants.FirstOrDefault(x => x.Name == participant.Name && x.PartyId == participant.PartyId);
+            if (p != null && p.UserId != participant.UserId)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public void AddParty(Party party)
         {
             _context.Parties.Add(party);
+            _context.SaveChanges();
+        }
+
+        public void UpdateParty(Party party)
+        {
+            Party updateParty = _context.Parties.Find(party.Id);
+
+            if (updateParty != null)
+            {
+                updateParty.Title = party.Title;
+                updateParty.Location = party.Location;
+                updateParty.Date = party.Date;
+                updateParty.AgeLimit = party.AgeLimit;
+                _context.Parties.Update(updateParty);
+            }
             _context.SaveChanges();
         }
 
@@ -68,7 +97,7 @@ namespace MyPartyCore.BL
 
         public Party GetPartyByID(int id)
         {
-            return _context.Parties.Find(id);
+            return _context.Parties.Include(i => i.Owner).SingleOrDefault(x => x.Id == id);
         }
     }
 }

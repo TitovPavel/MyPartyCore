@@ -13,6 +13,8 @@ namespace MyPartyCore.BL
         IQueryable<Party> ListOfCurrentParties();
         IQueryable<Party> ListOfPartiesByOwner(string OwnerId);
         void Vote(Participant participant);
+        bool ParticipantBelongUser(Participant participant);
         void AddParty(Party party);
+        void UpdateParty(Party party);
     }
 }

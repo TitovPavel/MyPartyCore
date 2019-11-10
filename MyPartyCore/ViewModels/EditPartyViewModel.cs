@@ -7,8 +7,10 @@ using MyPartyCore.DataAnnotationValidations;
 
 namespace MyPartyCore.ViewModels
 {
-    public class CreatePartyViewModel
+    public class EditPartyViewModel
     {
+        public int Id { get; set; }
+
         [Display(Name = "Название вечеринки")]
         public string Title { get; set; }
        

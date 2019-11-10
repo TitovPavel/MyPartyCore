@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyPartyCore.DAL;
 
 namespace MyPartyCore.Migrations
 {
     [DbContext(typeof(MyPartyContext))]
-    partial class MyPartyContextModelSnapshot : ModelSnapshot
+    [Migration("20191110201554_AddClaimsInDatabase")]
+    partial class AddClaimsInDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,13 +179,9 @@ namespace MyPartyCore.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PartyId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Participants");
                 });
@@ -330,10 +328,6 @@ namespace MyPartyCore.Migrations
                         .WithMany("Participants")
                         .HasForeignKey("PartyId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MyPartyCore.Models.User", "User")
-                        .WithMany("Participants")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("MyPartyCore.Models.Party", b =>

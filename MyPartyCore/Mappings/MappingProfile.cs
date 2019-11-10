@@ -15,6 +15,7 @@ namespace MyPartyCore.Mappings
             CreateMap<ParticipantViewModel, Participant>()
                 .ForMember(d => d.Reason, o => o.MapFrom(s => s.Reason ?? ""));
             CreateMap<PartyViewModel, Party>().ReverseMap();
+            CreateMap<EditPartyViewModel, Party>().ReverseMap();
             CreateMap<CreatePartyViewModel, Party>().ReverseMap();
             CreateMap<Participant, PartyParticipants>().ReverseMap();
             CreateMap<RegisterViewModel, User>().ReverseMap();

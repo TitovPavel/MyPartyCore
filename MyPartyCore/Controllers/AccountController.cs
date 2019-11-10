@@ -8,6 +8,7 @@ using MyPartyCore.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MyPartyCore.Controllers
@@ -38,10 +39,16 @@ namespace MyPartyCore.Controllers
             {
                 User user = _mapper.Map<User>(registerViewModel);
 
-
                 var result = await _userManager.CreateAsync(user, registerViewModel.Password);
                 if (result.Succeeded)
                 {
+
+                    var plus18Claim = new Claim(ClaimTypes.DateOfBirth, registerViewModel.Birthday.ToString(), typeof(DateTime).ToString());
+                    await _userManager.AddClaimAsync(user, plus18Claim);
+
+                    var gender = new Claim(ClaimTypes.Gender, registerViewModel.Sex.ToString(), typeof(String).ToString());
+                    await _userManager.AddClaimAsync(user, gender);
+
                     await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
                 }

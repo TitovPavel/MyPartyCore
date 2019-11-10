@@ -63,9 +63,10 @@ namespace MyPartyCore.DAL
             builder.Property(p => p.Title).IsRequired().HasMaxLength(1024);
             builder.Property(p => p.Date).IsRequired();
             builder.Property(p => p.Location).IsRequired().HasMaxLength(256);
+            builder.Property(p => p.AgeLimit).IsRequired().HasDefaultValue(false);
             builder.HasOne(p => p.Owner)
-            .WithMany(t => t.Parties)
-            .HasForeignKey(p => p.OwnerId);
+                .WithMany(t => t.Parties)
+                .HasForeignKey(p => p.OwnerId);
 
         }
     }
@@ -79,11 +80,12 @@ namespace MyPartyCore.DAL
             builder.Property(p => p.Attend).IsRequired();
             builder.Property(p => p.Reason).IsRequired().HasMaxLength(256);
             builder.Property(p => p.Email).IsRequired().HasMaxLength(256);
-            builder.Ignore(p => p.User);
-            builder.Ignore(p => p.UserId);
+            builder.HasOne(p => p.User)
+                .WithMany(t => t.Participants)
+                .HasForeignKey(p => p.UserId);
             builder.HasOne(p => p.Party)
-            .WithMany(t => t.Participants)
-            .HasForeignKey(p => p.PartyId);
+                .WithMany(t => t.Participants)
+                .HasForeignKey(p => p.PartyId);
         }
     }
 }

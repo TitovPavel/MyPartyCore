@@ -14,6 +14,8 @@ using MyPartyCore.Filters;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using MyPartyCore.AuthorizationPolicy;
 
 namespace MyPartyCore.Controllers
 {
@@ -24,46 +26,66 @@ namespace MyPartyCore.Controllers
         private readonly IHostingEnvironment _env;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IAuthorizationService _authorizationService;
         private readonly UserManager<User> _userManager;
 
-        public PartyController(IPartyService r, IHostingEnvironment env, IMapper mapper, IHttpContextAccessor httpContextAccessor, UserManager<User> userManager)
+        public PartyController(IPartyService r, 
+            IHostingEnvironment env, 
+            IMapper mapper, 
+            IHttpContextAccessor httpContextAccessor, 
+            UserManager<User> userManager,
+            IAuthorizationService authorizationService)
         {
             _partyService = r;
             _env = env;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
+            _authorizationService = authorizationService;
 
         }
 
-        [TypeFilter(typeof(CustomCacheAttribute))]
-        public ActionResult Index(int id, int page = 1)
+        public async Task<ActionResult> Index(int id, int page = 1)
         {
 
-            int pageSize = 3;
-
-            IQueryable<Participant> source = _partyService.ListAttendent().Where(x => x.PartyId == id);
-            var count = source.Count();
-            var items = source.Skip((page - 1) * pageSize).Take(pageSize).ProjectTo<PartyParticipants>(_mapper.ConfigurationProvider).ToList();
-
-            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
-        
             Party party = _partyService.GetPartyByID(id);
 
-            HttpContext.Session.AddParty(id);
+            if (party == null)
+            {
+                return new NotFoundResult();
+            }
 
-            PartyParticipantsViewModel partyParticipantsViewModel = new PartyParticipantsViewModel();
-            partyParticipantsViewModel.PartyID = id;
-            partyParticipantsViewModel.PartyTitle = party.Title;
-            partyParticipantsViewModel.PartyParticipants = items;
-            partyParticipantsViewModel.PageViewModel = pageViewModel;
+            var authorizationResult = await _authorizationService.AuthorizeAsync(User, party, "ReadPartyOver18");
 
-            return View(partyParticipantsViewModel);
+            if (authorizationResult.Succeeded)
+            {
+                int pageSize = 3;
+
+                IQueryable<Participant> source = _partyService.ListAttendent().Where(x => x.PartyId == id);
+                var count = source.Count();
+                var items = source.Skip((page - 1) * pageSize).Take(pageSize).ProjectTo<PartyParticipants>(_mapper.ConfigurationProvider).ToList();
+
+                PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+
+                _httpContextAccessor.HttpContext.Session.AddParty(id);
+
+                PartyParticipantsViewModel partyParticipantsViewModel = new PartyParticipantsViewModel();
+                partyParticipantsViewModel.PartyID = id;
+                partyParticipantsViewModel.PartyTitle = party.Title;
+                partyParticipantsViewModel.PartyParticipants = items;
+                partyParticipantsViewModel.PageViewModel = pageViewModel;
+
+                return View(partyParticipantsViewModel);
+            }
+            else
+            {
+                return new ForbidResult();
+            }
         }
 
         public ActionResult Vote(int id)
         {
-            return View(new ParticipantViewModel() { PartyId = id });
+            return View(new ParticipantViewModel() { PartyId = id, UserId = _userManager.GetUserId(User) });
         }
 
         public ActionResult Save(ParticipantViewModel participantViewModel, IFormFile file)
@@ -72,22 +94,28 @@ namespace MyPartyCore.Controllers
             {
                 Participant participant = _mapper.Map<Participant>(participantViewModel);
 
-                if (file != null && file.Length > 0)
+                if (_partyService.ParticipantBelongUser(participant))
                 {
-                    string _path = Path.Combine(_env.WebRootPath, "ParticipansPhoto", String.Concat(participant.Name, new FileInfo(file.FileName).Extension));
-                    using (var stream = new FileStream(_path, FileMode.Create))
+                    if (file != null && file.Length > 0)
                     {
-                        file.CopyTo(stream);
+                        string _path = Path.Combine(_env.WebRootPath, "ParticipansPhoto", String.Concat(participant.Name, new FileInfo(file.FileName).Extension));
+                        using (var stream = new FileStream(_path, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
                     }
-                }
 
-                _partyService.Vote(participant);
-                return RedirectToAction("Index", new { id = participantViewModel.PartyId });
+                    _partyService.Vote(participant);
+                    return RedirectToAction("Index", new { id = participantViewModel.PartyId });
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Участинк под данным именем зарегистрирован другим пользвателем.");
+                }
             }
-            else
-            {
-                return View(participantViewModel);
-            }        
+
+            return View("Vote", participantViewModel);
+     
         }
 
         public ActionResult GetImage(string userName)
@@ -129,6 +157,7 @@ namespace MyPartyCore.Controllers
             }
         }
 
+        [TypeFilter(typeof(CustomCacheAttribute))]
         [HttpGet]
         public ActionResult List(string id)
         {
@@ -139,6 +168,51 @@ namespace MyPartyCore.Controllers
 
             partiesByOwnerViewModel.Parties = _partyService.ListOfPartiesByOwner(id).ProjectTo<PartyViewModel>(_mapper.ConfigurationProvider).ToList();
             return View(partiesByOwnerViewModel);
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "Over18")]
+        public ActionResult AdultParties()
+        {
+            List<PartyViewModel> partyViews = _partyService.ListOfCurrentParties().Where(x => x.AgeLimit).ProjectTo<PartyViewModel>(_mapper.ConfigurationProvider).ToList();
+            return View(partyViews);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            Party party = _partyService.GetPartyByID(id);
+
+            if (party == null)
+            {
+                return new NotFoundResult();
+            }
+
+            var authorizationResult = await _authorizationService.AuthorizeAsync(User, party, Operations.Update);
+
+            if (authorizationResult.Succeeded)
+            {
+                EditPartyViewModel partyViewModel = _mapper.Map<EditPartyViewModel>(party);
+
+                return View(partyViewModel);
+            }
+            else
+            {
+                return new ForbidResult();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditPartyViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Party party = _mapper.Map<Party>(model);
+                _partyService.UpdateParty(party);
+                return RedirectToAction("List", new { id = _userManager.GetUserId(User) });
+            }
+
+            return View(model);
         }
     }
 }

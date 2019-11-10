@@ -15,6 +15,6 @@ namespace MyPartyCore.Models
         public Party Party { get; set; }
         public int PartyId { get; set; }
         public User User { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace MyPartyCore.Models
         public FileModel Avatar { get; set; }
         public int? AvatarId { get; set; }
         public List<Party> Parties { get; set; }
+        public List<Participant> Participants { get; set; }
 
     }
 }
