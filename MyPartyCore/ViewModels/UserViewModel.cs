@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyPartyCore.Models
+namespace MyPartyCore.ViewModels
 {
-    public class User
+    public class UserViewModel
     {
-        public int Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public string SessionID { get; set; }
     }
 }

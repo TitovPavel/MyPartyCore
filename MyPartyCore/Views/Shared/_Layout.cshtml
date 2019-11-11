@@ -20,9 +20,13 @@
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="navbar" role="navigation">
-        <a class="navbar-brand" href="/">Портал вечеринок</a>
-    </div>
+    <nav class="navbar navbar-fixed-top navbar-light" style="background-color: #e3f2fd;">
+        <div class="container">
+            <a class="navbar-brand" href="/">Портал вечеринок</a>
+            @await Component.InvokeAsync("User")
+        </div>
+    </nav>
+
 
     <div class="row">
         <div class="col-md-3">

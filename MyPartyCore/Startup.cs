@@ -48,7 +48,8 @@ namespace MyPartyCore
 
             services.AddDbContext<MyPartyContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyPartyDatabaseEF")));
-            
+
+            services.AddSingleton<UserRepository>();
 
             services.AddTransient<IPartyService, PartyService>();
 
