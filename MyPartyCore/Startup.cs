@@ -21,7 +21,7 @@ namespace MyPartyCore
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", true, true) 
-                .AddDatabaseConfiguration("Server=localhost\\SQLEXPRESS;Database=MyParties;Trusted_Connection=True;");
+                .AddDatabaseConfiguration("Server=localhost\\SQLEXPRESS;Database=MyPartiesEF;Trusted_Connection=True;");
             Configuration = builder.Build();
         }
 
@@ -56,12 +56,12 @@ namespace MyPartyCore
 
             services
                 .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddFluentValidation(fv => 
-                {
-                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-                    fv.RegisterValidatorsFromAssemblyContaining<Startup>();
-                });
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                //.AddFluentValidation(fv => 
+               // {
+                //    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+               //     fv.RegisterValidatorsFromAssemblyContaining<Startup>();
+               // });
 
         }
 

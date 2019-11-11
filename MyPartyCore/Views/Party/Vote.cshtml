@@ -4,13 +4,33 @@
 
 @using (Html.BeginForm("Save", "Party", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
-      @Html.ValidationSummary(false, "", new { @class="text-danger" })
-    
+    <div class="text-danger validation-summary-errors" data-valmsg-summary="true">
+        <ul>
+            @foreach (var modelState in ViewData.ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+
     <div class="form-group row">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-form-label" })
         <div class="editor-field has-error">
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control input-validation-error" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger field-validation-error" })
+            <div class="text-danger validation-summary-errors" data-valmsg-summary="true">
+                <ul>
+                    @if (!(ViewData.ModelState["Name"] == null))
+                    {
+                        foreach (var error in ViewData.ModelState["Name"].Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -18,7 +38,17 @@
         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-form-label" })
         <div class="editor-field has-error">
             @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-validation-error" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger field-validation-error" })
+            <div class="text-danger validation-summary-errors" data-valmsg-summary="true">
+                <ul>
+                    @if (!(ViewData.ModelState["Email"] == null))
+                    {
+                        foreach (var error in ViewData.ModelState["Email"].Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
+            </div>
         </div>
     </div>
 

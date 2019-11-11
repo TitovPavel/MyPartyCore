@@ -11,6 +11,7 @@ using MyPartyCore.Infrastructure;
 using MyPartyCore.Models;
 using MyPartyCore.ViewModels;
 using MyPartyCore.Filters;
+using System.Text.RegularExpressions;
 
 namespace MyPartyCore.Controllers
 {
@@ -60,6 +61,27 @@ namespace MyPartyCore.Controllers
 
         public ActionResult Save(ParticipantViewModel participantViewModel, IFormFile file)
         {
+
+            if (string.IsNullOrEmpty(participantViewModel.Name))
+            {
+                ModelState.AddModelError("Name", "Заполните имя");
+            }
+
+            if (string.IsNullOrEmpty(participantViewModel.Email))
+            {
+                ModelState.AddModelError("Email", "Заполните электронный адрес");
+            }
+            else
+            {
+                string pattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|" + @"([-a-z0-9!#$%&'*+/=?^_'{|}~]|(?<!\.)\.)*)(?<!\.)" + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+
+                if (!regex.IsMatch(participantViewModel.Email))
+                {
+                    ModelState.AddModelError("Email", "Не корректный формат Email");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 Participant participant = _mapper.Map<Participant>(participantViewModel);
@@ -76,10 +98,9 @@ namespace MyPartyCore.Controllers
                 _partyService.Vote(participant);
                 return RedirectToAction("Index", new { id = participantViewModel.PartyId });
             }
-            else
-            {
-                return View(participantViewModel);
-            }        
+
+            return View("Vote", participantViewModel);
+             
         }
 
         public ActionResult GetImage(string userName)
@@ -107,14 +128,34 @@ namespace MyPartyCore.Controllers
         [HttpPost]
         public ActionResult Add(PartyViewModel partyViewModel)
         {
+
+            if (string.IsNullOrEmpty(partyViewModel.Title))
+            {
+                ModelState.AddModelError("Title", "Некорректное название");
+            }
+            
+            if (string.IsNullOrEmpty(partyViewModel.Location))
+            {
+                ModelState.AddModelError("Location", "Заполните место проведения");
+            }
+
+            if (partyViewModel.Date == null)
+            {
+                ModelState.AddModelError("Date", "Заполните дату проведения");
+            }
+            else if(partyViewModel.Date < DateTime.Now)
+            {
+                ModelState.AddModelError("Date", "Введите будущую дату");
+            }
+
             if (ModelState.IsValid)
             {
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                return View(partyViewModel);
-            }
+        
+           
+            return View(partyViewModel);
+        
         }
     }
 }
