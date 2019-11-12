@@ -1,4 +1,4 @@
-﻿@model MyPartyCore.ViewModels.PartyViewModel
+﻿@model MyPartyCore.ViewModels.CreatePartyViewModel
 
 
 <h4>Введите информацию о новой вечеринке</h4>
@@ -7,6 +7,9 @@
     <div>
         <form asp-action="Add" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="OwnerId" />
+            </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -21,6 +24,11 @@
                 <label asp-for="Location" class="control-label"></label>
                 <input asp-for="Location" class="form-control" />
                 <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgeLimit" class="control-label"></label>
+                <input asp-for="AgeLimit"/>
+                <span asp-validation-for="AgeLimit" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

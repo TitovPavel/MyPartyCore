@@ -1,0 +1,51 @@
+﻿@using MyPartyCore.ViewModels
+@model PartiesByOwnerViewModel
+
+@if (Model.Parties != null && Model.Parties.Any())
+{
+<p>
+    <a asp-controller="Party" asp-action="Add" asp-route-id="@Model.Id">Создать новую вечеринку</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label asp-for="Parties.First().Title"></label>
+            </th>
+            <th>
+                <label asp-for="Parties.First().Date"></label>
+            </th>
+            <th>
+                <label asp-for="Parties.First().Location"></label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Parties)
+        {
+            <tr>
+                <td>
+                    @item.Title 
+                </td>
+                <td>
+                    @item.Date
+                </td>
+                <td>
+                    @item.Location
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit", new {  id = item.Id  })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+else 
+{
+<p>
+    <a asp-controller="Party" asp-action="Add" asp-route-id="@Model.Id">Создать свою первую вечеринку</a>
+</p> 
+}
+

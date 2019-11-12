@@ -14,18 +14,18 @@ namespace MyPartyCore.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IPartyService partyService;
+        private readonly IPartyService _partyService;
         private readonly IMapper _mapper;
 
-        public HomeController(IPartyService r, IMapper mapper)
+        public HomeController(IPartyService partyService, IMapper mapper)
         {
-            partyService = r;
+            _partyService = partyService;
             _mapper = mapper;
         }
 
         public ActionResult Index()
         {
-            List<PartyViewModel> partyViews = partyService.ListOfCurrentParties().ProjectTo<PartyViewModel>(_mapper.ConfigurationProvider).ToList();
+            List<PartyViewModel> partyViews = _partyService.ListOfCurrentParties().Where(x => !x.AgeLimit).ProjectTo<PartyViewModel>(_mapper.ConfigurationProvider).ToList();
             return View(partyViews);
         }
     }

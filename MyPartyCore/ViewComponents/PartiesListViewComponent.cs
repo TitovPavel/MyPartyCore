@@ -7,6 +7,7 @@ using MyPartyCore.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using MyPartyCore.Filters;
+using Microsoft.AspNetCore.Http;
 
 namespace MyPartyCore.ViewComponents
 {
@@ -14,11 +15,13 @@ namespace MyPartyCore.ViewComponents
     {
         private readonly IPartyService partyService;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PartiesListViewComponent(IPartyService r, IMapper mapper)
+        public PartiesListViewComponent(IPartyService r, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             partyService = r;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public IViewComponentResult Invoke(bool lastViewedParties)
@@ -39,7 +42,7 @@ namespace MyPartyCore.ViewComponents
 
         public List<PartyViewModel> GetLastViewedParties()
         {
-            List<int> listId = HttpContext.Session.GetParties();
+            List<int> listId = _httpContextAccessor.HttpContext.Session.GetParties();
 
             List<PartyViewModel> partyViews = partyService.ListOfCurrentParties()
                 .Where(x => listId.Contains(x.Id))

@@ -11,6 +11,11 @@ using AutoMapper;
 using MyPartyCore.Middleware;
 using FluentValidation.AspNetCore;
 using MyPartyCore.ConfigurationProviders;
+using MyPartyCore.Models;
+using Microsoft.AspNetCore.Identity;
+using MyPartyCore.AuthorizationPolicy;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MyPartyCore
 {
@@ -20,8 +25,8 @@ namespace MyPartyCore
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", true, true) 
-                .AddDatabaseConfiguration("Server=localhost\\SQLEXPRESS;Database=MyParties;Trusted_Connection=True;");
+                .AddJsonFile("appsettings.json", true, true)
+                .AddDatabaseConfiguration("Server=localhost\\SQLEXPRESS;Database=MyPartiesEF;Trusted_Connection=True;");
             Configuration = builder.Build();
         }
 
@@ -33,11 +38,9 @@ namespace MyPartyCore
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddSession();
 
             services.AddTransient<IConfiguration>(provider => Configuration);
 
@@ -48,16 +51,44 @@ namespace MyPartyCore
 
             services.AddDbContext<MyPartyContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyPartyDatabaseEF")));
-            
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<MyPartyContext>();
+
+            services.AddHttpContextAccessor();
 
             services.AddTransient<IPartyService, PartyService>();
 
             services.AddAutoMapper(typeof(Mappings.MappingProfile));
 
+            services.AddSingleton<IAuthorizationHandler, MinimumAgeHandler>();
+            services.AddSingleton<IAuthorizationHandler, MinimumAgePartyHandler>();
+            services.AddSingleton<IAuthorizationHandler, PartyAuthorizationCrudHandler>();
+
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Over18", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.Requirements.Add(new MinimumAgeRequirement(18));
+                });
+                options.AddPolicy("ReadPartyOver18", policy =>
+                    policy.Requirements.Add(new MinimumAgeRequirement(18)));
+            });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+            {
+                options.LoginPath = new PathString("/Account/Login");
+            });
+
+            services.AddSession();
+
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddFluentValidation(fv => 
+                .AddFluentValidation(fv =>
                 {
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                     fv.RegisterValidatorsFromAssemblyContaining<Startup>();
@@ -85,9 +116,11 @@ namespace MyPartyCore
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseSession();
-
             app.UseMiddlewareExport();
+
+            app.UseAuthentication();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

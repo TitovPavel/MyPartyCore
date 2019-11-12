@@ -1,0 +1,24 @@
+﻿@model MyPartyCore.ViewModels.LoginViewModel
+
+<h2>Вход в приложение</h2>
+<form method="post" asp-controller="Account" asp-action="Login">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Name" class="control-label"></label><br />
+        <input asp-for="Name"  class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Password" class="control-label"></label><br />
+        <input asp-for="Password"  class="form-control"/>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-check">
+        <input asp-for="RememberMe" class="form-check-input" id="RememberMeCheck" />
+        <label asp-for="RememberMe" class="form-check-label" for="exampleCheck1"></label><br />
+    </div>
+    <div>
+        <input type="submit" value="Войти"  class="btn btn-default"/>
+    </div>
+</form>
+
