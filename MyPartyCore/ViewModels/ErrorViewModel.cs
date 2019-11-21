@@ -1,6 +1,6 @@
 using System;
 
-namespace MyPartyCore.Models
+namespace MyPartyCore.ViewModels
 {
     public class ErrorViewModel
     {

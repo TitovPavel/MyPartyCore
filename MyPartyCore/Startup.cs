@@ -5,17 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyPartyCore.BL;
-using MyPartyCore.DAL;
+using MyPartyCore.DB.BL;
+using MyPartyCore.DB.DAL;
 using AutoMapper;
 using MyPartyCore.Middleware;
 using FluentValidation.AspNetCore;
 using MyPartyCore.ConfigurationProviders;
-using MyPartyCore.Models;
 using Microsoft.AspNetCore.Identity;
 using MyPartyCore.AuthorizationPolicy;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using MyPartyCore.DB.Models;
 
 namespace MyPartyCore
 {

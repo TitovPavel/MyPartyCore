@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using MyPartyCore.BL;
-using MyPartyCore.DAL;
-using MyPartyCore.Models;
+using MyPartyCore.DB.BL;
 using System;
 using System.Collections.Generic;
 using System.IO;

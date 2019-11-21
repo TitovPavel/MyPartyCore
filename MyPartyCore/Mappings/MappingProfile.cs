@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using MyPartyCore.Models;
+using MyPartyCore.DB.Models;
 using MyPartyCore.ViewModels;
 using System;
 

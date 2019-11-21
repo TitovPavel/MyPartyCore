@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
-using MyPartyCore.BL;
+using MyPartyCore.DB.BL;
 using MyPartyCore.Infrastructure;
 using MyPartyCore.ViewModels;
 using System.Collections.Generic;

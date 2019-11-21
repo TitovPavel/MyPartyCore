@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyPartyCore.Models;
+using MyPartyCore.DB.Models;
 using MyPartyCore.ViewModels;
 using System;
 using System.Collections.Generic;
