@@ -9,6 +9,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DatabaseMyParties", "Databa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPartyCore.DB", "MyPartyCoreDB\MyPartyCore.DB.csproj", "{5C48CA84-EA84-4479-AE3D-272DA7212848}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPartyCore.WebAPI", "MyPartyCore.WebAPI\MyPartyCore.WebAPI.csproj", "{A8F2DF5A-3E4F-4597-AF68-54BA89E18887}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{5C48CA84-EA84-4479-AE3D-272DA7212848}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C48CA84-EA84-4479-AE3D-272DA7212848}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C48CA84-EA84-4479-AE3D-272DA7212848}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8F2DF5A-3E4F-4597-AF68-54BA89E18887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8F2DF5A-3E4F-4597-AF68-54BA89E18887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8F2DF5A-3E4F-4597-AF68-54BA89E18887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8F2DF5A-3E4F-4597-AF68-54BA89E18887}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -48,7 +48,7 @@ namespace MyPartyCore.Controllers
         public async Task<ActionResult> Index(int id, int page = 1)
         {
 
-            Party party = _partyService.GetPartyByID(id);
+            Party party = _partyService.GetPartyWithOwnerByID(id);
 
             if (party == null)
             {
@@ -181,7 +181,7 @@ namespace MyPartyCore.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            Party party = _partyService.GetPartyByID(id);
+            Party party = _partyService.GetPartyWithOwnerByID(id);
 
             if (party == null)
             {

@@ -6,15 +6,18 @@ namespace MyPartyCore.DB.BL
 {
     public interface IPartyService
     {
+        Party GetPartyWithOwnerByID(int id);
         Party GetPartyByID(int id);
+        void AddParty(Party party);
+        void UpdateParty(Party party);
+        void DeleteParty(Party party);
+        IQueryable<Party> ListOfCurrentParties();
+        IQueryable<Party> ListOfPartiesByOwner(string OwnerId);
+
         List<Participant> ListAll();
         IQueryable<Participant> ListAttendent();
         IQueryable<Participant> ListMissed();
-        IQueryable<Party> ListOfCurrentParties();
-        IQueryable<Party> ListOfPartiesByOwner(string OwnerId);
         void Vote(Participant participant);
         bool ParticipantBelongUser(Participant participant);
-        void AddParty(Party party);
-        void UpdateParty(Party party);
     }
 }

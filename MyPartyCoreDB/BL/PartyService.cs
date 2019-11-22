@@ -70,6 +70,12 @@ namespace MyPartyCore.DB.BL
             _context.SaveChanges();
         }
 
+        public void DeleteParty(Party party)
+        {
+            _context.Parties.Remove(party);
+            _context.SaveChangesAsync();
+        }
+
         public List<Participant> ListAll()
         {
             return _context.Participants.ToList();
@@ -95,9 +101,14 @@ namespace MyPartyCore.DB.BL
             return _context.Parties.Where(p => p.OwnerId == OwnerId);
         }
 
-        public Party GetPartyByID(int id)
+        public Party GetPartyWithOwnerByID(int id)
         {
             return _context.Parties.Include(i => i.Owner).SingleOrDefault(x => x.Id == id);
+        }
+
+        public Party GetPartyByID(int id)
+        {
+            return _context.Parties.SingleOrDefault(x => x.Id == id);
         }
     }
 }
