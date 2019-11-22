@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPartyCore", "MyPartyCore\
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DatabaseMyParties", "DatabaseMyParties\DatabaseMyParties.sqlproj", "{91218587-FE15-432B-8384-C5C12108029B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPartyCore.DB", "MyPartyCoreDB\MyPartyCore.DB.csproj", "{5C48CA84-EA84-4479-AE3D-272DA7212848}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPartyCore.DB", "MyPartyCoreDB\MyPartyCore.DB.csproj", "{5C48CA84-EA84-4479-AE3D-272DA7212848}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPartyCore.WebAPI", "MyPartyCore.WebAPI\MyPartyCore.WebAPI.csproj", "{A8F2DF5A-3E4F-4597-AF68-54BA89E18887}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPartyCore.WebAPI", "MyPartyCore.WebAPI\MyPartyCore.WebAPI.csproj", "{A8F2DF5A-3E4F-4597-AF68-54BA89E18887}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
