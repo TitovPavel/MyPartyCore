@@ -16,6 +16,10 @@ using MyPartyCore.AuthorizationPolicy;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using MyPartyCore.DB.Models;
+using Microsoft.Extensions.Options;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace MyPartyCore
 {
@@ -85,14 +89,34 @@ namespace MyPartyCore
 
             services.AddSession();
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("ru"),
+                    new CultureInfo("en")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("ru");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddDataAnnotationsLocalization()
+                .AddViewLocalization(
+                    LanguageViewLocationExpanderFormat.SubFolder,
+                    opts => { opts.ResourcesPath = "Resources"; })
                 .AddFluentValidation(fv =>
                 {
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                     fv.RegisterValidatorsFromAssemblyContaining<Startup>();
                 });
+            
 
         }
 
@@ -111,6 +135,10 @@ namespace MyPartyCore
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

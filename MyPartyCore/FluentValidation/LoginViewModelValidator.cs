@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.Localization;
 using MyPartyCore.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,16 @@ namespace MyPartyCore.FluentValidation
 {
     public class LoginViewModelValidator : AbstractValidator<LoginViewModel>
     {
-        public LoginViewModelValidator()
+        public LoginViewModelValidator(IStringLocalizer<LoginViewModel> localizer)
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("Необходимо заполнить имя");
+                .WithMessage(localizer["NameRequired"]);
 
 
             RuleFor(x => x.Password)
                 .NotEmpty()
-                .WithMessage("Необходимо заполнить пароль");
+                .WithMessage(localizer["PasswordRequired"]);
 
         }
     }

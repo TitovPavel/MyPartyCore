@@ -9,25 +9,20 @@ namespace MyPartyCore.ViewModels
 {
     public class RegisterViewModel
     {
-        [Display(Name = "Имя")]
+        [Display(Name = "UserName")]
         public string UserName { get; set; }
-
         [Display(Name = "Email")]
         public string Email { get; set; }
-
         [DataType(DataType.Date)]
-        [Display(Name = "Дата рождения")]
+        [Display(Name = "Birthday")]
         public DateTime Birthday { get; set; }
-
-        [Display(Name = "Пол")]
+        [Display(Name = "Sex")]
         public string Sex { get; set; }
-
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
-
         [DataType(DataType.Password)]
-        [Display(Name = "Подтвердить пароль")]
+        [Display(Name = "PasswordConfirm")]
         public string PasswordConfirm { get; set; }
 
     }

@@ -1,36 +1,36 @@
 ﻿@model MyPartyCore.ViewModels.ProfileViewModel
 @{
-    ViewData["Title"] = "Профиль";
+    ViewData["Title"] = @Localizer["Title"];
 }
 
-<form asp-action="Edit" asp-controller="Users">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <input type="hidden" asp-for="Id" />
-    </div>
-    <div class="form-group">
-        <label asp-for="UserName" class="control-label"></label>
-        <input asp-for="UserName" class="form-control" readonly />
-        <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email" class="control-label">Email</label>
-        <input type="text" asp-for="Email" class="form-control" readonly />
-        <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Birthday" class="control-label"></label>
-        <input asp-for="Birthday" class="form-control" />
-        <span asp-validation-for="Birthday" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Sex"></label>
-        <select asp-for="Sex" asp-items="Html.GetEnumSelectList<GenderList>()"></select>
-        <span asp-validation-for="Sex" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Сохранить" class="btn btn-default" />
-    </div>
-</form>
+    <form asp-action="Edit" asp-controller="Users">
+        <div class="form-group">
+            <input type="hidden" asp-for="Id" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserName" class="control-label"></label>
+            <input asp-for="UserName" class="form-control" readonly />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label">Email</label>
+            <input type="text" asp-for="Email" class="form-control" readonly />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Birthday" class="control-label"></label>
+            <input asp-for="Birthday" class="form-control" />
+            <span asp-validation-for="Birthday" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Sex"></label>
+            <select asp-for="Sex" asp-items="Html.GetEnumSelectList<GenderList>()"></select>
+            <span asp-validation-for="Sex" class="text-danger"></span>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <input type="submit" value=@Localizer["Save"] class="btn btn-default" />
+        </div>
+    </form>
 
-<a asp-controller="Party" asp-action="List" asp-route-id="@Model.Id">Список моих вечеринок</a>
+    <a asp-controller="Party" asp-action="List" asp-route-id="@Model.Id">@Localizer["ListOfMyParties"]</a>

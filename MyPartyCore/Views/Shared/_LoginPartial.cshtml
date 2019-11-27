@@ -7,26 +7,26 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-controller="Account" asp-action="LogOff" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav form-inline">
             @if (User.IsInRole("admin"))
             {
-                <li>
-                    <a asp-controller="Users" asp-action="Index">Администрирование</a>
+                <li class="nav-item">
+                    <a asp-controller="Users" asp-action="Index" class="nav-link">@Localizer["Administration"]</a>
                 </li>
             }
-            <li>
-                <a asp-controller="Account" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)">Привет @UserManager.GetUserName(User)</a>
+            <li class="nav-item">
+                <a asp-controller="Account" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)" class="nav-link">@Localizer["HiUser"] @UserManager.GetUserName(User)</a>
             </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Выход</button>
+            <li class="nav-item">
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">@Localizer["Logout"]</button>
             </li>
         </ul>
     </form>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="Account" asp-action="Register">Регистрация</a></li>
-        <li><a asp-controller="Account" asp-action="Login">Вход</a></li>
+    <ul class="nav form-inline">
+        <li class="nav-item"><a asp-controller="Account" asp-action="Register" class="nav-link">@Localizer["Register"]</a></li>
+        <li class="nav-item"><a asp-controller="Account" asp-action="Login" class="nav-link">@Localizer["Login"]</a></li>
     </ul>
 }

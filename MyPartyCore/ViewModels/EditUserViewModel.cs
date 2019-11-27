@@ -10,19 +10,14 @@ namespace MyPartyCore.ViewModels
     public class EditUserViewModel
     {
         public string Id { get; set; }
-
-        [Display(Name = "Имя")]
+        [Display(Name = "UserName")]
         public string UserName { get; set; }
-
         [Display(Name = "Email")]
         public string Email { get; set; }
-
         [DataType(DataType.Date)]
-        [Display(Name = "Дата рождения")]
+        [Display(Name = "Birthday")]
         public DateTime Birthday { get; set; }
-
-        [Display(Name = "Пол")]
+        [Display(Name = "Sex")]
         public string Sex { get; set; }
-
     }
 }

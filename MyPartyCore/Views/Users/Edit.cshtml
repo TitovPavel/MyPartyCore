@@ -1,9 +1,8 @@
 ﻿@model MyPartyCore.ViewModels.EditUserViewModel
 @{
-    ViewBag.Title = "Редактирование пользователя";
+    ViewBag.Title = @Localizer["Title"];
 }
     <form asp-action="Edit" asp-controller="Users">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <input type="hidden" asp-for="Id" />
         </div>
@@ -27,7 +26,8 @@
             <select asp-for="Sex" asp-items="Html.GetEnumSelectList<GenderList>()"></select>
             <span asp-validation-for="Sex" class="text-danger"></span>
         </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <input type="submit" value="Сохранить" class="btn btn-default" />
+            <input type="submit" value=@Localizer["Save"] class="btn btn-default" />
         </div>
     </form>

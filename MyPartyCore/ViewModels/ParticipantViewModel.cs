@@ -8,18 +8,15 @@ namespace MyPartyCore.ViewModels
 {
     public class ParticipantViewModel
     {
-        //[Required]
-        [Display(Name = "Имя")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
-        [Display(Name = "Приду")]
+        [Display(Name = "Attend")]
         public bool Attend { get; set; }
-        [Display(Name = "Причина отсутствия")]
+        [Display(Name = "Reason")]
         public string Reason { get; set; }
-        [Display(Name = "Время прибытия")]
+        [Display(Name = "ArrivalDate")]
         [DataType(DataType.Time)]
         public DateTime ArrivalDate { get; set; }
-        //[Required]
-        //[RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный адрес")]
         public string Email { get; set; }
         public int Id { get; set; }
         public int PartyId { get; set; }

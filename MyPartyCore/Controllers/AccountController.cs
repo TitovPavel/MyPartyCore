@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Localization;
 using MyPartyCore.DB.Models;
 using MyPartyCore.ViewModels;
 using System;
@@ -18,12 +19,14 @@ namespace MyPartyCore.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<AccountController> _localizer;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IStringLocalizer<AccountController> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -85,7 +88,7 @@ namespace MyPartyCore.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    ModelState.AddModelError("", _localizer["IncorrectUsername"]);
                 }
             }
             return View(model);

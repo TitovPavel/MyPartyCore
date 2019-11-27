@@ -63,4 +63,13 @@
     <ProjectReference Include="..\MyPartyCoreDB\MyPartyCore.DB.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\ViewModels\ParticipantViewModel.en.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ViewModels\ParticipantViewModel.ru.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

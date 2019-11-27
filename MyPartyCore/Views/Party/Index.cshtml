@@ -3,7 +3,7 @@
 
 
 <h1>@Model.PartyTitle</h1>
-<h3>Список участников:</h3>
+<h3>@Localizer["Title"]</h3>
 <table class="table table-bordered table-hover">
     <tr>
         <th>
@@ -28,7 +28,7 @@
             </td>
             <td>
                 <div class="px-1">
-                    <img id="image" src='@Url.Action("GetImage", new { userName = item.Name })' class="img-thumbnail .img-fluid .max-width image" />
+                    <img id="image" src='@Url.Action("GetImage", new { userName = item.Name })' class="img-thumbnail .img-fluid .max-width image img-photo" />
                 </div>
 
             </td>
@@ -39,7 +39,7 @@
 <page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
 
 <p>
-    @Html.ActionLink("Проголосовать", "vote", new { ID = @Model.PartyID })
+    <a asp-controller="Party" asp-action="Vote" asp-route-id=@Model.PartyID class="nav-link">@Localizer["Vote"]</a>
 </p>
 
 <!-- Modal -->
@@ -47,7 +47,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@Localizer["Close"]</span></button>
             </div>
             <div class="modal-body">
                 <img src="" id="preview" style="max-width:100%; height:auto">

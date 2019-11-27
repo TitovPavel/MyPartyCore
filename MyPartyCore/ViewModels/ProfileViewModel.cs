@@ -9,20 +9,15 @@ namespace MyPartyCore.ViewModels
     public class ProfileViewModel
     {
         public string Id { get; set; }
-
-        [Display(Name = "Имя")]
+        [Display(Name = "Name")]
         public string UserName { get; set; }
-
         [Display(Name = "Email")]
         public string Email { get; set; }
-
         [DataType(DataType.Date)]
-        [Display(Name = "Дата рождения")]
+        [Display(Name = "Birthday")]
         public DateTime Birthday { get; set; }
-
-        [Display(Name = "Пол")]
+        [Display(Name = "Sex")]
         public string Sex { get; set; }
-
         public List<PartyViewModel> Parties { get; set; }
 
     }

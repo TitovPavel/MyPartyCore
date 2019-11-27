@@ -1,45 +1,56 @@
 ﻿@model IEnumerable<MyPartyCore.ViewModels.UserViewModel>
 @{
-    ViewBag.Title = "Список пользователей";
+    ViewBag.Title = @Localizer["Title"];
 }
 
-<a asp-action="Create">Добавить пользователя</a>
-
-<table class="table">
-    <tr>
-        <th>Email</th>
-        <th>Имя</th>
-        <th>Дата рождения</th>
-        <th>Пол</th>
-        <th></th>
-    </tr>
-    @foreach (var user in Model)
-    {
+@if (Model != null && Model.Any())
+{
+    <table class="table">
         <tr>
-            <td>@user.Email</td>
-            <td>@user.UserName</td>
-            <td>@user.Birthday</td>
-            <td>@user.Sex</td>
-            <td>
-                @if (user.IsLocked)
-                {<form asp-action="UnLock" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
-                        <button type="submit" class="btn btn-sm btn-secondary">Разаблокировать</button>
-                    </form>
-                }
-                else
-                {
-                    <form asp-action="Lock" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
-                        <button type="submit" class="btn btn-sm btn-primary">Заблокировать</button>
-                    </form>
-                }
-                <form asp-action="Delete" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
-                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
-                    <a class="btn btn-sm btn-primary" asp-controller="Roles" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        Удалить
-                    </button>
-                </form>
-            </td>
+            <th>
+                <label asp-for="@Model.First().Email"></label>
+            </th>
+            <th>
+                <label asp-for="@Model.First().UserName"></label>
+            </th>
+            <th>
+                <label asp-for="@Model.First().Birthday"></label>
+            </th>
+            <th>
+                <label asp-for="@Model.First().Sex"></label>
+            </th>
+            <th></th>
         </tr>
-    }
-</table>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>@user.Birthday</td>
+                <td>@user.Sex</td>
+                <td>
+                    @if (user.IsLocked)
+                    {<form asp-action="UnLock" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
+                            <button type="submit" class="btn btn-sm btn-secondary">@Localizer["UnLock"]</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="Lock" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
+                            <button type="submit" class="btn btn-sm btn-primary">@Localizer["Lock"]</button>
+                        </form>
+                    }
+                    <form asp-action="Delete" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
+                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">@Localizer["Edit"]</a>
+                        <a class="btn btn-sm btn-primary" asp-controller="Roles" asp-action="Edit" asp-route-userid="@user.Id">@Localizer["Roles"]</a>
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            @Localizer["Delete"]
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+ <a asp-action="Create">@Localizer["Create"]</a>
