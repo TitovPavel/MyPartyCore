@@ -13,8 +13,4 @@
     <ProjectReference Include="..\MyPartyCoreDB\MyPartyCore.DB.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
 </Project>

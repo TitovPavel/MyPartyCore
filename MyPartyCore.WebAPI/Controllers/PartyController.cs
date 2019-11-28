@@ -2,25 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyPartyCore.DB.BL;
 using MyPartyCore.DB.Models;
+
+
 
 namespace MyPartyCore.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+   // [Authorize(AuthenticationSchemes = "Bearer")]
     public class PartyController : ControllerBase
     {
 
+        private readonly UserManager<User> _userManager;
         private readonly IPartyService _partyService;
 
-        public PartyController(IPartyService partyService)
+        public PartyController(UserManager<User> userManager, IPartyService partyService)
         {
             _partyService = partyService;
+            _userManager = userManager;
         }
 
         // GET: api/Party
@@ -46,11 +52,17 @@ namespace MyPartyCore.WebAPI.Controllers
 
         // POST: api/Party
         [HttpPost]
-        public IActionResult Post([FromBody] Party party)
-        {         
+        public async Task<IActionResult> Post([FromBody] Party party)
+        {
+            User user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            party.OwnerId = user.Id;
             _partyService.AddParty(party);
 
-            return CreatedAtAction(nameof(Get), new { id = party.Id }, party);
+            return Ok(party);
         }
 
         // PUT: api/Party/5
@@ -69,7 +81,7 @@ namespace MyPartyCore.WebAPI.Controllers
 
             _partyService.UpdateParty(party);
 
-            return NoContent();
+            return CreatedAtAction(nameof(Get), new { id = party.Id }, party);
         }
 
         // DELETE: api/ApiWithActions/5
@@ -85,7 +97,7 @@ namespace MyPartyCore.WebAPI.Controllers
 
             _partyService.DeleteParty(party);
 
-            return NoContent();
+            return Ok(id);
         }
     }
 }
