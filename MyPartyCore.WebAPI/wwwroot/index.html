@@ -166,6 +166,9 @@
                 success: function (party) {
                     reset();
                     $("table tbody").append(row(party));
+                },
+                fail: function (data) {
+                    console.log(data);
                 }
             })
         }

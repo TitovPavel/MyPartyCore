@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ namespace MyPartyCore.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class PartyController : ControllerBase
     {
 
@@ -38,7 +39,7 @@ namespace MyPartyCore.WebAPI.Controllers
 
         // GET: api/Party/5
         [HttpGet("{id}", Name = "Get")]
-        public ActionResult<Party> Get(int id)
+        public IActionResult Get(int id)
         {
             Party party = _partyService.GetPartyByID(id);
             
@@ -47,7 +48,7 @@ namespace MyPartyCore.WebAPI.Controllers
                 return NotFound();
             }
 
-            return party;
+            return Ok(party);
         }
 
         // POST: api/Party
@@ -62,7 +63,10 @@ namespace MyPartyCore.WebAPI.Controllers
             party.OwnerId = user.Id;
             _partyService.AddParty(party);
 
-            return Ok(party);
+
+            return CreatedAtAction(nameof(Get), new { id = party.Id }, party);
+
+
         }
 
         // PUT: api/Party/5
