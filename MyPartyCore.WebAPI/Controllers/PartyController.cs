@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,8 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyPartyCore.DB.BL;
 using MyPartyCore.DB.Models;
-
-
+using MyPartyCore.WebAPI.Mediatr.Handlers;
 
 namespace MyPartyCore.WebAPI.Controllers
 {
@@ -23,25 +23,28 @@ namespace MyPartyCore.WebAPI.Controllers
 
         private readonly UserManager<User> _userManager;
         private readonly IPartyService _partyService;
+        private readonly IMediator _mediator;
 
-        public PartyController(UserManager<User> userManager, IPartyService partyService)
+        public PartyController(IMediator mediator, UserManager<User> userManager, IPartyService partyService)
         {
             _partyService = partyService;
             _userManager = userManager;
+            _mediator = mediator;
         }
 
         // GET: api/Party
         [HttpGet]
-        public IEnumerable<Party> Get()
+        public async Task<IEnumerable<Party>> Get()
         {
-            return _partyService.ListOfCurrentParties();
+            IEnumerable<Party> parties = await _mediator.Send(new PartiesQuery());
+            return parties;
         }
 
         // GET: api/Party/5
         [HttpGet("{id}", Name = "Get")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            Party party = _partyService.GetPartyByID(id);
+            Party party = await _mediator.Send(new PartyQuery() { Id = id });
             
             if (party == null)
             {
