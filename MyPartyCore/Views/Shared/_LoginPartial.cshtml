@@ -6,8 +6,8 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-controller="Account" asp-action="LogOff" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" class="navbar-right">
-        <ul class="nav form-inline">
+    <form asp-controller="Account" asp-action="LogOff" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" class="collapse navbar-collapse navbar-right">
+        <ul class="navbar-nav ml-auto">
             @if (User.IsInRole("admin"))
             {
                 <li class="nav-item">
@@ -25,8 +25,10 @@
 }
 else
 {
-    <ul class="nav form-inline">
+<div class="collapse navbar-collapse navbar-right">
+    <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a asp-controller="Account" asp-action="Register" class="nav-link">@Localizer["Register"]</a></li>
         <li class="nav-item"><a asp-controller="Account" asp-action="Login" class="nav-link">@Localizer["Login"]</a></li>
     </ul>
+</div>
 }

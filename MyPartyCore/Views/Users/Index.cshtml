@@ -3,6 +3,8 @@
     ViewBag.Title = @Localizer["Title"];
 }
 
+<h2>@Localizer["Title"]</h2>
+
 @if (Model != null && Model.Any())
 {
     <table class="table">
@@ -31,20 +33,20 @@
                 <td>
                     @if (user.IsLocked)
                     {<form asp-action="UnLock" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
-                            <button type="submit" class="btn btn-sm btn-secondary">@Localizer["UnLock"]</button>
+                            <button type="submit" class="btn btn-secondary btn-link btn-just-icon" title=@Localizer["UnLock"]><i class="fa fa-unlock fa-2x"></i></button>
                         </form>
                     }
                     else
                     {
                         <form asp-action="Lock" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
-                            <button type="submit" class="btn btn-sm btn-primary">@Localizer["Lock"]</button>
+                            <button type="submit" class="btn btn-primary btn-link btn-just-icon" title=@Localizer["Lock"]><i class="fa fa-lock fa-2x"></i></button>
                         </form>
                     }
                     <form asp-action="Delete" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
-                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">@Localizer["Edit"]</a>
-                        <a class="btn btn-sm btn-primary" asp-controller="Roles" asp-action="Edit" asp-route-userid="@user.Id">@Localizer["Roles"]</a>
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            @Localizer["Delete"]
+                        <a class="btn btn-primary btn-link btn-just-icon" asp-action="Edit" asp-route-id="@user.Id" title=@Localizer["Edit"]><i class="fa fa-edit fa-2x"></i></a>
+                        <a class="btn btn-sm btn-primary" asp-controller="Roles" asp-action="Edit" asp-route-userid="@user.Id">@Localizer["Roles"]<i class="fa fa-user-tag"></i></a>
+                        <button type="submit" class="btn btn-danger btn-link btn-just-icon" title=@Localizer["Delete"]>
+                            <i class="fa fa-times fa-2x"></i>
                         </button>
                     </form>
                 </td>
@@ -53,4 +55,4 @@
     </table>
 }
 
- <a asp-action="Create">@Localizer["Create"]</a>
+<a asp-action="Create" title=@Localizer["Create"]><i class="fa fa-user-plus fa-3x"></i></a>
