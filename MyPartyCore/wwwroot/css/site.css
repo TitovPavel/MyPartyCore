@@ -49,7 +49,6 @@ body {
 
 .text-center {
     align-items: center;
-
 }
 
 .img-photo {
@@ -66,4 +65,10 @@ body {
 
 .nav-up {
     top: -80px;
+}
+
+.image-circle-dropdown {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
 }

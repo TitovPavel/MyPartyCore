@@ -8,18 +8,25 @@
 {
     <form asp-controller="Account" asp-action="LogOff" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" class="collapse navbar-collapse navbar-right">
         <ul class="navbar-nav ml-auto">
-            @if (User.IsInRole("admin"))
-            {
-                <li class="nav-item">
-                    <a asp-controller="Users" asp-action="Index" class="nav-link">@Localizer["Administration"]</a>
-                </li>
-            }
-            <li class="nav-item">
-                <a asp-controller="Account" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)" class="nav-link">@Localizer["HiUser"] @UserManager.GetUserName(User)</a>
+            <li class="nav-item dropdown">
+                <a href="" class="nav-link" data-toggle="dropdown" width="30" height="30" aria-expanded="false">
+                    <div class="profile-photo-small">
+                        <img src='@Url.Action("GetImage", "File", new { fileID = 2 })' class="img-circle img-responsive img-no-padding image-circle-dropdown">
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right dropdown-info">
+                    <a asp-controller="Account" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)" class="dropdown-item">@Localizer["HiUser"] @UserManager.GetUserName(User)</a>
+                    <a class="dropdown-item" href="#">Settings</a>
+                    <li class="divider"></li>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <a asp-controller="Users" asp-action="Index" class="dropdown-item">@Localizer["Administration"]</a>
+                    }
+                    <button class="dropdown-item" type="submit" class="btn btn-link navbar-btn navbar-link">@Localizer["Logout"]</button>
+                </ul>
             </li>
-            <li class="nav-item">
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">@Localizer["Logout"]</button>
-            </li>
+
+
         </ul>
     </form>
 }

@@ -28,7 +28,7 @@
             </td>
             <td>
                 <div class="px-1">
-                    <img id="image" src='@Url.Action("GetImage", new { userName = item.Name })' class="img-thumbnail .img-fluid .max-width image img-photo" />
+                    <img id="image" src='@Url.Action("GetImage", new { userName = item.Name })' class="img-thumbnail .img-fluid .max-width image img-photo" data-toggle="modal" data-target="#myModalLabel"/>
                 </div>
 
             </td>
@@ -42,19 +42,7 @@
     <a asp-controller="Party" asp-action="Vote" asp-route-id=@Model.PartyID class="nav-link">@Localizer["Vote"]</a>
 </p>
 
-<!-- Modal -->
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@Localizer["Close"]</span></button>
-            </div>
-            <div class="modal-body">
-                <img src="" id="preview" style="max-width:100%; height:auto">
-            </div>
-        </div>
-    </div>
-</div>
+
 
 @section Scripts {
     <script>
@@ -62,7 +50,7 @@
             var img = $(this);	// Получаем изображение, на которое кликнули
             var src = img.attr('src');
             $('#preview').attr('src', src);
-            $('#modal').modal('show');
+            $('#classicModal').modal('show');
         });
 
     </script>

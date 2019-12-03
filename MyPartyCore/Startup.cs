@@ -62,6 +62,7 @@ namespace MyPartyCore
             services.AddHttpContextAccessor();
 
             services.AddTransient<IPartyService, PartyService>();
+            services.AddTransient<IPhotoService, PhotoService>();
 
             services.AddAutoMapper(typeof(Mappings.MappingProfile));
 

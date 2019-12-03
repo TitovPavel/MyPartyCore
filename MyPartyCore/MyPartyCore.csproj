@@ -57,6 +57,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\jquery-validation-unobtrusive\dist\" />
+    <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MyPartyCore.DB.BL;
 using MyPartyCore.DB.Models;
 using MyPartyCore.ViewModels;
 using System;
@@ -17,12 +19,13 @@ namespace MyPartyCore.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
+        private readonly IPhotoService _photoService;
 
-        public UsersController(UserManager<User> userManager, IMapper mapper)
+        public UsersController(UserManager<User> userManager, IMapper mapper, IPhotoService photoService)
         {
             _userManager = userManager;
             _mapper = mapper;
-       
+            _photoService = photoService;
         }
 
         public IActionResult Index()
@@ -71,7 +74,7 @@ namespace MyPartyCore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditUserViewModel model)
+        public async Task<IActionResult> Edit(EditUserViewModel model, IFormFile file)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +85,11 @@ namespace MyPartyCore.Controllers
                     user.UserName = model.UserName;
                     user.Birthday = model.Birthday;
                     user.Sex = model.Sex;
-
+                    if (user.Avatar == null)
+                    {
+                        user.Avatar = _photoService.AddPhoto(file);
+                    }
+                    
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {

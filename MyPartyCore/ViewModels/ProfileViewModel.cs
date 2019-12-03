@@ -19,6 +19,8 @@ namespace MyPartyCore.ViewModels
         [Display(Name = "Sex")]
         public string Sex { get; set; }
         public List<PartyViewModel> Parties { get; set; }
+        public int AvatarID { get; set; }
+        public bool AvatarExist { get; set; }
 
     }
 }
