@@ -12,9 +12,9 @@
 
                     
 
-                    <div class="fileinput text-center @(@Model.AvatarExist?"fileinput-exists":"fileinput-new") " data-provides="fileinput">
+                    <div class="fileinput text-center @(@Model.AvatarExist?"fileinput-exists":"fileinput-new") " data-provides="fileinput" data-name="file">
                         <div class="fileinput-new thumbnail img-circle img-no-padding" data-trigger="fileinput" style="width: 150px; height: 150px;">
-                            <img src="/Party/GetImage?userName=placeholder" alt="..." style="object-fit: cover;">
+                            <img src="~/Files/placeholder.jpg" alt="..." style="object-fit: cover;">
                         </div>
 
                         <div class="fileinput-preview fileinput-exists img-circle img-no-padding" style="width: 150px; height: 150px;">
@@ -27,10 +27,10 @@
                             <span class="btn btn-outline-default btn-file btn-round">
                                 <span class="fileinput-new">Add Photo</span>
                                 <span class="fileinput-exists">Change</span>
-                                <input type="file" name="file">
+                                <input type="file">
                             </span>
                             <br>
-                            <a href="#paper-kit" class="btn btn-link btn-danger fileinput-exists btn-round" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                            <a href="" class="btn btn-link btn-danger fileinput-exists btn-round" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
                         </div>
                     </div>
                 </div>

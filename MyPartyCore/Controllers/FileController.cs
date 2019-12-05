@@ -26,17 +26,19 @@ namespace MyPartyCore.Controllers
         public ActionResult GetImage(int fileID)
         {
             FileModel file = _photoService.GetFileByID(fileID);
-            string path = Path.Combine(_environment.WebRootPath, file.Path);
-            if (System.IO.File.Exists(path))
+
+            if (file != null)
             {
-                FileStream fs = new FileStream(path, FileMode.Open);
-                string file_type = "image/jpg";
-                return File(fs, file_type, file.Name);
+                string path = Path.Combine(_environment.WebRootPath, file.Path);
+                if (System.IO.File.Exists(path))
+                {
+                    FileStream fs = new FileStream(path, FileMode.Open);
+                    string file_type = "image/jpg";
+                    return File(fs, file_type, file.Name);
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 }

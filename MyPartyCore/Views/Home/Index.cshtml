@@ -1,23 +1,29 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
 
-@model List<MyPartyCore.ViewModels.PartyViewModel>
 
-<div class="text-center">
+    <div class="section landing-section">
+        <div class="row" style="height: 100%;">
 
-    <h2>@Localizer["Welcome"]</h2>
+            @model List<MyPartyCore.ViewModels.PartyViewModel>
 
-    @foreach (var item in Model)
-    {
-        <p>
-            <h4><party party-view="item" controller-name="Party" action-name="index"></party></h4>
-        </p>
-    }
+            <div class="text-center">
 
-    @if ((await AuthorizationService.AuthorizeAsync(User, "Over18")).Succeeded)
-    {
-        <a asp-controller="Party" asp-action="AdultParties">@Localizer["PartiesForAdult"]</a>
-    }
+                <h2>@Localizer["Welcome"]</h2>
 
-</div>
+                @foreach (var item in Model)
+                {
+                    <p>
+                        <h4><party party-view="item" controller-name="Party" action-name="index"></party></h4>
+                    </p>
+                }
 
+                @if ((await AuthorizationService.AuthorizeAsync(User, "Over18")).Succeeded)
+                {
+                    <a asp-controller="Party" asp-action="AdultParties">@Localizer["PartiesForAdult"]</a>
+                }
+
+            </div>
+
+        </div>
+    </div>

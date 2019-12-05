@@ -1,26 +1,33 @@
 ﻿@model MyPartyCore.ViewModels.LoginViewModel
 
 
-    <div class="text-center">
-        <form method="post" asp-controller="Account" asp-action="Login" class="form-signin">
-            <h2>@Localizer["Title"]</h2>
-            <div asp-validation-summary="ModelOnly"></div>
-            <div>
-                <label asp-for="Name" class="control-label"></label><br />
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div>
-                <label asp-for="Password" class="control-label"></label><br />
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-check">
-                <input asp-for="RememberMe" class="form-check-input" id="RememberMeCheck" />
-                <label asp-for="RememberMe" class="form-check-label" for="exampleCheck1"></label><br />
-            </div>
-            <div>
-                <input type="submit" value=@Localizer["Login"] class="btn btn-lg btn-primary btn-block" />
-            </div>
-        </form>
-    </div>
+<div class="text-center">
+    <form method="post" asp-controller="Account" asp-action="Login" class="form-signin">
+        <h2>@Localizer["Title"]</h2>
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label asp-for="Name" class="control-label"></label><br />
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Password" class="control-label"></label><br />
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-check">
+            <input asp-for="RememberMe" class="form-check-input" id="RememberMeCheck" />
+            <label asp-for="RememberMe" class="form-check-label" for="exampleCheck1"></label><br />
+        </div>
+        <div>
+            <input type="submit" value=@Localizer["Login"] class="btn btn-lg btn-primary btn-block" />
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

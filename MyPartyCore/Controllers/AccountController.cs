@@ -140,6 +140,10 @@ namespace MyPartyCore.Controllers
                             user.Avatar = _photoService.AddPhoto(file);
                         }
                     }
+                    else if(file == null && model.AvatarExist && HttpContext.Request.Form.Keys.Contains("file"))
+                    {
+                        _photoService.DeletePhotoFromUser(user);
+                    }
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
