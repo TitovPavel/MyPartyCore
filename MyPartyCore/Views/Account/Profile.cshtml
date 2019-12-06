@@ -3,99 +3,44 @@
     ViewData["Title"] = @Localizer["Title"];
 }
 
-<form asp-action="Profile" asp-controller="Account" method="post"  enctype="multipart/form-data">
+
+<div class="profile-page">
+
+    <div class="page-header page-header-xs settings-background" style="background-image: url('@Url.Content("~/party.jpg")');">
+        <div class="filter"></div>
+    </div>
+
 
     <div class="profile-content section">
         <div class="container">
+
+
             <div class="row">
                 <div class="profile-picture">
-
-                    
-
-                    <div class="fileinput text-center @(@Model.AvatarExist?"fileinput-exists":"fileinput-new") " data-provides="fileinput" data-name="file">
-                        <div class="fileinput-new thumbnail img-circle img-no-padding" data-trigger="fileinput" style="width: 150px; height: 150px;">
-                            <img src="~/Files/placeholder.jpg" alt="..." style="object-fit: cover;">
+                    <div class="fileinput text-center fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-new img-no-padding">
+                            <img src='@Url.Action("GetImage", "File", new { fileID = Model.AvatarID })'>
                         </div>
-
-                        <div class="fileinput-preview fileinput-exists img-circle img-no-padding" style="width: 150px; height: 150px;">
-                            @if (Model.AvatarExist)
-                            {
-                                <img src='@Url.Action("GetImage", "File", new { fileID = Model.AvatarID })'>
-                            }
-                        </div>
-                        <div>
-                            <span class="btn btn-outline-default btn-file btn-round">
-                                <span class="fileinput-new">Add Photo</span>
-                                <span class="fileinput-exists">Change</span>
-                                <input type="file">
-                            </span>
-                            <br>
-                            <a href="" class="btn btn-link btn-danger fileinput-exists btn-round" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                        <div class="name">
+                            <h4 class="title text-center">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">
+                                        @Model.UserName
+                                    </font>
+                                </font><br>
+                                <small><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Краткое Описание добавить пользователю</font></font></small>
+                            </h4>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6 ml-auto mr-auto text-center">
+                    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Описание добавить пользователю </font></font></p>
+                    <br>
+                    <a asp-controller="Party" asp-action="List" asp-route-id="@Model.Id">@Localizer["ListOfMyParties"]</a>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <input type="hidden" asp-for="Id" />
-        <input type="hidden" asp-for="AvatarExist" />
-        <input type="hidden" asp-for="AvatarID" />
-    </div>
-    <div class="form-group">
-        <label asp-for="UserName" class="control-label"></label>
-        <input asp-for="UserName" class="form-control" readonly />
-        <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email" class="control-label">Email</label>
-        <input type="text" asp-for="Email" class="form-control" readonly />
-        <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group date">
-        <label asp-for="Birthday" class="label-control"></label>
-        <input asp-for="Birthday" type="text" class="form-control datetimepicker" />
-        <span asp-validation-for="Birthday" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Sex"></label>
-        <select asp-for="Sex" asp-items="Html.GetEnumSelectList<GenderList>()"></select>
-        <span asp-validation-for="Sex" class="text-danger"></span>
-    </div>
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="text-center">
-        <div class="form-group">
-            <input type="submit" value=@Localizer["Save"] class="btn btn-default" />
-        </div>
-    </div>
-</form>
-
-<div class="text-center">
-    <a asp-controller="Party" asp-action="List" asp-route-id="@Model.Id">@Localizer["ListOfMyParties"]</a>
 </div>
-
-@section Scripts {
-
-    <partial name="_ValidationScriptsPartial" />
-
-
-    <!--javascript for init-->
-    <script>
-        $('.datetimepicker').datetimepicker({
-            icons: {
-                time: "fa fa-clock-o",
-                date: "fa fa-calendar",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-            },
-            format: 'L'
-        });
-
-    </script>
-}

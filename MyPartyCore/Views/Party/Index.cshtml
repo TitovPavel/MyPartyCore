@@ -2,63 +2,69 @@
 @model PartyParticipantsViewModel
 
 
-<h1>@Model.PartyTitle</h1>
-<h3>@Localizer["Title"]</h3>
-<table class="table table-bordered table-hover">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PartyParticipants[0].Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PartyParticipants[0].ArrivalDate)
-        </th>
-        <th>
-            @Localizer["Photo"]
-        </th>
-    </tr>
+    <div class="section landing-section">
+        <div class="row" style="height: 100%;">
+            <div class="ml-auto mr-auto">
 
-    @foreach (var item in Model.PartyParticipants)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ArrivalDate)
-            </td>
-            <td>
-                <div class="px-1">
-                    <img id="image" src='@Url.Action("GetImage", new { userName = item.Name })' class="img-thumbnail .img-fluid .max-width image img-photo" data-toggle="modal" data-target="#myModalLabel"/>
-                </div>
+                <h1>@Model.PartyTitle</h1>
+                <h3>@Localizer["Title"]</h3>
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PartyParticipants[0].Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PartyParticipants[0].ArrivalDate)
+                        </th>
+                        <th>
+                            @Localizer["Photo"]
+                        </th>
+                    </tr>
 
-            </td>
-        </tr>
-    }
-</table>
+                    @foreach (var item in Model.PartyParticipants)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.ArrivalDate)
+                            </td>
+                            <td>
+                                <div class="px-1">
+                                    <img id="image" src='@Url.Action("GetImage", new { userName = item.Name })' class="img-thumbnail .img-fluid .max-width image img-photo" data-toggle="modal" data-target="#myModalLabel" />
+                                </div>
 
-<page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
+                            </td>
+                        </tr>
+                    }
+                </table>
 
-<p>
-    <a asp-controller="Party" asp-action="Vote" asp-route-id=@Model.PartyID class="nav-link">@Localizer["Vote"]</a>
-</p>
+                <page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
 
-
-
-@section Scripts {
-    <script>
-        $(".image").on("click", function () {
-            var img = $(this);	// Получаем изображение, на которое кликнули
-            var src = img.attr('src');
-            $('#preview').attr('src', src);
-            $('#classicModal').modal('show');
-        });
-
-    </script>
-
-}
+                <p>
+                    <a asp-controller="Party" asp-action="Vote" asp-route-id=@Model.PartyID class="nav-link">@Localizer["Vote"]</a>
+                </p>
+            </div>
+        </div>
+    </div>
 
 
-@section ListParties {
-    @await Component.InvokeAsync("PartiesList", new { LastViewedParties = false })
-    @await Component.InvokeAsync("PartiesList", new { LastViewedParties = true })
-}
+            @section Scripts {
+                <script>
+                    $(".image").on("click", function () {
+                        var img = $(this);	// Получаем изображение, на которое кликнули
+                        var src = img.attr('src');
+                        $('#preview').attr('src', src);
+                        $('#classicModal').modal('show');
+                    });
+
+                </script>
+
+            }
+
+
+            @section ListParties {
+                @await Component.InvokeAsync("PartiesList", new { LastViewedParties = false })
+                @await Component.InvokeAsync("PartiesList", new { LastViewedParties = true })
+            }

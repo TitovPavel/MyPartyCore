@@ -23,13 +23,13 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right dropdown-info">
                     <a asp-controller="Account" asp-action="Profile" asp-route-id="@userId" class="dropdown-item">@Localizer["HiUser"] @UserManager.GetUserName(User)</a>
-                    <a class="dropdown-item" href="#">Settings</a>
+                    <a asp-controller="Account" asp-action="ProfileSettings" asp-route-id="@userId" class="dropdown-item">@Localizer["Settings"]</a>
                     <li class="divider"></li>
                     @if (User.IsInRole("admin"))
                     {
                         <a asp-controller="Users" asp-action="Index" class="dropdown-item">@Localizer["Administration"]</a>
                     }
-                    <button class="dropdown-item" type="submit" class="btn btn-link navbar-btn navbar-link">@Localizer["Logout"]</button>
+                    <button class="dropdown-item" type="submit" >@Localizer["Logout"]</button>
                 </ul>
             </li>
 

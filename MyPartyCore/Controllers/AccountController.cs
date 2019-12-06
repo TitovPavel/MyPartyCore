@@ -104,21 +104,21 @@ namespace MyPartyCore.Controllers
 
         [HttpGet]
         [Authorize(Roles = "user")]
-        public async Task<IActionResult> Profile(string id)
+        public async Task<IActionResult> ProfileSettings(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-            ProfileViewModel model = _mapper.Map<ProfileViewModel>(user);
+            ProfileSettingsViewModel model = _mapper.Map<ProfileSettingsViewModel>(user);
            
             return View(model);
         }
 
         [HttpPost]
         [Authorize(Roles = "user")]
-        public async Task<IActionResult> Profile(ProfileViewModel model, IFormFile file)
+        public async Task<IActionResult> ProfileSettings(ProfileSettingsViewModel model, IFormFile file)
         {
             if (ModelState.IsValid)
             {
@@ -159,6 +159,20 @@ namespace MyPartyCore.Controllers
                     }
                 }
             }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "user")]
+        public async Task<IActionResult> Profile(string id)
+        {
+            User user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            ProfileViewModel model = _mapper.Map<ProfileViewModel>(user);
 
             return View(model);
         }

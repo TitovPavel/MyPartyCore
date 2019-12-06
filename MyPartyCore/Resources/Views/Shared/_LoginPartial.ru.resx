@@ -132,4 +132,7 @@
   <data name="Register" xml:space="preserve">
     <value>Регистрация</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
 </root>

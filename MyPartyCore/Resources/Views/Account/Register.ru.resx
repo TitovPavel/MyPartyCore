@@ -120,7 +120,10 @@
   <data name="Create" xml:space="preserve">
     <value>Создать</value>
   </data>
+  <data name="or" xml:space="preserve">
+    <value>или</value>
+  </data>
   <data name="Title" xml:space="preserve">
-    <value>Регистрация нового пользователя</value>
+    <value>Регистрация</value>
   </data>
 </root>
