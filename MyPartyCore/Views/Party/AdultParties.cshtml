@@ -1,9 +1,17 @@
 ﻿@model List<MyPartyCore.ViewModels.PartyViewModel>
 
-<h2>@Localizer["Title"]</h2>
-@foreach (var item in Model)
-{
-    <p>
-        <h4><party party-view="item" controller-name="Party" action-name="index"></party></h4>
-    </p>
-}
+
+<div class="section landing-section">
+    <div class="row" style="height: 100%;">
+        <div class="col-md-10 ml-auto mr-auto">
+
+            <h2>@Localizer["Title"]</h2>
+            @foreach (var item in Model)
+            {
+                <p>
+                    <h4><party party-view="item" controller-name="Party" action-name="index"></party></h4>
+                </p>
+            }
+        </div>
+    </div>
+</div>

@@ -20,6 +20,7 @@ using Microsoft.Extensions.Options;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using MyPartyCore.SignalR;
 
 namespace MyPartyCore
 {
@@ -105,6 +106,8 @@ namespace MyPartyCore
                 options.SupportedUICultures = supportedCultures;
             });
 
+            services.AddSignalR();
+
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
@@ -150,6 +153,11 @@ namespace MyPartyCore
             app.UseAuthentication();
 
             app.UseSession();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chatHub");
+            });
 
             app.UseMvc(routes =>
             {

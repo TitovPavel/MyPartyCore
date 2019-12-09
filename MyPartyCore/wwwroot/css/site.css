@@ -72,3 +72,8 @@ body {
     height: 40px;
     object-fit: cover;
 }
+
+.media .profile-photo-small {
+    margin-right: 15px;
+
+}

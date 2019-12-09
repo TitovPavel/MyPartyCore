@@ -1,97 +1,104 @@
 ﻿@model MyPartyCore.ViewModels.ParticipantViewModel
 
-    <form method="post" asp-controller="Party" asp-action="Save" class="form-horizontal form-vote" role="form" enctype="multipart/form-data">
 
-        <div class="form-group">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
+    <div class="section landing-section">
+        <div class="row" style="height: 100%;">
+            <div class="col-md-10 ml-auto mr-auto">
+                <form method="post" asp-controller="Party" asp-action="Save" class="form-horizontal form-vote" role="form" enctype="multipart/form-data">
 
-        <div class="form-group">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
 
-        <div class="custom-control custom-switch form-group">
-            <input asp-for="Attend" class="custom-control-input" />
-            <label asp-for="Attend" class="custom-control-label"></label>
-        </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
 
-        <div class="form-group date">
-            <label asp-for="ArrivalDate" class="label-control"></label>
-            <input asp-for="ArrivalDate" type="text" class="form-control datetimepicker" />
-            <span asp-validation-for="ArrivalDate" class="text-danger"></span>
-        </div>
+                    <div class="custom-control custom-switch form-group">
+                        <input asp-for="Attend" class="custom-control-input" />
+                        <label asp-for="Attend" class="custom-control-label"></label>
+                    </div>
 
-        <div class="form-group">
-            <label asp-for="Reason" class="control-label"></label>
-            <input asp-for="Reason" class="form-control" />
-        </div>
+                    <div class="form-group date">
+                        <label asp-for="ArrivalDate" class="label-control"></label>
+                        <input asp-for="ArrivalDate" type="text" class="form-control datetimepicker" />
+                        <span asp-validation-for="ArrivalDate" class="text-danger"></span>
+                    </div>
 
-        <div class="form-group">
-            <div class="custom-file">
-                <input type="file" name="file" class="custom-file-input" id="customFile">
-                <label class="custom-file-label" for="customFile">@Localizer["ChooseFile"]</label>
+                    <div class="form-group">
+                        <label asp-for="Reason" class="control-label"></label>
+                        <input asp-for="Reason" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input type="file" name="file" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">@Localizer["ChooseFile"]</label>
+                        </div>
+                    </div>
+
+                    @Html.HiddenFor(model => model.PartyId)
+                    @Html.HiddenFor(model => model.UserId)
+
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <input type="submit" value=@Localizer["Save"] class="btn btn-outline-primary" />
+
+                </form>
             </div>
         </div>
+    </div>
 
-        @Html.HiddenFor(model => model.PartyId)
-        @Html.HiddenFor(model => model.UserId)
-
-        <div asp-validation-summary="All" class="text-danger"></div>
-
-        <input type="submit" value=@Localizer["Save"] class="btn btn-outline-primary" />
-
-    </form>
-
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('input[type="file"]').on("change", function () {
-                let filenames = [];
-                let files = document.getElementById("customFile").files;
-                if (files.length > 1) {
-                    filenames.push("Total Files (" + files.length + ")");
-                } else {
-                    for (let i in files) {
-                        if (files.hasOwnProperty(i)) {
-                            filenames.push(files[i].name);
+        @section Scripts {
+            <script>
+                $(document).ready(function () {
+                    $('input[type="file"]').on("change", function () {
+                        let filenames = [];
+                        let files = document.getElementById("customFile").files;
+                        if (files.length > 1) {
+                            filenames.push("Total Files (" + files.length + ")");
+                        } else {
+                            for (let i in files) {
+                                if (files.hasOwnProperty(i)) {
+                                    filenames.push(files[i].name);
+                                }
+                            }
                         }
-                    }
-                }
-                $(this)
-                    .next(".custom-file-label")
-                    .html(filenames.join(","));
-            });
-        });
-    </script>
+                        $(this)
+                            .next(".custom-file-label")
+                            .html(filenames.join(","));
+                    });
+                });
+            </script>
 
-    <partial name="_ValidationScriptsPartial" />
+            <partial name="_ValidationScriptsPartial" />
 
-    <!--javascript for init-->
-    <script>
-        $('.datetimepicker').datetimepicker({
-            icons: {
-                time: "fa fa-clock-o",
-                date: "fa fa-calendar",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-            },
-            format: 'LT'
-        });
+            <!--javascript for init-->
+            <script>
+                $('.datetimepicker').datetimepicker({
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-chevron-up",
+                        down: "fa fa-chevron-down",
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-screenshot',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-remove'
+                    },
+                    format: 'LT'
+                });
 
-    </script>
-}
+            </script>
+        }
 
 
-@section ListParties {
-    @await Component.InvokeAsync("PartiesList", new { LastViewedParties = false })
-    @await Component.InvokeAsync("PartiesList", new { LastViewedParties = true })
-}
+        @section ListParties {
+            @await Component.InvokeAsync("PartiesList", new { LastViewedParties = false })
+            @await Component.InvokeAsync("PartiesList", new { LastViewedParties = true })
+        }
