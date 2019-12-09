@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.Localization;
 using MyPartyCore.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,31 +10,31 @@ namespace MyPartyCore.FluentValidation
 {
     public class CreateUserViewModelValidator : AbstractValidator<CreateUserViewModel>
     {
-        public CreateUserViewModelValidator()
+        public CreateUserViewModelValidator(IStringLocalizer<CreateUserViewModel> localizer)
         {
             RuleFor(x => x.UserName)
                 .NotEmpty()
-                .WithMessage("Необходимо указать имя");
+                .WithMessage(localizer["UserNameRequired"]);
 
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage("Необходимо заполнить адрес")
+                .WithMessage(localizer["EmailNameRequired"])
                 .EmailAddress()
-                .WithMessage("Некорректный адрес");
+                .WithMessage(localizer["EmailValidator"]);
 
             RuleFor(x => x.Birthday)
                 .NotEmpty()
-                .WithMessage("Необходимо заполнит дату рождения.")
+                .WithMessage(localizer["BirthdayValidator"])
                 .LessThan(p => DateTime.Now)
-                .WithMessage("Дата рождения не может быть больше текущей даты.");
+                .WithMessage(localizer["BirthdayMore"]);
 
             RuleFor(x => x.Sex)
                 .NotEmpty()
-                .WithMessage("Необходимо заполнить пол");
+                .WithMessage(localizer["SexRequired"]);
 
             RuleFor(x => x.Password)
                 .NotEmpty()
-                .WithMessage("Необходимо заполнить пароль");
+                .WithMessage(localizer["PasswordRequired"]);
 
         }
     }

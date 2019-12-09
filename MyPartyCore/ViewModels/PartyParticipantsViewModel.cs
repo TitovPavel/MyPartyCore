@@ -17,9 +17,9 @@ namespace MyPartyCore.ViewModels
 
     public class PartyParticipants
     {
-        [Display(Name = "Имя")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
-        [Display(Name = "Время прибытия")]
+        [Display(Name = "ArrivalDate")]
         [DataType(DataType.Time)]
         public DateTime ArrivalDate { get; set; }
         public int Id { get; set; }

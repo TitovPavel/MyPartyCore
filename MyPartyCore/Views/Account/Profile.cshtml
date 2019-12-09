@@ -1,36 +1,46 @@
 ﻿@model MyPartyCore.ViewModels.ProfileViewModel
 @{
-    ViewData["Title"] = "Профиль";
+    ViewData["Title"] = @Localizer["Title"];
 }
 
-<form asp-action="Edit" asp-controller="Users">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <input type="hidden" asp-for="Id" />
-    </div>
-    <div class="form-group">
-        <label asp-for="UserName" class="control-label"></label>
-        <input asp-for="UserName" class="form-control" readonly />
-        <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email" class="control-label">Email</label>
-        <input type="text" asp-for="Email" class="form-control" readonly />
-        <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Birthday" class="control-label"></label>
-        <input asp-for="Birthday" class="form-control" />
-        <span asp-validation-for="Birthday" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Sex"></label>
-        <select asp-for="Sex" asp-items="Html.GetEnumSelectList<GenderList>()"></select>
-        <span asp-validation-for="Sex" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Сохранить" class="btn btn-default" />
-    </div>
-</form>
 
-<a asp-controller="Party" asp-action="List" asp-route-id="@Model.Id">Список моих вечеринок</a>
+<div class="profile-page">
+
+    <div class="page-header page-header-xs settings-background" style="background-image: url('@Url.Content("~/party.jpg")');">
+        <div class="filter"></div>
+    </div>
+
+
+    <div class="profile-content section">
+        <div class="container">
+
+
+            <div class="row">
+                <div class="profile-picture">
+                    <div class="fileinput text-center fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-new img-no-padding">
+                            <img src='@Url.Action("GetImage", "File", new { fileID = Model.AvatarID })'>
+                        </div>
+                        <div class="name">
+                            <h4 class="title text-center">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">
+                                        @Model.UserName
+                                    </font>
+                                </font><br>
+                                <small><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Краткое Описание добавить пользователю</font></font></small>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 ml-auto mr-auto text-center">
+                    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Описание добавить пользователю </font></font></p>
+                    <br>
+                    <a asp-controller="Party" asp-action="List" asp-route-id="@Model.Id">@Localizer["ListOfMyParties"]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

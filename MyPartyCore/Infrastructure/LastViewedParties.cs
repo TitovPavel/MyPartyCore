@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using MyPartyCore.Models;
+using MyPartyCore.DB.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

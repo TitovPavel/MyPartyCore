@@ -1,31 +1,48 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using MyPartyCore.DB.Models
+@using MyPartyCore.DB.BL
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject IPhotoService _photoService
+
+@{
+    string userId = UserManager.GetUserId(User);
+    string imgFilePath = await _photoService.GetPathAvatarByUserId(userId);
+}
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-controller="Account" asp-action="LogOff" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            @if (User.IsInRole("admin"))
-            {
-                <li>
-                    <a asp-controller="Users" asp-action="Index">Администрирование</a>
-                </li>
-            }
-            <li>
-                <a asp-controller="Account" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)">Привет @UserManager.GetUserName(User)</a>
+    <form asp-controller="Account" asp-action="LogOff" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" class="collapse navbar-collapse navbar-right">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a href="" class="nav-link" data-toggle="dropdown" width="30" height="30" aria-expanded="false">
+                    <div class="profile-photo-small">
+                        <img src="~/@imgFilePath" class="img-circle img-responsive img-no-padding image-circle-dropdown">
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right dropdown-info">
+                    <a asp-controller="Account" asp-action="Profile" asp-route-id="@userId" class="dropdown-item">@Localizer["HiUser"] @UserManager.GetUserName(User)</a>
+                    <a asp-controller="Account" asp-action="ProfileSettings" asp-route-id="@userId" class="dropdown-item">@Localizer["Settings"]</a>
+                    <li class="divider"></li>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <a asp-controller="Users" asp-action="Index" class="dropdown-item">@Localizer["Administration"]</a>
+                    }
+                    <button class="dropdown-item" type="submit" >@Localizer["Logout"]</button>
+                </ul>
             </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Выход</button>
-            </li>
+
+
         </ul>
     </form>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="Account" asp-action="Register">Регистрация</a></li>
-        <li><a asp-controller="Account" asp-action="Login">Вход</a></li>
-    </ul>
+    <div class="collapse navbar-collapse navbar-right">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a asp-controller="Account" asp-action="Register" class="nav-link">@Localizer["Register"]</a></li>
+            <li class="nav-item"><a asp-controller="Account" asp-action="Login" class="nav-link">@Localizer["Login"]</a></li>
+        </ul>
+    </div>
 }

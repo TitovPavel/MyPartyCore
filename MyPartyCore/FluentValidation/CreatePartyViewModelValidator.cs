@@ -1,29 +1,28 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.Localization;
 using MyPartyCore.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace MyPartyCore.FluentValidation
 {
-    public class CreatePartyViewModelValidator : AbstractValidator<PartyViewModel>
+    public class CreatePartyViewModelValidator : AbstractValidator<CreatePartyViewModel>
     {
-        public CreatePartyViewModelValidator()
+        public CreatePartyViewModelValidator(IStringLocalizer<CreatePartyViewModel> localizer)
         {
             RuleFor(x => x.Title)
                 .NotEmpty()
-                .WithMessage("Необходимо заполнить название вечеринки");
+                .WithMessage(localizer["TitleRequired"]);
 
             RuleFor(x => x.Location)
                 .NotEmpty()
-                .WithMessage("Необходимо указать место проведение вечеринки");
+                .WithMessage(localizer["LocationRequired"]);
 
             RuleFor(x => x.Date)
                 .NotEmpty()
-                .WithMessage("Необходимо заполнит дату проведения вечеринки.")
+                .WithMessage(localizer["DateRequired"])
                 .GreaterThan(p => DateTime.Now)
-                .WithMessage("Дата не может быть меньше текущей даты.");
+                .WithMessage(localizer["DateLess"]);
         }
     }
 }

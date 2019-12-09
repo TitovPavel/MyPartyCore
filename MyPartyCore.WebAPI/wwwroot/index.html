@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>My Party Core Web API</title>
+</head>
+<body>
+
+    <div class="userInfo" style="display:none;">
+        <p>Вы вошли как: <span class="userName"></span></p>
+        <input type="button" value="Выйти" id="logOut" />
+    </div>
+    <div class="loginForm" style="display:none;">
+        <h3>Вход на сайт</h3>
+        <label>Введите email</label><br />
+        <input type="email" id="emailLogin" /> <br /><br />
+        <label>Введите пароль</label><br />
+        <input type="password" id="passwordLogin" /><br /><br />
+        <input type="submit" id="submitLogin" value="Логин" />
+    </div>
+
+
+    <div class="partyInfo" style="display:none;">
+        <h2>Список вечеринок</h2>
+        <form name="partyForm">
+            <input type="hidden" name="id" value="0" />
+            <input type="hidden" name="ownerID" />
+            <div class="form-group">
+                <label for="title">Название:</label>
+                <input class="form-control" name="title" />
+            </div>
+            <div class="form-group">
+                <label for="dateParty">Дата проведения:</label>
+                <input type="datetime-local" class="form-control" name="dateParty" />
+            </div>
+            <div class="form-group">
+                <label for="location">Место:</label>
+                <input class="form-control" name="location" />
+            </div><br />
+            <div class="panel-body">
+                <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+                <a id="reset" class="btn btn-sm btn-primary">Сбросить</a>
+            </div><br />
+        </form>
+        <table class="table table-condensed table-striped table-bordered">
+            <thead><tr><th>Id</th><th>Название</th><th>Дата проведения</th><th>Место</th><th></th></tr></thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+
+    <script src="/lib/jquery/jquery.js"></script>
+    <script>
+        var tokenKey = "accessToken";
+        $('#submitLogin').click(function (e) {
+            e.preventDefault();
+            var loginData = JSON.stringify({
+                name: $('#emailLogin').val(),
+                Password: $('#passwordLogin').val()
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '/token',
+                contentType: "application/json",
+                data: loginData,
+                statusCode: {
+                    400: function () {
+                        alert("Неправильный логин или пароль");
+                    }
+                },
+                success: function (data) {
+                $('.userName').text(data.username);
+                $('.userInfo').css('display', 'block');
+                $('.partyInfo').css('display', 'block');
+                $('.loginForm').css('display', 'none');
+                // сохраняем в хранилище sessionStorage токен доступа
+                sessionStorage.setItem(tokenKey, data.access_token);
+                GetParties();
+                console.log(data.access_token)}
+
+            }).fail(function (data) {
+                console.log(data);
+            });
+        });
+
+        $('#logOut').click(function (e) {
+            e.preventDefault();
+            $('.loginForm').css('display', 'block');
+            $('.userInfo').css('display', 'none');
+            $('.partyInfo').css('display', 'none');
+            sessionStorage.removeItem(tokenKey);
+        });
+
+    </script>
+
+
+    <script>
+        // Получение всех вечеринок
+        function GetParties() {
+            $.ajax({
+                url: '/api/party',
+                type: 'GET',
+                contentType: "application/json",
+                beforeSend: function (xhr) {
+
+                    var token = sessionStorage.getItem(tokenKey);
+                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
+                success: function (parties) {
+                    var rows = "";
+                    $.each(parties, function (index, party) {
+                        // добавляем полученные элементы в таблицу
+                        rows += row(party);
+                    })
+                    $("table tbody").append(rows);
+                },
+                statusCode: {
+                    401: function () {
+                        $('.loginForm').css('display', 'block');
+                        $('.userInfo').css('display', 'none');
+                        $('.partyInfo').css('display', 'none');
+                        alert("Необходимо авторизироваться");
+                    },
+                    200: function () {
+                        $('.loginForm').css('display', 'none');
+                        $('.userInfo').css('display', 'block');
+                        $('.partyInfo').css('display', 'block');
+                    }
+                }
+            });
+        }
+        // Получение одной вечеринки
+        function GetParty(id) {
+            $.ajax({
+                url: '/api/party/' + id,
+                type: 'GET',
+                contentType: "application/json",
+                success: function (party) {
+                    var form = document.forms["partyForm"];
+                    form.elements["id"].value = party.id;
+                    form.elements["title"].value = party.title;
+                    form.elements["dateParty"].value = party.date;
+                    form.elements["location"].value = party.location;
+                    form.elements["ownerID"].value = party.ownerID;
+                },
+                statusCode: {
+                    401: function () {
+                        alert("Необходимо авторизироваться");
+                    }
+                }
+            });
+        }
+        // Добавление пользователя
+        function CreateParty(title, dateParty, location) {
+            $.ajax({
+                url: "api/party",
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
+                    title: title,
+                    date: dateParty,
+                    location: location
+                }),
+                success: function (party) {
+                    reset();
+                    $("table tbody").append(row(party));
+                },
+                fail: function (data) {
+                    console.log(data);
+                }
+            })
+        }
+        // Изменение пользователя
+        function EditParty(partyId, title, dateParty, location, ownerID) {
+            $.ajax({
+                url: "api/party/" + partyId,
+                contentType: "application/json",
+                method: "PUT",
+                data: JSON.stringify({
+                    id: partyId,
+                    title: title,
+                    date: dateParty,
+                    location: location,
+                    ownerID: ownerID
+                }),
+                success: function (party) {
+                    reset();
+                    $("tr[data-rowid='" + party.id + "']").replaceWith(row(party));
+                }
+            })
+        }
+
+        // сброс формы
+        function reset() {
+            var form = document.forms["partyForm"];
+            form.reset();
+            form.elements["id"].value = 0;
+        }
+
+        // Удаление пользователя
+        function DeleteParty(id) {
+            $.ajax({
+                url: "api/party/" + id,
+                contentType: "application/json",
+                method: "DELETE",
+                success: function (id) {
+                    $("tr[data-rowid='" + id + "']").remove();
+                }
+            })
+        }
+        // создание строки для таблицы
+        var row = function (party) {
+            return "<tr data-rowid='" + party.id + "'><td>" + party.id + "</td>" +
+                "<td>" + party.title + "</td> <td>" + party.date + "</td> <td>" + party.location + "</td>" +
+                "<td><a class='editLink' data-id='" + party.id + "'>Изменить</a> | " +
+                "<a class='removeLink' data-id='" + party.id + "'>Удалить</a></td></tr>";
+        }
+        // сброс значений формы
+        $("#reset").click(function (e) {
+
+            e.preventDefault();
+            reset();
+        })
+
+        // отправка формы
+        $("form").submit(function (e) {
+            e.preventDefault();
+            var id = this.elements["id"].value;
+            var title = this.elements["title"].value;
+            var dateParty = this.elements["dateParty"].value;
+            var location = this.elements["location"].value;
+            var ownerID = this.elements["ownerID"].value;
+            if (id == 0)
+                CreateParty(title, dateParty, location);
+            else
+                EditParty(id, title, dateParty, location, ownerID);
+        });
+
+        // нажимаем на ссылку Изменить
+        $("body").on("click", ".editLink", function () {
+            var id = $(this).data("id");
+            GetParty(id);
+        })
+        // нажимаем на ссылку Удалить
+        $("body").on("click", ".removeLink", function () {
+            var id = $(this).data("id");
+            DeleteParty(id);
+        })
+
+        $( document ).ajaxSend(function (event, xhr, settings) {
+
+                    var token = sessionStorage.getItem(tokenKey);
+                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                })
+
+        // загрузка пользователей
+        GetParties();
+
+    </script>
+
+</body>
+</html>

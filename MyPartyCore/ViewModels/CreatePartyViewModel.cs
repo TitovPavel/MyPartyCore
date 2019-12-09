@@ -9,17 +9,15 @@ namespace MyPartyCore.ViewModels
 {
     public class CreatePartyViewModel
     {
-        [Display(Name = "Название вечеринки")]
+
+        [Display(Name = "Title")]
         public string Title { get; set; }
-       
-        [Display(Name = "Дата")]
+        [Display(Name = "Date")]
         public DateTime? Date { get; set; }
-        
-        [Display(Name = "Место проведения")]
+        [Display(Name = "Location")]
         public string Location { get; set; }
         public string OwnerId { get; set; }
-
-        [Display(Name = "Вечеринка для взрослых")]
+        [Display(Name = "AgeLimit")]
         public bool AgeLimit { get; set; }
 
     }

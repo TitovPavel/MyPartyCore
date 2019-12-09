@@ -6,9 +6,9 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyPartyCore.BL;
+using MyPartyCore.DB.BL;
 using MyPartyCore.Infrastructure;
-using MyPartyCore.Models;
+using MyPartyCore.DB.Models;
 using MyPartyCore.ViewModels;
 using MyPartyCore.Filters;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using MyPartyCore.AuthorizationPolicy;
+using Microsoft.Extensions.Localization;
 
 namespace MyPartyCore.Controllers
 {
@@ -28,13 +29,15 @@ namespace MyPartyCore.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IAuthorizationService _authorizationService;
         private readonly UserManager<User> _userManager;
+        private readonly IStringLocalizer<PartyController> _localizer;
 
         public PartyController(IPartyService r, 
             IHostingEnvironment env, 
             IMapper mapper, 
             IHttpContextAccessor httpContextAccessor, 
             UserManager<User> userManager,
-            IAuthorizationService authorizationService)
+            IAuthorizationService authorizationService, 
+            IStringLocalizer<PartyController> localizer)
         {
             _partyService = r;
             _env = env;
@@ -42,13 +45,13 @@ namespace MyPartyCore.Controllers
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
             _authorizationService = authorizationService;
-
+            _localizer = localizer;
         }
 
         public async Task<ActionResult> Index(int id, int page = 1)
         {
 
-            Party party = _partyService.GetPartyByID(id);
+            Party party = _partyService.GetPartyWithOwnerByID(id);
 
             if (party == null)
             {
@@ -110,7 +113,7 @@ namespace MyPartyCore.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Участинк под данным именем зарегистрирован другим пользвателем.");
+                    ModelState.AddModelError(string.Empty, _localizer["NameIsRegistered"]);
                 }
             }
 
@@ -181,7 +184,7 @@ namespace MyPartyCore.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            Party party = _partyService.GetPartyByID(id);
+            Party party = _partyService.GetPartyWithOwnerByID(id);
 
             if (party == null)
             {

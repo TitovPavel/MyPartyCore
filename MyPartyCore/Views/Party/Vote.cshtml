@@ -1,58 +1,50 @@
 ﻿@model MyPartyCore.ViewModels.ParticipantViewModel
 
+    <form method="post" asp-controller="Party" asp-action="Save" class="form-horizontal form-vote" role="form" enctype="multipart/form-data">
 
-
-@using (Html.BeginForm("Save", "Party", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-{
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
-    <div class="form-group row">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-form-label" })
-        <div class="editor-field has-error">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control input-validation-error" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger field-validation-error" })
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-    </div>
 
-    <div class="form-group row">
-        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-form-label" })
-        <div class="editor-field has-error">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-validation-error" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger field-validation-error" })
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
-    </div>
 
-    <div class="custom-control custom-switch form-group row">
-        @Html.CheckBoxFor(model => model.Attend, new { @class = "custom-control-input" })
-        @Html.LabelFor(model => model.Attend, new { @class = "custom-control-label" })
-    </div>
-
-    <div class="form-group row">
-        @Html.LabelFor(model => model.ArrivalDate, htmlAttributes: new { @class = "control-label" })
-        <div>
-            @Html.EditorFor(model => model.ArrivalDate)
+        <div class="custom-control custom-switch form-group">
+            <input asp-for="Attend" class="custom-control-input" />
+            <label asp-for="Attend" class="custom-control-label"></label>
         </div>
-    </div>
-    <div class="form-group row">
-        @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label" })
-        <div>
-            @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+
+        <div class="form-group date">
+            <label asp-for="ArrivalDate" class="label-control"></label>
+            <input asp-for="ArrivalDate" type="text" class="form-control datetimepicker" />
+            <span asp-validation-for="ArrivalDate" class="text-danger"></span>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <div class="custom-file ">
-            <input type="file" name="file" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Choose file</label>
+        <div class="form-group">
+            <label asp-for="Reason" class="control-label"></label>
+            <input asp-for="Reason" class="form-control" />
         </div>
-    </div>
 
-    @Html.HiddenFor(model => model.PartyId)
-    @Html.HiddenFor(model => model.UserId)
+        <div class="form-group">
+            <div class="custom-file">
+                <input type="file" name="file" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">@Localizer["ChooseFile"]</label>
+            </div>
+        </div>
 
-    <input type="submit" value="Save" class="btn btn-outline-primary" />
+        @Html.HiddenFor(model => model.PartyId)
+        @Html.HiddenFor(model => model.UserId)
 
-}
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <input type="submit" value=@Localizer["Save"] class="btn btn-outline-primary" />
+
+    </form>
 
 @section Scripts {
     <script>
@@ -77,6 +69,25 @@
     </script>
 
     <partial name="_ValidationScriptsPartial" />
+
+    <!--javascript for init-->
+    <script>
+        $('.datetimepicker').datetimepicker({
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            },
+            format: 'LT'
+        });
+
+    </script>
 }
 
 

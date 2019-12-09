@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
-using MyPartyCore.Models;
+using MyPartyCore.DB.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

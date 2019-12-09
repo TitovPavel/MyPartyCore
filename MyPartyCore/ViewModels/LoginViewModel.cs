@@ -8,14 +8,12 @@ namespace MyPartyCore.ViewModels
 {
     public class LoginViewModel
     {
-        [Display(Name = "Имя")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
-
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
-
-        [Display(Name = "Запомнить?")]
+        [Display(Name = "RememberMe")]
         public bool RememberMe { get; set; }
     }
 }

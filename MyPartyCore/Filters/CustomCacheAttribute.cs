@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Memory;
-using MyPartyCore.BL;
+using MyPartyCore.DB.BL;
 using MyPartyCore.Infrastructure;
 using MyPartyCore.ViewModels;
 using System;

@@ -1,27 +1,30 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
-using MyPartyCore.BL;
+using MyPartyCore.DB.BL;
 using MyPartyCore.Infrastructure;
 using MyPartyCore.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using MyPartyCore.Filters;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Localization;
 
 namespace MyPartyCore.ViewComponents
 {
     public class PartiesListViewComponent : ViewComponent
     {
-        private readonly IPartyService partyService;
+        private readonly IPartyService _partyService;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IStringLocalizer<PartiesListViewComponent> _localizer;
 
-        public PartiesListViewComponent(IPartyService r, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public PartiesListViewComponent(IPartyService partyService, IMapper mapper, IHttpContextAccessor httpContextAccessor, IStringLocalizer<PartiesListViewComponent> localizer)
         {
-            partyService = r;
+            _partyService = partyService;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+            _localizer = localizer;
         }
 
         public IViewComponentResult Invoke(bool lastViewedParties)
@@ -44,26 +47,26 @@ namespace MyPartyCore.ViewComponents
         {
             List<int> listId = _httpContextAccessor.HttpContext.Session.GetParties();
 
-            List<PartyViewModel> partyViews = partyService.ListOfCurrentParties()
+            List<PartyViewModel> partyViews = _partyService.ListOfCurrentParties()
                 .Where(x => listId.Contains(x.Id))
                 .ProjectTo<PartyViewModel>(_mapper.ConfigurationProvider)
                 .OrderByDescending(x => listId.FindIndex(y => x.Id == y))
                 .ToList();
 
-            ViewBag.NameListParties = "5 последних просмотренных вечеринок вечеринок:";
+            ViewBag.NameListParties = _localizer["NameLastListParties"];
             return partyViews;
 
         }
 
         public List<PartyViewModel> GetTenParties()
         {
-            List<PartyViewModel> partyViews = partyService.ListOfCurrentParties()
+            List<PartyViewModel> partyViews = _partyService.ListOfCurrentParties()
                 .OrderBy(x => x.Date)
                 .Take(10)
                 .ProjectTo<PartyViewModel>(_mapper.ConfigurationProvider)
                 .ToList();
 
-            ViewBag.NameListParties = "10 ближайших вечеринок:";
+            ViewBag.NameListParties = _localizer["NameTenListParties"];
             return partyViews;
 
         }

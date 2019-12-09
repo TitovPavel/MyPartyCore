@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MyPartyCore.Models;
+using Microsoft.Extensions.Localization;
+using MyPartyCore.DB.BL;
+using MyPartyCore.DB.Models;
 using MyPartyCore.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,12 +21,20 @@ namespace MyPartyCore.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<AccountController> _localizer;
+        private readonly IPhotoService _photoService;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
+        public AccountController(UserManager<User> userManager, 
+            SignInManager<User> signInManager, 
+            IMapper mapper, 
+            IStringLocalizer<AccountController> localizer,
+            IPhotoService photoService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
+            _localizer = localizer;
+            _photoService = photoService;
         }
 
         [HttpGet]
@@ -85,9 +96,70 @@ namespace MyPartyCore.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    ModelState.AddModelError("", _localizer["IncorrectUsername"]);
                 }
             }
+            return View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "user")]
+        public async Task<IActionResult> ProfileSettings(string id)
+        {
+            User user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            ProfileSettingsViewModel model = _mapper.Map<ProfileSettingsViewModel>(user);
+           
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "user")]
+        public async Task<IActionResult> ProfileSettings(ProfileSettingsViewModel model, IFormFile file)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _userManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    user.Email = model.Email;
+                    user.UserName = model.UserName;
+                    user.Birthday = model.Birthday;
+                    user.Sex = model.Sex;
+                    if (file != null)
+                    {
+                        if (model.AvatarExist)
+                        {
+                            _photoService.UpdatePhoto((int)user.AvatarId, file);
+                        }
+                        else
+                        {
+                            user.Avatar = _photoService.AddPhoto(file);
+                        }
+                    }
+                    else if(file == null && model.AvatarExist && HttpContext.Request.Form.Keys.Contains("file"))
+                    {
+                        _photoService.DeletePhotoFromUser(user);
+                    }
+
+                    var result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+            }
+
             return View(model);
         }
 
@@ -101,7 +173,7 @@ namespace MyPartyCore.Controllers
                 return NotFound();
             }
             ProfileViewModel model = _mapper.Map<ProfileViewModel>(user);
-           
+
             return View(model);
         }
 

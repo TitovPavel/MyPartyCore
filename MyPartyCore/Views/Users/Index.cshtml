@@ -1,45 +1,61 @@
 ﻿@model IEnumerable<MyPartyCore.ViewModels.UserViewModel>
 @{
-    ViewBag.Title = "Список пользователей";
+    ViewBag.Title = @Localizer["Title"];
 }
+    <div class="text-center">
+        <h2>@Localizer["Title"]</h2>
+    </div>
 
-<a asp-action="Create">Добавить пользователя</a>
-
-<table class="table">
-    <tr>
-        <th>Email</th>
-        <th>Имя</th>
-        <th>Дата рождения</th>
-        <th>Пол</th>
-        <th></th>
-    </tr>
-    @foreach (var user in Model)
-    {
-        <tr>
-            <td>@user.Email</td>
-            <td>@user.UserName</td>
-            <td>@user.Birthday</td>
-            <td>@user.Sex</td>
-            <td>
-                @if (user.IsLocked)
-                {<form asp-action="UnLock" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
-                        <button type="submit" class="btn btn-sm btn-secondary">Разаблокировать</button>
-                    </form>
-                }
-                else
+        @if (Model != null && Model.Any())
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        <label asp-for="@Model.First().Email"></label>
+                    </th>
+                    <th>
+                        <label asp-for="@Model.First().UserName"></label>
+                    </th>
+                    <th>
+                        <label asp-for="@Model.First().Birthday"></label>
+                    </th>
+                    <th>
+                        <label asp-for="@Model.First().Sex"></label>
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var user in Model)
                 {
-                    <form asp-action="Lock" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
-                        <button type="submit" class="btn btn-sm btn-primary">Заблокировать</button>
-                    </form>
+                    <tr>
+                        <td>@user.Email</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Birthday</td>
+                        <td>@user.Sex</td>
+                        <td>
+                            @if (user.IsLocked)
+                            {<form asp-action="UnLock" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
+                                    <button type="submit" class="btn btn-secondary btn-link btn-just-icon" data-toggle="tooltip" data-placement="top" title=@Localizer["UnLock"]><i class="fa fa-unlock fa-2x"></i></button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="Lock" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
+                                    <button type="submit" class="btn btn-primary btn-link btn-just-icon" data-toggle="tooltip" data-placement="top" title=@Localizer["Lock"]><i class="fa fa-lock fa-2x"></i></button>
+                                </form>
+                            }
+                            <form asp-action="Delete" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
+                                <a class="btn btn-primary btn-link btn-just-icon" asp-action="Edit" asp-route-id="@user.Id" data-toggle="tooltip" data-placement="top" title=@Localizer["Edit"]><i class="fa fa-edit fa-2x"></i></a>
+                                <a class="btn btn-sm btn-primary" asp-controller="Roles" asp-action="Edit" asp-route-userid="@user.Id">@Localizer["Roles"]<i class="fa fa-user-tag"></i></a>
+                                <button type="submit" class="btn btn-danger btn-link btn-just-icon" data-toggle="tooltip" data-placement="top" title=@Localizer["Delete"]>
+                                    <i class="fa fa-times fa-2x"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
                 }
-                <form asp-action="Delete" asp-route-id="@user.Id" method="post" style="display : inline-block ;">
-                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
-                    <a class="btn btn-sm btn-primary" asp-controller="Roles" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        Удалить
-                    </button>
-                </form>
-            </td>
-        </tr>
-    }
-</table>
+            </table>
+        }
+
+    <div class="text-center">
+        <a asp-action="Create" data-toggle="tooltip" data-placement="top" title=@Localizer["Create"]><i class="fa fa-user-plus fa-3x"></i></a>
+    </div>

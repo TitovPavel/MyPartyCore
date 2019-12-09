@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
-using MyPartyCore.BL;
-using MyPartyCore.Models;
+using MyPartyCore.DB.BL;
+using MyPartyCore.DB.Models;
 using MyPartyCore.ViewModels;
 
 namespace MyPartyCore.Controllers
