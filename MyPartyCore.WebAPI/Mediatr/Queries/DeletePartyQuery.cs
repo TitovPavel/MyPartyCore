@@ -1,13 +1,12 @@
 ﻿using MediatR;
-using MyPartyCore.DB.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyPartyCore.WebAPI.Mediatr.Handlers
+namespace MyPartyCore.WebAPI.Mediatr.Queries
 {
-    public class PartyQuery : IRequest<Party>
+    public class DeletePartyQuery : IRequest
     {
         public int Id { get; set; }
     }

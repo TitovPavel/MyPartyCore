@@ -10,7 +10,7 @@ namespace MyPartyCore.DB.BL
     public class PartyService : IPartyService
     {
 
-        MyPartyContext _context;
+        private readonly MyPartyContext _context;
 
         public PartyService(MyPartyContext context)
         {
@@ -109,6 +109,17 @@ namespace MyPartyCore.DB.BL
         public Party GetPartyByID(int id)
         {
             return _context.Parties.SingleOrDefault(x => x.Id == id);
+        }
+
+        public void AddMessageChat(ChatMessage chatMessage)
+        {
+            _context.ChatMessages.Add(chatMessage);
+            _context.SaveChanges();
+        }
+
+        public IQueryable<ChatMessage> GetChatMessagesByPartyId(int partyId)
+        {
+            return _context.ChatMessages.Where(c => c.PartyId == partyId).Include(i => i.User).ThenInclude(i => i.Avatar);
         }
     }
 }

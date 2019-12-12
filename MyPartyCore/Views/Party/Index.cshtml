@@ -91,6 +91,7 @@
                                         </a>
 
                                         <div class="media-body">
+                                            <input data-val="true" id="PartyId" name="PartyId" type="hidden" value=@Model.PartyID>
                                             <textarea id="message" class="form-control border-input" placeholder="Write some nice stuff or nothing..." rows="4"></textarea>
                                             <div class="media-footer">
                                                 <a href="#paper-kit" id="send" class="btn btn-info btn-wd pull-right"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Оставьте комментарий</font></font></a>
@@ -122,26 +123,28 @@
     <script src="~/lib/signalr/dist/browser/signalr.js"></script>
 
     <script type="text/javascript">
-        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        let connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        let partyId = document.getElementById("PartyId").value;
 
-        connection.on("ReceiveMessage", function (user, message, date) {
-            appendLine(user, message, date);
+            
+        connection.on("ReceiveMessage", function (chatMessage) {
+            appendLine(chatMessage);
         });
 
         connection.start().then(function () {
-            connection.invoke("ConnectUser", currentUser);
+            connection.invoke("ConnectUser", partyId);
         });
 
         document.getElementById("send").addEventListener("click", function (event) {
 
-            var message = document.getElementById("message").value;
-            connection.invoke("SendMessage", message);
+            let message = document.getElementById("message").value;
+            connection.invoke("SendMessage", message, partyId);
             $('#message').val('');
             event.preventDefault();
 
         });
 
-        function appendLine(user, message, date) {
+        function appendLine(chatMessage) {
 
             let media = document.createElement('div');
             media.classList.add("media");
@@ -157,7 +160,7 @@
             profileImg.classList.add("img-responsive");
             profileImg.classList.add("img-no-padding");
             profileImg.classList.add("image-circle-dropdown");
-            profileImg.src = "/Files/c585daf1-5988-47bd-b77e-023112e237c6.jpg";
+            profileImg.src = chatMessage.avatarPath;
                
             profilePhotoSmall.append(profileImg);
 
@@ -170,7 +173,7 @@
 
             let mediaHeading = document.createElement('h5');
             mediaHeading.classList.add("media-heading");
-            mediaHeading.textContent = user;
+            mediaHeading.textContent = chatMessage.userName;
             mediaBody.append(mediaHeading);
 
             let pullRight = document.createElement('div');
@@ -178,13 +181,13 @@
 
             let h6Date = document.createElement('h6');
             h6Date.classList.add("text-muted");
-            h6Date.textContent = date;
+            h6Date.textContent = chatMessage.date;
             pullRight.append(h6Date);
 
             mediaBody.append(pullRight);
 
             let pMessage = document.createElement('p');
-            pMessage.textContent = message;
+            pMessage.textContent = chatMessage.message;
             mediaBody.append(pMessage);
 
 

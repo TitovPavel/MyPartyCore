@@ -31,7 +31,7 @@ namespace MyPartyCore.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IStringLocalizer<PartyController> _localizer;
 
-        public PartyController(IPartyService r, 
+        public PartyController(IPartyService partyService, 
             IHostingEnvironment env, 
             IMapper mapper, 
             IHttpContextAccessor httpContextAccessor, 
@@ -39,7 +39,7 @@ namespace MyPartyCore.Controllers
             IAuthorizationService authorizationService, 
             IStringLocalizer<PartyController> localizer)
         {
-            _partyService = r;
+            _partyService = partyService;
             _env = env;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;

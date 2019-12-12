@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyPartyCore.WebAPI.Mediatr.Handlers
+namespace MyPartyCore.WebAPI.Mediatr.Queries
 {
     public class PartiesQuery : IRequest<IEnumerable<Party>>
     {

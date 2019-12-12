@@ -13,5 +13,6 @@ namespace MyPartyCore.DB.Models
         public string OwnerId { get; set; }
         public List<Participant> Participants { get; set; }
         public bool AgeLimit { get; set; }
+        public List<ChatMessage> ChatMessages { get; set; }
     }
 }

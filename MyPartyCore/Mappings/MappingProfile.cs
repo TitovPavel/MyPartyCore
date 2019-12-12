@@ -31,6 +31,10 @@ namespace MyPartyCore.Mappings
                 .ForMember(d => d.AvatarExist, o => o.MapFrom(s => (s.AvatarId != null)));
             CreateMap<User, ChangeRoleViewModel>()
                 .ForMember(d => d.UserId, o => o.MapFrom(s => s.Id));
+            CreateMap<ChatMessage, ChatMessageViewModel>()
+                .ForMember(d => d.UserName, o => o.MapFrom(s => s.User.UserName))
+                .ForMember(d => d.Date, o => o.MapFrom(s => s.Date.ToString()))
+                .ForMember(d => d.AvatarPath, o => o.MapFrom(s => s.User.Avatar != null ? $"/{s.User.Avatar.Path}" : "/Files/placeholder.jpg"));
         }
     }
 }
