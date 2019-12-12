@@ -1,70 +1,206 @@
 ﻿@using MyPartyCore.ViewModels
 @model PartyParticipantsViewModel
+@using Microsoft.AspNetCore.Identity
+@using MyPartyCore.DB.Models
+@using MyPartyCore.DB.BL
 
+@inject UserManager<User> UserManager
+@inject IPhotoService _photoService
 
-    <div class="section landing-section">
-        <div class="row" style="height: 100%;">
-            <div class="ml-auto mr-auto">
+@{
+    string userId = UserManager.GetUserId(User);
+    string imgFilePath = await _photoService.GetPathAvatarByUserId(userId);
+}
 
-                <h1>@Model.PartyTitle</h1>
-                <h3>@Localizer["Title"]</h3>
-                <table class="table table-bordered table-hover">
+<div class="section landing-section">
+    <div class="row" style="height: 100%;">
+        <div class="col-md-10 ml-auto mr-auto">
+
+            <h1>@Model.PartyTitle</h1>
+            <h3>@Localizer["Title"]</h3>
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PartyParticipants[0].Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PartyParticipants[0].ArrivalDate)
+                    </th>
+                    <th>
+                        @Localizer["Photo"]
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.PartyParticipants)
+                {
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PartyParticipants[0].Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PartyParticipants[0].ArrivalDate)
-                        </th>
-                        <th>
-                            @Localizer["Photo"]
-                        </th>
+                        <td>
+                            @Html.DisplayFor(model => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.ArrivalDate)
+                        </td>
+                        <td>
+                            <div class="px-1">
+                                <img id="image" src='@Url.Action("GetImage", new { userName = item.Name })' class="img-thumbnail .img-fluid .max-width image img-photo" data-toggle="modal" data-target="#myModalLabel" />
+                            </div>
+
+                        </td>
                     </tr>
+                }
+            </table>
 
-                    @foreach (var item in Model.PartyParticipants)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(model => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.ArrivalDate)
-                            </td>
-                            <td>
-                                <div class="px-1">
-                                    <img id="image" src='@Url.Action("GetImage", new { userName = item.Name })' class="img-thumbnail .img-fluid .max-width image img-photo" data-toggle="modal" data-target="#myModalLabel" />
+            <page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
+
+            <div class="text-center">
+                <a asp-controller="Party" asp-action="Vote" asp-route-id=@Model.PartyID class="btn btn-wd btn-info btn-round">@Localizer["Vote"]</a>
+            </div>
+
+            <hr />
+
+
+            <div class="media-area media-area-small" id="chatList">
+                <!--
+                <div class="media">
+                    <a class="pull-left" href="">
+                        <div class="profile-photo-small">
+                            <img src="~/@imgFilePath" class="img-circle img-responsive img-no-padding image-circle-dropdown">
+                        </div>
+                    </a>
+                    <div class="media-body">
+                        <h5 class="media-heading">Юзер</h5>
+                        <div class="pull-right">
+                            <h6 class="text-muted">11 сентября 11:57</h6>
+                        </div>
+                        <p>Сообщение бла бла бла!</p>
+                    </div>
+                </div>
+                    -->
+            </div>
+
+                    <div class="section-gray">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-8 ml-auto mr-auto">
+                                    <h3 class="text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Оставьте свой комментарий</font></font></h3>
+                                    <div class="media media-post">
+                                        <a class="pull-left author" href="#" width="30" height="30">
+                                            <div class="profile-photo-small">
+                                                <img src="~/@imgFilePath" class="img-circle img-responsive img-no-padding image-circle-dropdown">
+                                            </div>
+                                        </a>
+
+                                        <div class="media-body">
+                                            <input data-val="true" id="PartyId" name="PartyId" type="hidden" value=@Model.PartyID>
+                                            <textarea id="message" class="form-control border-input" placeholder="Write some nice stuff or nothing..." rows="4"></textarea>
+                                            <div class="media-footer">
+                                                <a href="#paper-kit" id="send" class="btn btn-info btn-wd pull-right"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Оставьте комментарий</font></font></a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
-                            </td>
-                        </tr>
-                    }
-                </table>
-
-                <page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
-
-                <p>
-                    <a asp-controller="Party" asp-action="Vote" asp-route-id=@Model.PartyID class="nav-link">@Localizer["Vote"]</a>
-                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
 
-            @section Scripts {
-                <script>
-                    $(".image").on("click", function () {
-                        var img = $(this);	// Получаем изображение, на которое кликнули
-                        var src = img.attr('src');
-                        $('#preview').attr('src', src);
-                        $('#classicModal').modal('show');
-                    });
 
-                </script>
+@section Scripts {
+    <script>
+        $(".image").on("click", function () {
+            var img = $(this);	// Получаем изображение, на которое кликнули
+            var src = img.attr('src');
+            $('#preview').attr('src', src);
+            $('#classicModal').modal('show');
+        });
 
-            }
+    </script>
 
 
-            @section ListParties {
-                @await Component.InvokeAsync("PartiesList", new { LastViewedParties = false })
-                @await Component.InvokeAsync("PartiesList", new { LastViewedParties = true })
-            }
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+
+    <script type="text/javascript">
+        let connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        let partyId = document.getElementById("PartyId").value;
+
+            
+        connection.on("ReceiveMessage", function (chatMessage) {
+            appendLine(chatMessage);
+        });
+
+        connection.start().then(function () {
+            connection.invoke("ConnectUser", partyId);
+        });
+
+        document.getElementById("send").addEventListener("click", function (event) {
+
+            let message = document.getElementById("message").value;
+            connection.invoke("SendMessage", message, partyId);
+            $('#message').val('');
+            event.preventDefault();
+
+        });
+
+        function appendLine(chatMessage) {
+
+            let media = document.createElement('div');
+            media.classList.add("media");
+
+            let aImage = document.createElement('a');
+            aImage.classList.add("pull-left");
+
+            let profilePhotoSmall = document.createElement('div');
+            profilePhotoSmall.classList.add("profile-photo-small");
+
+            let profileImg = document.createElement('img');
+            profileImg.classList.add("img-circle");
+            profileImg.classList.add("img-responsive");
+            profileImg.classList.add("img-no-padding");
+            profileImg.classList.add("image-circle-dropdown");
+            profileImg.src = chatMessage.avatarPath;
+               
+            profilePhotoSmall.append(profileImg);
+
+            aImage.append(profilePhotoSmall);
+
+            media.append(aImage);
+
+            let mediaBody = document.createElement('div');
+            mediaBody.classList.add("media-body");
+
+            let mediaHeading = document.createElement('h5');
+            mediaHeading.classList.add("media-heading");
+            mediaHeading.textContent = chatMessage.userName;
+            mediaBody.append(mediaHeading);
+
+            let pullRight = document.createElement('div');
+            pullRight.classList.add("pull-right");
+
+            let h6Date = document.createElement('h6');
+            h6Date.classList.add("text-muted");
+            h6Date.textContent = chatMessage.date;
+            pullRight.append(h6Date);
+
+            mediaBody.append(pullRight);
+
+            let pMessage = document.createElement('p');
+            pMessage.textContent = chatMessage.message;
+            mediaBody.append(pMessage);
+
+
+            media.append(mediaBody);
+
+            document.getElementById('chatList').append(media);
+        };
+    </script>
+
+}
+
+
+@section ListParties {
+    @await Component.InvokeAsync("PartiesList", new { LastViewedParties = false })
+    @await Component.InvokeAsync("PartiesList", new { LastViewedParties = true })
+}

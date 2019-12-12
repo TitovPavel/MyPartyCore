@@ -1,51 +1,58 @@
 ﻿@using MyPartyCore.ViewModels
 @model PartiesByOwnerViewModel
 
-@if (Model.Parties != null && Model.Parties.Any())
-{
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <label asp-for="Parties.First().Title"></label>
-            </th>
-            <th>
-                <label asp-for="Parties.First().Date"></label>
-            </th>
-            <th>
-                <label asp-for="Parties.First().Location"></label>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Parties)
-        {
-            <tr>
-                <td>
-                    @item.Title 
-                </td>
-                <td>
-                    @item.Date
-                </td>
-                <td>
-                    @item.Location
-                </td>
-                <td>
-                    <a asp-controller="Party" asp-action="Edit" asp-route-id="@item.Id">@Localizer["Edit"]</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<p>
-    <a asp-controller="Party" asp-action="Add" asp-route-id="@Model.Id">@Localizer["CreateNewParty"]</a>
-</p>
-}
-else 
-{
-<p>
-    <a asp-controller="Party" asp-action="Add" asp-route-id="@Model.Id">@Localizer["CreateFirstParty"]</a>
-</p> 
-}
+<div class="section landing-section">
+    <div class="row" style="height: 100%;">
+        <div class="col-md-10 ml-auto mr-auto">
 
+            @if (Model.Parties != null && Model.Parties.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label asp-for="Parties.First().Title"></label>
+                            </th>
+                            <th>
+                                <label asp-for="Parties.First().Date"></label>
+                            </th>
+                            <th>
+                                <label asp-for="Parties.First().Location"></label>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Parties)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Title
+                                </td>
+                                <td>
+                                    @item.Date
+                                </td>
+                                <td>
+                                    @item.Location
+                                </td>
+                                <td>
+                                    <a asp-controller="Party" asp-action="Edit" asp-route-id="@item.Id">@Localizer["Edit"]</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <p>
+                    <a asp-controller="Party" asp-action="Add" asp-route-id="@Model.Id">@Localizer["CreateNewParty"]</a>
+                </p>
+            }
+            else
+            {
+                <p>
+                    <a asp-controller="Party" asp-action="Add" asp-route-id="@Model.Id">@Localizer["CreateFirstParty"]</a>
+                </p>
+            }
+
+        </div>
+    </div>
+</div>

@@ -159,6 +159,15 @@
       "provider": "unpkg",
       "library": "paper-kit-2@2.1.0",
       "destination": "wwwroot/lib/paper-kit-2/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "@aspnet/signalr@1.0.3",
+      "destination": "wwwroot/lib/signalr/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
+      ]
     }
   ]
 }

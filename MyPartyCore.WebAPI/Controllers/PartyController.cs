@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyPartyCore.DB.BL;
 using MyPartyCore.DB.Models;
-using MyPartyCore.WebAPI.Mediatr.Handlers;
+using MyPartyCore.WebAPI.Mediatr.Queries;
 
 namespace MyPartyCore.WebAPI.Controllers
 {
@@ -22,12 +22,10 @@ namespace MyPartyCore.WebAPI.Controllers
     {
 
         private readonly UserManager<User> _userManager;
-        private readonly IPartyService _partyService;
         private readonly IMediator _mediator;
 
-        public PartyController(IMediator mediator, UserManager<User> userManager, IPartyService partyService)
+        public PartyController(IMediator mediator, UserManager<User> userManager)
         {
-            _partyService = partyService;
             _userManager = userManager;
             _mediator = mediator;
         }
@@ -56,16 +54,15 @@ namespace MyPartyCore.WebAPI.Controllers
 
         // POST: api/Party
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Party party)
+        public async Task<IActionResult> Post([FromBody] CreatePartyQuery request)
         {
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (user == null)
             {
                 return NotFound();
             }
-            party.OwnerId = user.Id;
-            _partyService.AddParty(party);
-
+            request.OwnerId = user.Id;
+            Party party = await _mediator.Send(request);
 
             return CreatedAtAction(nameof(Get), new { id = party.Id }, party);
 
@@ -74,37 +71,24 @@ namespace MyPartyCore.WebAPI.Controllers
 
         // PUT: api/Party/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Party party)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdatePartyQuery request)
         {
-            if (id != party.Id)
+            if (id != request.Id)
             {
                 return BadRequest();
             }
 
-            if (_partyService.GetPartyByID(id) == null)
-            {
-                return NotFound();
-            }
-
-            _partyService.UpdateParty(party);
+            Party party = await _mediator.Send(request);
 
             return CreatedAtAction(nameof(Get), new { id = party.Id }, party);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(DeletePartyQuery request)
         {
-            Party party = _partyService.GetPartyByID(id);
-
-            if (party == null)
-            {
-                return NotFound();
-            }
-
-            _partyService.DeleteParty(party);
-
-            return Ok(id);
+            await _mediator.Send(request);
+            return Ok(request.Id);
         }
     }
 }

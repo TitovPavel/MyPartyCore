@@ -1,40 +1,45 @@
 ﻿@model MyPartyCore.ViewModels.EditPartyViewModel
 
-<h4>@Localizer["Title"]</h4>
-<hr />
-<div class="row">
-    <form asp-action="Edit">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <input type="hidden" asp-for="Id" />
+    <div class="section landing-section">
+        <div class="row" style="height: 100%;">
+            <div class="col-md-10 ml-auto mr-auto">
+                <h4>@Localizer["Title"]</h4>
+                <hr />
+
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="Id" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Date" class="label-control"></label>
+                            <input asp-for="Date" type="text" class="form-control datetimepicker" />
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Location" class="control-label"></label>
+                            <input asp-for="Location" class="form-control" />
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="OwnerId" />
+                        </div>
+                        <div class="custom-control custom-switch form-group">
+                            <input asp-for="AgeLimit" class="custom-control-input" />
+                            <label asp-for="AgeLimit" class="custom-control-label"></label>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value=@Localizer["Save"] class="btn btn-outline-primary" />
+                        </div>
+                    </form>
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Title" class="control-label"></label>
-            <input asp-for="Title" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Date" class="label-control"></label>
-            <input asp-for="Date" type="text" class="form-control datetimepicker" />
-            <span asp-validation-for="Date" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Location" class="control-label"></label>
-            <input asp-for="Location" class="form-control" />
-            <span asp-validation-for="Location" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input type="hidden" asp-for="OwnerId" />
-        </div>
-        <div class="custom-control custom-switch form-group">
-            <input asp-for="AgeLimit" class="custom-control-input" />
-            <label asp-for="AgeLimit" class="custom-control-label"></label>
-        </div>
-        <div class="form-group">
-            <input type="submit" value=@Localizer["Save"] class="btn btn-outline-primary" />
-        </div>
-    </form>
-</div>
+    </div>
 
 
 @section Scripts {

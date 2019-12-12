@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -35,6 +36,9 @@ namespace MyPartyCore.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddAutoMapper(typeof(Mappings.MappingProfile));
+
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

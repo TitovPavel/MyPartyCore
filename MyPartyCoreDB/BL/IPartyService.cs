@@ -19,5 +19,7 @@ namespace MyPartyCore.DB.BL
         IQueryable<Participant> ListMissed();
         void Vote(Participant participant);
         bool ParticipantBelongUser(Participant participant);
+        void AddMessageChat(ChatMessage chatMessage);
+        IQueryable<ChatMessage> GetChatMessagesByPartyId(int partyId);
     }
 }

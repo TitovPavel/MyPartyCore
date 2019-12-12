@@ -19,6 +19,7 @@ namespace MyPartyCore.DB.DAL
         public DbSet<Party> Parties { get; set; }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<FileModel> Files { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +29,7 @@ namespace MyPartyCore.DB.DAL
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new PartyConfiguration());
             modelBuilder.ApplyConfiguration(new ParticipantConfiguration());
+            modelBuilder.ApplyConfiguration(new ChatMessageConfiguration());
 
             modelBuilder.Entity<IdentityRole>().HasData(
                 new IdentityRole("admin") { Id = "ccfabe84-124f-473b-81a0-5da1d8ab4857", ConcurrencyStamp = "81b2fd77-9615-4927-98f6-0c8dce30a290", NormalizedName = "ADMIN" },
@@ -85,6 +87,22 @@ namespace MyPartyCore.DB.DAL
                 .HasForeignKey(p => p.UserId);
             builder.HasOne(p => p.Party)
                 .WithMany(t => t.Participants)
+                .HasForeignKey(p => p.PartyId);
+        }
+    }
+
+    public class ChatMessageConfiguration : IEntityTypeConfiguration<ChatMessage>
+    {
+        public void Configure(EntityTypeBuilder<ChatMessage> builder)
+        {
+            builder.HasKey(p => p.Id);
+            builder.Property(p => p.Date).IsRequired();
+            builder.Property(p => p.Message).IsRequired().HasMaxLength(1024);
+            builder.HasOne(p => p.User)
+                .WithMany()
+                .HasForeignKey(p => p.UserId);
+            builder.HasOne(p => p.Party)
+                .WithMany(t => t.ChatMessages)
                 .HasForeignKey(p => p.PartyId);
         }
     }

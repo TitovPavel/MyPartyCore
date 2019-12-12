@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyPartyCore.DB.DAL;
 
-namespace MyPartyCore.Migrations
+namespace MyPartyCore.DB.Migrations
 {
     [DbContext(typeof(MyPartyContext))]
-    partial class MyPartyContextModelSnapshot : ModelSnapshot
+    [Migration("20191210081410_AddChatMessages")]
+    partial class AddChatMessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

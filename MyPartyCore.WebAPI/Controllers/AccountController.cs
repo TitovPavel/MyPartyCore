@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +18,13 @@ namespace MyPartyCore.WebAPI.Controllers
     {
 
         private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
 
-        public AccountController(SignInManager<User> signInManager)
+        public AccountController(SignInManager<User> signInManager,
+            UserManager<User> userManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         [HttpPost("/token")]
@@ -37,7 +39,7 @@ namespace MyPartyCore.WebAPI.Controllers
             }
 
             var now = DateTime.UtcNow;
-            
+
             var jwt = new JwtSecurityToken(
                     issuer: "MyAuthServer",
                     audience: "audience",
@@ -57,22 +59,25 @@ namespace MyPartyCore.WebAPI.Controllers
             await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
-        private async Task<ClaimsIdentity> GetIdentityAsync(LoginViewModel user)
+        private async Task<ClaimsIdentity> GetIdentityAsync(LoginViewModel userViewModel)
         {
-            var result = await _signInManager.PasswordSignInAsync(user.Name, user.Password, true, false);
+            var result = await _signInManager.PasswordSignInAsync(userViewModel.Name, userViewModel.Password, true, false);
 
             if (result.Succeeded)
             {
-                
-                    var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Password)
-                };
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                        ClaimsIdentity.DefaultRoleClaimType);
 
-                    return claimsIdentity;
+                User user = await _userManager.FindByNameAsync(userViewModel.Name);
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, userViewModel.Name),
+                    new Claim("Birthday", user.Birthday.ToString()),
+                    new Claim("Sex", user.Sex.ToString())
+                };
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+
+                return claimsIdentity;
             }
 
             return null;
