@@ -37,6 +37,9 @@ namespace MyPartyCore.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddCors();
+
+
             services.AddAutoMapper(typeof(Mappings.MappingProfile));
 
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
@@ -60,6 +63,7 @@ namespace MyPartyCore.WebAPI
 
             services.AddTransient<IPartyService, PartyService>();
 
+
             services.AddMvc()
                 .AddJsonOptions(
                     options => options.SerializerSettings.ReferenceLoopHandling
@@ -75,6 +79,13 @@ namespace MyPartyCore.WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -85,11 +96,12 @@ namespace MyPartyCore.WebAPI
             app.UseStaticFiles();
 
             app.UseSwagger();
-                       
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
 
             app.UseMvc();
         }

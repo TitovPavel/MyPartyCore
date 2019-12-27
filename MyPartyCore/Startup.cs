@@ -21,6 +21,8 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using MyPartyCore.SignalR;
+using Nest;
+using System;
 
 namespace MyPartyCore
 {
@@ -49,6 +51,9 @@ namespace MyPartyCore
 
             services.AddTransient<IConfiguration>(provider => Configuration);
 
+            var connectionSettings = new ConnectionSettings(new Uri(Configuration["Elastic:URI"])).DefaultIndex(Configuration["Elastic:DefaultIndex"]);
+            connectionSettings.DisableDirectStreaming();
+            services.AddSingleton<IElasticClient>(new ElasticClient(connectionSettings));
 
             //string connectionString = Configuration.GetConnectionString("MyPartyDatabase");
             //services.AddTransient<IPartyRepository>(x => new ADOPartyRepository(connectionString));

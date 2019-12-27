@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using MyPartyCore.AuthorizationPolicy;
 using Microsoft.Extensions.Localization;
+using Nest;
 
 namespace MyPartyCore.Controllers
 {
@@ -30,6 +31,7 @@ namespace MyPartyCore.Controllers
         private readonly IAuthorizationService _authorizationService;
         private readonly UserManager<User> _userManager;
         private readonly IStringLocalizer<PartyController> _localizer;
+        private readonly IElasticClient _elasticClient;
 
         public PartyController(IPartyService partyService, 
             IHostingEnvironment env, 
@@ -37,7 +39,8 @@ namespace MyPartyCore.Controllers
             IHttpContextAccessor httpContextAccessor, 
             UserManager<User> userManager,
             IAuthorizationService authorizationService, 
-            IStringLocalizer<PartyController> localizer)
+            IStringLocalizer<PartyController> localizer,
+            IElasticClient elasticClient)
         {
             _partyService = partyService;
             _env = env;
@@ -46,6 +49,7 @@ namespace MyPartyCore.Controllers
             _userManager = userManager;
             _authorizationService = authorizationService;
             _localizer = localizer;
+            _elasticClient = elasticClient;
         }
 
         public async Task<ActionResult> Index(int id, int page = 1)
@@ -152,6 +156,8 @@ namespace MyPartyCore.Controllers
                 
                 _partyService.AddParty(party);
 
+                _elasticClient.IndexDocument<Party>(party);
+
                 return RedirectToAction("List", "Party", new { id = partyViewModel.OwnerId });
             }
             else
@@ -212,6 +218,9 @@ namespace MyPartyCore.Controllers
             {
                 Party party = _mapper.Map<Party>(model);
                 _partyService.UpdateParty(party);
+
+                _elasticClient.IndexDocument<Party>(party);
+
                 return RedirectToAction("List", new { id = _userManager.GetUserId(User) });
             }
 

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace MyPartyCore.WebAPI.Controllers
 {
+    [ApiController]
     public class AccountController : ControllerBase
     {
 
@@ -27,7 +28,7 @@ namespace MyPartyCore.WebAPI.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost("/token")]
+        [HttpPost("api/token")]
         public async Task Token([FromBody] LoginViewModel user)
         {
             var identity = await GetIdentityAsync(user);
@@ -61,7 +62,7 @@ namespace MyPartyCore.WebAPI.Controllers
 
         private async Task<ClaimsIdentity> GetIdentityAsync(LoginViewModel userViewModel)
         {
-            var result = await _signInManager.PasswordSignInAsync(userViewModel.Name, userViewModel.Password, true, false);
+            var result = await _signInManager.PasswordSignInAsync(userViewModel.Name, userViewModel.Password??"", true, false);
 
             if (result.Succeeded)
             {

@@ -52,6 +52,15 @@ namespace MyPartyCore.WebAPI.Controllers
             return Ok(party);
         }
 
+        // GET: api/Party/5/participants
+        [HttpGet]
+        [Route("{id}/participants")]
+        public async Task<IEnumerable<Participant>> GetPartyParticipants(int id)
+        {
+            IEnumerable<Participant> participants = await _mediator.Send(new ParticipantsQuery() { OnlyAttendent = true });
+            return participants;
+        }
+
         // POST: api/Party
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreatePartyQuery request)

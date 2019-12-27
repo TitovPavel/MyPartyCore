@@ -13,8 +13,12 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-controller="Account" asp-action="LogOff" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" class="collapse navbar-collapse navbar-right">
+    <div class="collapse navbar-collapse navbar-right">
         <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+                <partial name="_SearchPartial" />
+            </li>
             <li class="nav-item dropdown">
                 <a href="" class="nav-link" data-toggle="dropdown" width="30" height="30" aria-expanded="false">
                     <div class="profile-photo-small">
@@ -29,20 +33,21 @@
                     {
                         <a asp-controller="Users" asp-action="Index" class="dropdown-item">@Localizer["Administration"]</a>
                     }
-                    <button class="dropdown-item" type="submit" >@Localizer["Logout"]</button>
+                    <form asp-controller="Account" asp-action="LogOff" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" class="collapse navbar-collapse navbar-right">
+                        <button class="dropdown-item" type="submit">@Localizer["Logout"]</button>
+                    </form>
                 </ul>
             </li>
-
-
-        </ul>
-    </form>
-}
-else
-{
-    <div class="collapse navbar-collapse navbar-right">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a asp-controller="Account" asp-action="Register" class="nav-link">@Localizer["Register"]</a></li>
-            <li class="nav-item"><a asp-controller="Account" asp-action="Login" class="nav-link">@Localizer["Login"]</a></li>
         </ul>
     </div>
-}
+
+        }
+        else
+        {
+        <div class="collapse navbar-collapse navbar-right">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a asp-controller="Account" asp-action="Register" class="nav-link">@Localizer["Register"]</a></li>
+                <li class="nav-item"><a asp-controller="Account" asp-action="Login" class="nav-link">@Localizer["Login"]</a></li>
+            </ul>
+        </div>
+        }

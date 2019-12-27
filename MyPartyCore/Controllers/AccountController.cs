@@ -53,6 +53,7 @@ namespace MyPartyCore.Controllers
                 var result = await _userManager.CreateAsync(user, registerViewModel.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "user");
 
                     var plus18Claim = new Claim(ClaimTypes.DateOfBirth, registerViewModel.Birthday.ToString(), typeof(DateTime).ToString());
                     await _userManager.AddClaimAsync(user, plus18Claim);

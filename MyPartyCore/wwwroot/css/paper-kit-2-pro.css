@@ -5468,7 +5468,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
         }
 
     .form-control.no-border {
-        border: medium none !important;
+        /*    border: medium none !important;*/
     }
 
         .form-control.no-border:focus + .input-group-prepend .input-group-text,

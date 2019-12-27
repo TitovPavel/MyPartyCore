@@ -1,0 +1,6 @@
+﻿
+<form asp-action="Index" asp-controller="Search" class="form-inline" data-ajax="true" data-ajax-update="resultsSearch">
+    <input class="form-control mr-sm-2 no-border" type="text" placeholder="Search" data-autocomplete-source="@Url.Action("Index", "Search")">
+    <button type="submit" class="btn btn-primary btn-just-icon btn-round"><i class="nc-icon nc-zoom-split"></i></button>
+</form>
+<div id="resultsSearch"></div>

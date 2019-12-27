@@ -59,44 +59,23 @@
             <hr />
 
 
-            <div class="media-area media-area-small" id="chatList">
-                <!--
-                <div class="media">
-                    <a class="pull-left" href="">
-                        <div class="profile-photo-small">
-                            <img src="~/@imgFilePath" class="img-circle img-responsive img-no-padding image-circle-dropdown">
-                        </div>
-                    </a>
-                    <div class="media-body">
-                        <h5 class="media-heading">Юзер</h5>
-                        <div class="pull-right">
-                            <h6 class="text-muted">11 сентября 11:57</h6>
-                        </div>
-                        <p>Сообщение бла бла бла!</p>
-                    </div>
-                </div>
-                    -->
-            </div>
+            <div class="section-gray">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 ml-auto mr-auto">
+                            <h3 class="text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Оставьте свой комментарий</font></font></h3>
+                            <div class="media media-post">
+                                <a class="pull-left author" href="#" width="30" height="30">
+                                    <div class="profile-photo-small">
+                                        <img src="~/@imgFilePath" class="img-circle img-responsive img-no-padding image-circle-dropdown">
+                                    </div>
+                                </a>
 
-                    <div class="section-gray">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-8 ml-auto mr-auto">
-                                    <h3 class="text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Оставьте свой комментарий</font></font></h3>
-                                    <div class="media media-post">
-                                        <a class="pull-left author" href="#" width="30" height="30">
-                                            <div class="profile-photo-small">
-                                                <img src="~/@imgFilePath" class="img-circle img-responsive img-no-padding image-circle-dropdown">
-                                            </div>
-                                        </a>
-
-                                        <div class="media-body">
-                                            <input data-val="true" id="PartyId" name="PartyId" type="hidden" value=@Model.PartyID>
-                                            <textarea id="message" class="form-control border-input" placeholder="Write some nice stuff or nothing..." rows="4"></textarea>
-                                            <div class="media-footer">
-                                                <a href="#paper-kit" id="send" class="btn btn-info btn-wd pull-right"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Оставьте комментарий</font></font></a>
-                                            </div>
-                                        </div>
+                                <div class="media-body">
+                                    <input data-val="true" id="PartyId" name="PartyId" type="hidden" value=@Model.PartyID>
+                                    <textarea id="message" class="form-control border-input" placeholder="Write some nice stuff or nothing..." rows="4"></textarea>
+                                    <div class="media-footer">
+                                        <a href="#paper-kit" id="send" class="btn btn-info btn-wd pull-right"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Оставьте комментарий</font></font></a>
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +83,27 @@
                     </div>
                 </div>
             </div>
+            <div class="media-area media-area-small" id="chatList">
+                <!--
+        <div class="media">
+            <a class="pull-left" href="">
+                <div class="profile-photo-small">
+                    <img src="~/@imgFilePath" class="img-circle img-responsive img-no-padding image-circle-dropdown">
+                </div>
+            </a>
+            <div class="media-body">
+                <h5 class="media-heading">Юзер</h5>
+                <div class="pull-right">
+                    <h6 class="text-muted">11 сентября 11:57</h6>
+                </div>
+                <p>Сообщение бла бла бла!</p>
+            </div>
         </div>
+            -->
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -126,7 +125,7 @@
         let connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         let partyId = document.getElementById("PartyId").value;
 
-            
+
         connection.on("ReceiveMessage", function (chatMessage) {
             appendLine(chatMessage);
         });
@@ -161,7 +160,7 @@
             profileImg.classList.add("img-no-padding");
             profileImg.classList.add("image-circle-dropdown");
             profileImg.src = chatMessage.avatarPath;
-               
+
             profilePhotoSmall.append(profileImg);
 
             aImage.append(profilePhotoSmall);
